@@ -133,7 +133,8 @@ const Header = () => {
               style={{ fontFamily: "Cormorant Garamond, serif" }}>
               IDEAL
             </h1>
-            <p className="text-[8px] tracking-[4px] text-zinc-400 uppercase mt-0.5 font-light">
+            <p className="text-[9px] tracking-[5px] uppercase text-zinc-400 mt-1"
+              style={{ fontFamily: "Montserrat, sans-serif" }}>
               Watches
             </p>
           </Link>
