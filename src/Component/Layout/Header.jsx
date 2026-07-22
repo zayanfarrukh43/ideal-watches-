@@ -36,10 +36,12 @@ const Header = () => {
         <div className="hidden lg:flex items-center justify-between h-20 gap-8">
           {/* Logo */}
           <Link to="/" className="flex-shrink-0 group">
-            <h1 className="text-4xl font-light tracking-[12px] text-white leading-none group-hover:text-[#D4AF37] transition-colors duration-300">
+            <h1 className="text-5xl font-semibold tracking-[10px] text-white leading-none group-hover:text-[#D4AF37] transition-all duration-300"
+              style={{ fontFamily: "Cormorant Garamond, serif" }}>
               IDEAL
             </h1>
-            <p className="text-[10px] tracking-[7px] text-zinc-400 mt-1 uppercase font-light">
+            <p className="text-[11px] tracking-[8px] uppercase text-zinc-400 mt-1"
+              style={{ fontFamily: "Montserrat, sans-serif" }}>
               Watches
             </p>
           </Link>
@@ -51,7 +53,7 @@ const Header = () => {
               placeholder="Search timepieces, reference numbers & collections..."
               className="w-full h-11 rounded-full bg-zinc-900/90 border border-zinc-800 pl-6 pr-12 text-sm text-white placeholder:text-zinc-500 focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] outline-none transition-all duration-300"
             />
-            <button 
+            <button
               aria-label="Search"
               className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-[#D4AF37] transition-colors duration-300"
             >
@@ -77,7 +79,7 @@ const Header = () => {
             >
               <div className="relative">
                 <FaRegHeart className="text-xl text-white group-hover:text-[#D4AF37] transition-colors duration-300" />
-              
+
               </div>
               <span className="text-[11px] tracking-wider uppercase mt-1 font-light">
                 Wishlist
@@ -90,7 +92,7 @@ const Header = () => {
             >
               <div className="relative">
                 <FaShoppingBag className="text-xl text-white group-hover:text-[#D4AF37] transition-colors duration-300" />
-              
+
               </div>
               <span className="text-[11px] tracking-wider uppercase mt-1 font-light">
                 Bag
@@ -127,7 +129,8 @@ const Header = () => {
 
           {/* Logo */}
           <Link to="/" className="text-center">
-            <h1 className="text-2xl font-light tracking-[8px] text-white leading-none">
+            <h1 className="text-3xl font-semibold tracking-[7px] text-white leading-none"
+              style={{ fontFamily: "Cormorant Garamond, serif" }}>
               IDEAL
             </h1>
             <p className="text-[8px] tracking-[4px] text-zinc-400 uppercase mt-0.5 font-light">
@@ -143,7 +146,7 @@ const Header = () => {
 
             <Link to="/cart" className="relative p-1">
               <FaShoppingBag className="text-lg text-white" />
-             
+
             </Link>
           </div>
         </div>
@@ -167,15 +170,13 @@ const Header = () => {
       {/* Mobile Drawer Menu */}
       {/* ========================= */}
       <div
-        className={`fixed inset-0 bg-black/80 backdrop-blur-sm z-50 transition-opacity duration-300 lg:hidden ${
-          isMobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-        }`}
+        className={`fixed inset-0 bg-black/80 backdrop-blur-sm z-50 transition-opacity duration-300 lg:hidden ${isMobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+          }`}
         onClick={() => setIsMobileMenuOpen(false)}
       >
         <div
-          className={`fixed top-0 left-0 bottom-0 w-[80%] max-w-sm bg-zinc-950 border-r border-zinc-800 p-6 flex flex-col justify-between transition-transform duration-300 ease-out ${
-            isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
-          }`}
+          className={`fixed top-0 left-0 bottom-0 w-[80%] max-w-sm bg-zinc-950 border-r border-zinc-800 p-6 flex flex-col justify-between transition-transform duration-300 ease-out ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+            }`}
           onClick={(e) => e.stopPropagation()}
         >
           <div>
