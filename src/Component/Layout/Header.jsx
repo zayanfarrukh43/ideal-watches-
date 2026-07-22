@@ -77,9 +77,7 @@ const Header = () => {
             >
               <div className="relative">
                 <FaRegHeart className="text-xl text-white group-hover:text-[#D4AF37] transition-colors duration-300" />
-                <span className="absolute -top-1.5 -right-2.5 w-4 h-4 rounded-full bg-[#D4AF37] text-black text-[9px] flex items-center justify-center font-bold">
-                  2
-                </span>
+              
               </div>
               <span className="text-[11px] tracking-wider uppercase mt-1 font-light">
                 Wishlist
@@ -92,9 +90,7 @@ const Header = () => {
             >
               <div className="relative">
                 <FaShoppingBag className="text-xl text-white group-hover:text-[#D4AF37] transition-colors duration-300" />
-                <span className="absolute -top-1.5 -right-2.5 w-4 h-4 rounded-full bg-[#D4AF37] text-black text-[9px] flex items-center justify-center font-bold">
-                  3
-                </span>
+              
               </div>
               <span className="text-[11px] tracking-wider uppercase mt-1 font-light">
                 Bag
@@ -147,9 +143,7 @@ const Header = () => {
 
             <Link to="/cart" className="relative p-1">
               <FaShoppingBag className="text-lg text-white" />
-              <span className="absolute top-0 right-0 w-3.5 h-3.5 rounded-full bg-[#D4AF37] text-black text-[8px] flex items-center justify-center font-bold">
-                3
-              </span>
+             
             </Link>
           </div>
         </div>
