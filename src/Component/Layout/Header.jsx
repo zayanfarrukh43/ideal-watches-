@@ -14,12 +14,14 @@ const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const categories = [
-    { name: "New Arrivals", href: "/collections/new" },
-    { name: "Rolex", href: "/brand/rolex" },
-    { name: "Omega", href: "/brand/omega" },
-    { name: "Audemars Piguet", href: "/brand/ap" },
-    { name: "Patek Philippe", href: "/brand/patek" },
-    { name: "Straps & Accessories", href: "/accessories" },
+    { name: "Home", href: "/" },
+    { name: "Men's Watches", href: "/mens-watches" },
+    { name: "Women's Watches", href: "/womens-watches" },
+    { name: "Brands", href: "/brands" },
+    { name: "Collections", href: "/collections" },
+    { name: "New Arrivals", href: "/new-arrivals" },
+    { name: "Best Sellers", href: "/best-sellers" },
+    { name: "Sale", href: "/sale" },
   ];
 
   return (
@@ -36,12 +38,10 @@ const Header = () => {
         <div className="hidden lg:flex items-center justify-between h-20 gap-8">
           {/* Logo */}
           <Link to="/" className="flex-shrink-0 group">
-            <h1 className="text-5xl font-semibold tracking-[10px] text-white leading-none group-hover:text-[#D4AF37] transition-all duration-300"
-              style={{ fontFamily: "Cormorant Garamond, serif" }}>
+            <h1 className="text-4xl font-light tracking-[12px] text-white leading-none group-hover:text-[#D4AF37] transition-colors duration-300">
               IDEAL
             </h1>
-            <p className="text-[11px] tracking-[8px] uppercase text-zinc-400 mt-1"
-              style={{ fontFamily: "Montserrat, sans-serif" }}>
+            <p className="text-[10px] tracking-[7px] text-zinc-400 mt-1 uppercase font-light">
               Watches
             </p>
           </Link>
@@ -101,17 +101,52 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Desktop Categories Sub-Navigation */}
-        <nav className="hidden lg:flex items-center justify-center gap-10 py-3 border-t border-zinc-800/40">
-          {categories.map((item, index) => (
-            <Link
-              key={index}
-              to={item.href}
-              className="text-xs font-light uppercase tracking-[2.5px] text-zinc-300 hover:text-[#D4AF37] transition-colors duration-300"
+        {/* ========================= */}
+        {/* Desktop Luxury Navigation */}
+        {/* ========================= */}
+
+        <nav className="hidden lg:flex h-14 border-t border-zinc-800 border-b border-zinc-800">
+
+          {/* Shop By Category */}
+
+          <div className="w-[270px] border-r border-zinc-800 flex items-center px-7 cursor-pointer hover:bg-zinc-900 duration-300">
+
+
+            <span
+              className="uppercase text-[13px] tracking-wider text-white font-semibold"
+              style={{ fontFamily: "Montserrat, sans-serif" }}
             >
-              {item.name}
-            </Link>
-          ))}
+              Shop By Category
+            </span>
+
+          </div>
+
+          {/* Navigation Menu */}
+
+          <div className="flex-1 flex justify-center items-center">
+
+            {categories.map((item, index) => (
+
+              <Link
+                key={index}
+                to={item.href}
+                className={`relative h-full flex items-center px-8 uppercase text-[13px] tracking-wider font-medium transition-all duration-300 ${index === 0
+                  ? "text-[#D4AF37]"
+                  : "text-white hover:text-[#D4AF37]"
+                  }`}
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+              >
+                {item.name}
+
+                {index === 0 && (
+                  <span className="absolute bottom-0 left-0 w-full h-[2px] bg-[#D4AF37]"></span>
+                )}
+              </Link>
+
+            ))}
+
+          </div>
+
         </nav>
 
         {/* ========================= */}
@@ -129,12 +164,10 @@ const Header = () => {
 
           {/* Logo */}
           <Link to="/" className="text-center">
-            <h1 className="text-3xl font-semibold tracking-[7px] text-white leading-none"
-              style={{ fontFamily: "Cormorant Garamond, serif" }}>
+            <h1 className="text-2xl font-light tracking-[8px] text-white leading-none">
               IDEAL
             </h1>
-            <p className="text-[9px] tracking-[5px] uppercase text-zinc-400 mt-1"
-              style={{ fontFamily: "Montserrat, sans-serif" }}>
+            <p className="text-[8px] tracking-[4px] text-zinc-400 uppercase mt-0.5 font-light">
               Watches
             </p>
           </Link>
@@ -181,46 +214,88 @@ const Header = () => {
           onClick={(e) => e.stopPropagation()}
         >
           <div>
-            {/* Drawer Header */}
-            <div className="flex items-center justify-between pb-6 border-b border-zinc-800">
-              <div>
-                <h2 className="text-xl tracking-[6px] text-white font-light">IDEAL</h2>
-                <p className="text-[8px] tracking-[3px] text-zinc-400 uppercase">Watches</p>
-              </div>
-              <button
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="text-zinc-400 hover:text-white p-2"
-              >
-                <FaTimes className="text-lg" />
-              </button>
-            </div>
+            <div className="pb-8 border-b border-[#D4AF37]/20">
 
-            {/* Navigation Links */}
-            <div className="mt-8 space-y-4">
+              <div className="flex justify-between items-start">
+
+                <div>
+
+                  <h2
+                    className="text-3xl text-white tracking-[8px]"
+                    style={{ fontFamily: "Cormorant Garamond, serif" }}
+                  >
+                    IDEAL
+                  </h2>
+
+                  <p
+                    className="text-[11px] tracking-[6px] uppercase text-[#D4AF37] mt-1"
+                    style={{ fontFamily: "Montserrat, sans-serif" }}
+                  >
+                    Watches
+                  </p>
+
+                  <div className="w-16 h-[1px] bg-[#D4AF37] mt-4"></div>
+
+                </div>
+
+                <button
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="w-10 h-10 rounded-full border border-zinc-700 hover:border-[#D4AF37] flex items-center justify-center duration-300"
+                >
+                  <FaTimes className="text-white hover:text-[#D4AF37]" />
+                </button>
+
+              </div>
+
+            </div>
+            <div className="mt-10">
+
               {categories.map((item, index) => (
+
                 <Link
                   key={index}
                   to={item.href}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center justify-between py-2 text-sm uppercase tracking-[2px] text-zinc-300 hover:text-[#D4AF37] transition-colors border-b border-zinc-900"
+                  className="group flex items-center justify-between py-5 border-b border-zinc-900 hover:border-[#D4AF37]/20 transition-all duration-300"
                 >
-                  <span>{item.name}</span>
-                  <FaChevronRight className="text-[10px] text-zinc-600" />
+
+                  <span
+                    className="text-black text-[15px] tracking-[2px] uppercase group-hover:text-[#D4AF37] transition"
+                    style={{ fontFamily: "Cormorant Garamond, serif" }}
+                  >
+                    {item.name}
+                  </span>
+
+                  <FaChevronRight className="text-[#D4AF37] group-hover:translate-x-2 transition duration-300" />
+
                 </Link>
+
               ))}
+
             </div>
           </div>
 
-          {/* Drawer Footer Links */}
-          <div className="pt-6 border-t border-zinc-800 space-y-3">
+          <div className="border-t border-[#D4AF37]/20 pt-8">
+
             <Link
               to="/account"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="flex items-center gap-3 text-xs uppercase tracking-widest text-zinc-400 hover:text-[#D4AF37]"
+              className="flex items-center justify-center h-12 rounded-full border border-[#D4AF37] text-[#D4AF37] uppercase tracking-[3px] text-sm hover:bg-[#D4AF37] hover:text-black duration-300"
+              style={{ fontFamily: "Montserrat, sans-serif" }}
             >
-              <FaRegUser />
-              <span>My Account</span>
+              <FaRegUser className="mr-3" />
+
+              My Account
+
             </Link>
+
+            <p
+              className="text-center text-[10px] text-zinc-600 tracking-[3px] uppercase mt-8"
+              style={{ fontFamily: "Montserrat, sans-serif" }}
+            >
+              IDEAL WATCHES
+            </p>
+
           </div>
         </div>
       </div>
