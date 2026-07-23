@@ -24,19 +24,19 @@ const slides = [
       "https://images.unsplash.com/photo-1508057198894-247b23fe5ade?w=1920&auto=format&fit=crop&q=80",
   },
 
-  {
-    id: 2,
-    subtitle: "Premium Collection",
-    title: "CRAFTED\nFOR LEGENDS",
-    description:
-      "Exclusive watches inspired by iconic craftsmanship and modern sophistication.",
+//   {
+//     id: 2,
+//     subtitle: "Premium Collection",
+//     title: "CRAFTED\nFOR LEGENDS",
+//     description:
+//       "Exclusive watches inspired by iconic craftsmanship and modern sophistication.",
 
-    image:
-      "https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=900&auto=format&fit=crop&q=80",
+//     image:
+//       "https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=900&auto=format&fit=crop&q=80",
 
-    background:
-      "https://images.unsplash.com/photo-1511389026070-a14ae610a1be?w=1920&auto=format&fit=crop&q=80",
-  },
+//     background:
+//       "https://images.unsplash.com/photo-1511389026070-a14ae610a1be?w=1920&auto=format&fit=crop&q=80",
+//   },
 
   {
     id: 3,
@@ -126,7 +126,7 @@ const HeroSection = () => {
 
                     <div className="flex flex-wrap justify-center lg:justify-start gap-5 mt-10">
 
-                      <button className="h-14 px-8 rounded-full bg-[#D4AF37] text-black font-semibold flex items-center gap-3 hover:bg-white duration-300">
+                      <button className="h-14 px-8 rounded-full cursor-pointer bg-[#D4AF37] text-black font-semibold flex items-center gap-3 hover:bg-white duration-300">
 
                         Explore Collection
 
@@ -134,13 +134,13 @@ const HeroSection = () => {
 
                       </button>
 
-                      <button className="h-14 px-8 rounded-full border border-white/30 text-white flex items-center gap-3 hover:border-[#D4AF37] hover:text-[#D4AF37] duration-300">
+                      {/* <button className="h-14 px-8 rounded-full border border-white/30 text-white flex items-center gap-3 hover:border-[#D4AF37] hover:text-[#D4AF37] duration-300">
 
                         <FaPlay />
 
                         Watch Story
 
-                      </button>
+                      </button> */}
 
                     </div>
 

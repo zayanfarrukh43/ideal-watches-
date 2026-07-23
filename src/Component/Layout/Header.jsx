@@ -28,7 +28,7 @@ const Header = () => {
     <header className="sticky top-0 z-50 w-full bg-black/90 backdrop-blur-md border-b border-zinc-800/80 transition-all">
       {/* Top Announcement Bar */}
       <div className="bg-gradient-to-r from-zinc-950 via-[#1c180e] to-zinc-950 text-[#D4AF37] text-[11px] font-medium tracking-[2px] uppercase text-center py-2 border-b border-zinc-800/50">
-        Complimentary Express Worldwide Shipping & Insured Delivery
+        Nationwide Shipping & Insured Delivery
       </div>
 
       <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8">
