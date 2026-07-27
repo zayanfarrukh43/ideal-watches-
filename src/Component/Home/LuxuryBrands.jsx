@@ -1,153 +1,56 @@
+import React from "react";
+
 const brands = [
-  {
-    name: "Rolex",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/f/f4/Rolex_logo.svg",
-  },
-  {
-    name: "Omega",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/e/e3/Omega_Logo.svg",
-  },
-  {
-    name: "TAG Heuer",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/8/87/TAG_Heuer_Logo.svg",
-  },
-  {
-    name: "Tissot",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/5/53/Tissot_logo.svg",
-  },
-  {
-    name: "Longines",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/f/f3/Longines_logo.svg",
-  },
-  {
-    name: "Breitling",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Breitling_logo.svg",
-  },
-  {
-    name: "Hublot",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/7/79/Hublot_logo.svg",
-  },
-  {
-    name: "Panerai",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/7/73/Panerai_logo.svg",
-  },
+  { name: "Just Cavalli", logo: "https://upload.wikimedia.org/wikipedia/commons/0/00/Just_Cavalli_logo.svg" },
+  { name: "Tory Burch", logo: "https://upload.wikimedia.org/wikipedia/commons/e/e9/Tory_Burch_logo.svg" },
+  { name: "TAG Heuer", logo: "https://upload.wikimedia.org/wikipedia/commons/8/87/TAG_Heuer_Logo.svg" },
+  { name: "Versace", logo: "https://upload.wikimedia.org/wikipedia/commons/9/90/Versace_logo.svg" },
+  { name: "Movado", logo: "https://upload.wikimedia.org/wikipedia/commons/8/88/Movado_logo.svg" },
+  { name: "Tissot", logo: "https://upload.wikimedia.org/wikipedia/commons/5/53/Tissot_logo.svg" },
+  { name: "Salvatore Ferragamo", logo: "https://upload.wikimedia.org/wikipedia/commons/1/1a/Salvatore_Ferragamo_logo.svg" },
+  { name: "Gucci", logo: "https://upload.wikimedia.org/wikipedia/commons/7/79/Gucci_logo.svg" },
+  { name: "Maurice Lacroix", logo: "https://upload.wikimedia.org/wikipedia/commons/c/c2/Maurice_Lacroix_logo.svg" },
+  { name: "Burberry", logo: "https://upload.wikimedia.org/wikipedia/commons/3/30/Burberry_logo.svg" },
+  { name: "Emporio Armani", logo: "https://upload.wikimedia.org/wikipedia/commons/2/22/Emporio_Armani_logo.svg" },
+  { name: "Guess", logo: "https://upload.wikimedia.org/wikipedia/commons/2/23/Guess_logo.svg" },
+  { name: "Boss", logo: "https://upload.wikimedia.org/wikipedia/commons/1/18/Hugo_Boss_logo.svg" },
+  { name: "Michael Kors", logo: "https://upload.wikimedia.org/wikipedia/commons/8/8b/Michael_Kors_logo.svg" },
+  { name: "Tommy Hilfiger", logo: "https://upload.wikimedia.org/wikipedia/commons/2/2b/Tommy_Hilfiger_logo.svg" },
+  { name: "Fossil", logo: "https://upload.wikimedia.org/wikipedia/commons/3/3b/Fossil_Group_logo.svg" },
+  { name: "Armani Exchange", logo: "https://upload.wikimedia.org/wikipedia/commons/1/12/Armani_Exchange_logo.svg" },
+  { name: "Daniel Wellington", logo: "https://upload.wikimedia.org/wikipedia/commons/5/53/Daniel_Wellington_logo.svg" },
 ];
 
 const LuxuryBrands = () => {
   return (
-    <section className="bg-white py-24">
+    <section className="bg-white py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto">
+        {/* Title Header */}
+        <div className="text-center mb-10">
+          <h2 className="text-lg font-bold text-gray-900 tracking-wider uppercase inline-block relative pb-2">
+            SHOP BY BRAND
+            <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-[2px] bg-gray-800" />
+          </h2>
+        </div>
 
-      <div className="max-w-7xl mx-auto px-6">
-
-        {/* Gold Line */}
-
-        <div className="w-20 h-[3px] bg-[#D4AF37] mx-auto mb-5"></div>
-
-        {/* Heading */}
-
-        <h2
-          className="text-center text-5xl lg:text-6xl font-bold text-black"
-          style={{
-            fontFamily: "Cormorant Garamond, serif",
-          }}
-        >
-          Luxury Watch Brands
-        </h2>
-
-        <p
-          className="text-center mt-5 text-zinc-600 uppercase tracking-[5px] font-semibold"
-          style={{
-            fontFamily: "Montserrat, sans-serif",
-          }}
-        >
-          Official Authorized Collections
-        </p>
-
-        {/* Grid */}
-
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mt-20">
-
-          {brands.map((brand) => (
-
+        {/* Brand Grid: 5 columns on desktop, responsive for mobile */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-4 justify-center">
+          {brands.map((brand, index) => (
             <div
-              key={brand.name}
-              className="group bg-white rounded-3xl border border-zinc-200 shadow-sm hover:shadow-2xl hover:border-[#D4AF37] duration-500 p-10 text-center"
+              key={brand.name || index}
+              className={`aspect-square bg-[#ececec] flex items-center justify-center p-6 cursor-pointer hover:bg-[#e2e2e2] transition-colors duration-200 ${
+                index >= 15 ? "col-span-1" : ""
+              }`}
             >
-
-              {/* Logo */}
-
-              <div className="h-24 flex justify-center items-center">
-
-                <img
-                  src={brand.logo}
-                  alt={brand.name}
-                  className="h-14 w-auto object-contain grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110 duration-500"
-                />
-
-              </div>
-
-              {/* Gold Divider */}
-
-              <div className="w-12 h-[2px] bg-[#D4AF37] mx-auto my-6 group-hover:w-20 duration-500"></div>
-
-              {/* Brand Name */}
-
-              <h3
-                className="text-2xl font-bold text-black tracking-wide group-hover:text-[#D4AF37] duration-300"
-                style={{
-                  fontFamily: "Cormorant Garamond, serif",
-                  fontWeight: 700,
-                }}
-              >
-                {brand.name}
-              </h3>
-
-              {/* Subtitle */}
-
-              <p
-                className="mt-3 text-[12px] uppercase tracking-[3px] text-zinc-500 font-semibold"
-                style={{
-                  fontFamily: "Montserrat, sans-serif",
-                }}
-              >
-                Swiss Luxury Watches
-              </p>
-
+              <img
+                src={brand.logo}
+                alt={brand.name}
+                className="max-h-full max-w-full object-contain filter grayscale contrast-200 opacity-90"
+              />
             </div>
-
           ))}
-
         </div>
-
-        {/* Bottom Text */}
-
-        <div className="mt-20 text-center">
-
-          <h3
-            className="text-4xl font-bold text-black"
-            style={{
-              fontFamily: "Cormorant Garamond, serif",
-            }}
-          >
-            Discover Timeless Excellence
-          </h3>
-
-          <p
-            className="mt-6 max-w-3xl mx-auto text-zinc-600 leading-8 font-medium"
-            style={{
-              fontFamily: "Montserrat, sans-serif",
-            }}
-          >
-            Explore the world's most iconic luxury watch brands, celebrated for
-            precision engineering, timeless craftsmanship, and unmatched
-            elegance. Every collection is curated to deliver authenticity and
-            prestige.
-          </p>
-
-        </div>
-
       </div>
-
     </section>
   );
 };
