@@ -5,6 +5,8 @@ import Footer from './component/Layout/Footer';
 import Home from './Pages/Home';
 import AboutUs from './Pages/AboutUs';
 import ContactUs from './Pages/ContactUs';
+import Collections from './Pages/Collections';
+import  Brands from './Pages/Brands';
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/contact" element={<ContactUs />} />
+          <Route path="/collections" element={<Collections />} />
+          <Route path="/brands" element={<Brands />} />
         </Routes>
       </main>
 
