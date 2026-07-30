@@ -4,6 +4,7 @@ import NewArrival from "../Component/Home/NewArrival";
 import HeritageSection from "../Component/Home/HeritageSection";
 import PromotionalBanner from "../Component/Home/PromotionalBanner";
 import NewsletterSection from "../Component/Home/NewsletterSection";
+import ShopByStyle from "../Component/Home/ShopByStyle";
 const Home = () => {
   return (
     <div>
@@ -11,6 +12,7 @@ const Home = () => {
       <LuxuryBrands />
       <NewArrival />
        <HeritageSection />
+      <ShopByStyle />
       <PromotionalBanner />
       <NewsletterSection />
     </div>

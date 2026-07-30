@@ -33,14 +33,12 @@ const LuxuryBrands = () => {
           </h2>
         </div>
 
-        {/* Brand Grid: 5 columns on desktop, responsive for mobile */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-4 justify-center">
+        {/* Brand Grid: 3 columns on mobile, 4 on small screens, 5 on desktop */}
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2.5 sm:gap-4 justify-center">
           {brands.map((brand, index) => (
             <div
               key={brand.name || index}
-              className={`aspect-square bg-[#ececec] flex items-center justify-center p-6 cursor-pointer hover:bg-[#e2e2e2] transition-colors duration-200 ${
-                index >= 15 ? "col-span-1" : ""
-              }`}
+              className="aspect-square bg-[#ececec] flex items-center justify-center p-3 sm:p-6 cursor-pointer hover:bg-[#e2e2e2] transition-colors duration-200"
             >
               <img
                 src={brand.logo}

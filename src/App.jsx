@@ -1,14 +1,27 @@
-import Header from "./Component/Layout/Header";
-import Home from "./Pages/Home";  
-import Footer from "./Component/Layout/Footer";
-const App = () => {
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Header from './component/Layout/Header';
+import Footer from './component/Layout/Footer';
+import Home from './Pages/Home';
+import AboutUs from './Pages/AboutUs';
+import ContactUs from './Pages/ContactUs';
+
+function App() {
   return (
-    <div>
+    <div className="bg-black min-h-screen flex flex-col justify-between">
       <Header />
-      <Home />
+
+      <main className="flex-grow">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/contact" element={<ContactUs />} />
+        </Routes>
+      </main>
+
       <Footer />
     </div>
   );
-};
+}
 
 export default App;

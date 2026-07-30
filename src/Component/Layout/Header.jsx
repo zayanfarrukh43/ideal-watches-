@@ -16,9 +16,9 @@ const Header = () => {
 
   const categories = [
     { name: "Home", href: "/" },
-    { name: "Men's Watches", href: "/mens-watches" },
-    { name: "Women's Watches", href: "/womens-watches" },
-    { name: "Brands", href: "/brands" },
+    { name: "About Us", href: "/about" },
+    { name: "Contact Us", href: "/contact" },
+    { name: "Brands", href: "/brand" },
     { name: "Collections", href: "/collections" },
     { name: "New Arrivals", href: "/new-arrivals" },
     { name: "Best Sellers", href: "/best-sellers" },

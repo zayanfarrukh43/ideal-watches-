@@ -1,8 +1,11 @@
+// main.jsx
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
-import './index.css';
+import { BrowserRouter } from "react-router-dom";
 import App from './App.jsx';
+import './index.css';
+
+// Font imports
 import "@fontsource/cormorant-garamond/300.css";
 import "@fontsource/cormorant-garamond/400.css";
 import "@fontsource/cormorant-garamond/500.css";
