@@ -111,12 +111,12 @@ const HeroSection = () => {
                     </div>
                   </motion.div>
 
-                  {/* RIGHT IMAGE */}
+                  {/* RIGHT IMAGE - Hidden on mobile, visible on desktop (lg:flex) */}
                   <motion.div
                     initial={{ opacity: 0, x: 60 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.9, ease: "easeOut" }}
-                    className="relative flex justify-center items-center"
+                    className="hidden lg:flex relative justify-center items-center"
                   >
                     {/* Radial Ambient Glow */}
                     <div className="absolute w-[280px] h-[280px] md:w-[480px] md:h-[480px] rounded-full bg-[#D4AF37]/15 blur-[100px] pointer-events-none"></div>
