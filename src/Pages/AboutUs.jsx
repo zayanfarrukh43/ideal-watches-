@@ -4,36 +4,36 @@ import { motion } from "framer-motion";
 const features = [
   {
     number: "01",
-    title: "Swiss Precision",
-    description: "Every timepiece is sourced from master watchmakers using centuries-old techniques.",
+    title: "100% Certified Authentic",
+    description: "Every timepiece is thoroughly inspected and verified, backed by official international & local warranties.",
   },
   {
     number: "02",
-    title: "Guaranteed Authenticity",
-    description: "Certified genuine timepieces accompanied by full manufacturer warranties.",
+    title: "Cash On Delivery & Inspection",
+    description: "Pay safely at your doorstep anywhere in Pakistan with secure, insured delivery.",
   },
   {
     number: "03",
-    title: "Bespoke Concierge",
-    description: "Personalized consultation to help you source rare and limited luxury editions.",
+    title: "VIP Private Concierge",
+    description: "Personalized consultation and private home appointments for rare & limited luxury timepieces in major cities.",
   },
   {
     number: "04",
-    title: "Curated Excellence",
-    description: "Strict quality control ensuring only pristine horological art enters our store.",
+    title: "Nationwide Express Shipping",
+    description: "Dispatched with top-tier courier partners ensuring fully insured transit to 100+ cities across Pakistan.",
   },
 ];
 
 const stats = [
-  { label: "Years of Heritage", value: "25+" },
-  { label: "Curated Brands", value: "18+" },
-  { label: "Collectors Served", value: "10K+" },
-  { label: "Swiss Certificates", value: "100%" },
+  { label: "Years of Trust", value: "15+" },
+  { label: "Pakistani Cities Served", value: "100+" },
+  { label: "Satisfied Collectors", value: "12K+" },
+  { label: "Authenticity Guarantee", value: "100%" },
 ];
 
 const AboutUs = () => {
   return (
-    <section className="bg-black text-white py-20 sm:py-28 px-4 sm:px-6 lg:px-12 border-t border-zinc-900 overflow-hidden">
+    <section className="bg-black text-white py-20 sm:py-28 px-4 sm:px-6 lg:px-12 border-t border-zinc-900 overflow-hidden font-sans">
       <div className="max-w-[1400px] mx-auto space-y-24 sm:space-y-32">
         
         {/* SECTION 1: Brand Story Header & Image */}
@@ -51,29 +51,29 @@ const AboutUs = () => {
               className="text-[#D4AF37] uppercase tracking-[0.35em] text-[10px] font-medium block"
               style={{ fontFamily: "Montserrat, sans-serif" }}
             >
-              Our Legacy
+              Our Heritage in Pakistan
             </span>
             
             <h2 
               className="text-3xl sm:text-5xl font-extralight tracking-tight uppercase leading-tight text-white"
               style={{ fontFamily: "Cormorant Garamond, serif" }}
             >
-              Curators of Time, <br />
-              <span className="italic font-normal text-zinc-400">Masters of Precision.</span>
+              Pakistan’s Premier <br />
+              <span className="italic font-normal text-zinc-400">House of Fine Horology.</span>
             </h2>
 
             <p 
               className="text-zinc-400 text-xs sm:text-sm font-light leading-relaxed max-w-xl"
               style={{ fontFamily: "Montserrat, sans-serif" }}
             >
-              Founded on the principles of Swiss horological perfection, IDEAL Watches was created for those who see a timepiece not just as an instrument of time, but as an enduring expression of legacy, craftsmanship, and personal art.
+              Founded with a passion for Swiss craftsmanship and timeless elegance, IDEAL Watches stands as Pakistan’s trusted destination for discerning collectors. We bridge world-class horology with seamless local accessibility.
             </p>
 
             <p 
               className="text-zinc-500 text-xs font-light leading-relaxed max-w-xl hidden sm:block"
               style={{ fontFamily: "Montserrat, sans-serif" }}
             >
-              We hand-select each watch in our catalog, forging direct relationships with legendary heritage manufactures and modern independent watchmakers alike.
+              From flagship boutiques in Karachi, Lahore, and Islamabad to nationwide express delivery, every watch in our vault is hand-curated to ensure uncompromised authenticity, prestige, and longevity.
             </p>
 
             {/* Signature Accent */}
@@ -82,10 +82,10 @@ const AboutUs = () => {
                 className="text-lg sm:text-xl font-light italic text-[#D4AF37]"
                 style={{ fontFamily: "Cormorant Garamond, serif" }}
               >
-                Ideal Atelier
+                IDEAL Atelier
               </span>
               <span className="text-[10px] uppercase tracking-widest text-zinc-600 font-mono">
-                — Geneva & World
+                — Karachi • Lahore • Islamabad
               </span>
             </div>
           </motion.div>
@@ -113,20 +113,20 @@ const AboutUs = () => {
                 className="text-[#D4AF37] text-[9px] uppercase tracking-[0.25em] mb-1"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
               >
-                Swiss Standard
+                Local Prestige
               </p>
               <p 
                 className="text-xs font-light text-zinc-300"
                 style={{ fontFamily: "Cormorant Garamond, serif" }}
               >
-                "Perfection is not an accident—it is a continuous pursuit."
+                "Bringing world-class horology and absolute authenticity to Pakistan."
               </p>
             </div>
           </motion.div>
 
         </div>
 
-        {/* SECTION 2: Key Pillars (2 cols on mobile, 4 cols on desktop) */}
+        {/* SECTION 2: Key Pillars */}
         <div className="space-y-10">
           <div className="text-center space-y-2">
             <span 
@@ -139,7 +139,7 @@ const AboutUs = () => {
               className="text-2xl sm:text-4xl font-light uppercase tracking-wider text-white"
               style={{ fontFamily: "Cormorant Garamond, serif" }}
             >
-              The Pillars of Ideal
+              The Pillars of IDEAL
             </h3>
           </div>
 
