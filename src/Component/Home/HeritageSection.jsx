@@ -1,33 +1,33 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { FaAward, FaCompass, FaGem, FaShieldAlt } from "react-icons/fa";
+import { FaAward, FaTruck, FaGem, FaShieldAlt } from "react-icons/fa";
 
 const features = [
   {
     icon: FaAward,
-    title: "Master Craftsmanship",
-    description: "Every movement is hand-assembled by Swiss master watchmakers with decades of precision experience.",
+    title: "100% Certified Originals",
+    description: "Every timepiece is authenticated and supplied with official manufacturer documentation and local warranty cards.",
   },
   {
     icon: FaGem,
-    title: "Rare Materials",
-    description: "Constructed from 316L stainless steel, 18k solid gold, sapphire crystal, and genuine alligator leather.",
+    title: "Master Crafts & Materials",
+    description: "Constructed with scratch-resistant sapphire crystal, 316L stainless steel, solid gold accents, and premium straps.",
   },
   {
     icon: FaShieldAlt,
-    title: "5-Year Guarantee",
-    description: "Comprehensive worldwide warranty covering mechanical precision and structural integrity.",
+    title: "Official Local Warranty",
+    description: "Comprehensive 2 to 5 year warranty coverage with dedicated watchmaking service hubs in Karachi, Lahore, and Islamabad.",
   },
   {
-    icon: FaCompass,
-    title: "Insured Shipping",
-    description: "Complimentary global delivery with full door-to-door insurance and private signature verification.",
+    icon: FaTruck,
+    title: "Nationwide Insured COD",
+    description: "Enjoy complimentary Express Delivery across 100+ Pakistani cities with optional Cash on Delivery & open-box inspection.",
   },
 ];
 
 const HeritageSection = () => {
   return (
-    <section className="bg-white text-zinc-900 py-24 border-b border-zinc-200 relative overflow-hidden">
+    <section className="bg-white text-zinc-900 py-24 border-b border-zinc-200 relative overflow-hidden font-sans">
       {/* Subtle Background Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#D4AF37]/10 blur-[140px] pointer-events-none rounded-full" />
 
@@ -61,13 +61,13 @@ const HeritageSection = () => {
                     className="text-[#D4AF37] text-[10px] uppercase tracking-[0.3em] font-medium"
                     style={{ fontFamily: "Montserrat, sans-serif" }}
                   >
-                    Geneva Workshop
+                    Atelier Pakistan
                   </p>
                   <p 
                     className="text-white text-xl font-light mt-1"
                     style={{ fontFamily: "Cormorant Garamond, serif" }}
                   >
-                    Precision engineering since 1988
+                    Curating luxury horology since 2010
                   </p>
                 </div>
               </div>
@@ -99,21 +99,21 @@ const HeritageSection = () => {
               className="text-3xl sm:text-5xl font-light tracking-tight text-zinc-900 leading-[1.2] mb-6"
               style={{ fontFamily: "Cormorant Garamond, serif" }}
             >
-              Crafting Legacy Beyond Generations
+              Crafting Legacy for Pakistani Collectors
             </h2>
 
             <p
               className="text-zinc-600 text-sm sm:text-base font-light leading-relaxed mb-6"
               style={{ fontFamily: "Montserrat, sans-serif" }}
             >
-              At IDEAL Watches, luxury is not merely worn—it is inherited. Every timepiece in our curation represents hundreds of hours of mechanical refinement, combining centuries-old Swiss traditions with contemporary design aesthetics.
+              At IDEAL Watches, luxury is not merely worn—it is inherited. Designed for Pakistan's most discerning horology enthusiasts, every timepiece in our vault reflects mechanical precision, verified authenticity, and timeless elegance.
             </p>
 
             <blockquote
               className="border-l-2 border-[#D4AF37] pl-6 py-2 my-8 text-zinc-700 italic text-lg font-light"
               style={{ fontFamily: "Cormorant Garamond, serif" }}
             >
-              "True luxury lies in details unseen by the world, yet felt in every tick of the escapement wheel."
+              "True horology transcends boundaries. Our mission is bringing certified world-class timepieces directly to collectors across Pakistan with absolute peace of mind."
             </blockquote>
 
             {/* Signature Block */}
@@ -123,13 +123,13 @@ const HeritageSection = () => {
                   className="text-zinc-900 text-lg tracking-wider"
                   style={{ fontFamily: "Cormorant Garamond, serif" }}
                 >
-                  Alexander Vance
+                  Syed Tariq Hashmi
                 </p>
                 <p
                   className="text-zinc-500 text-[10px] uppercase tracking-[0.25em] mt-0.5"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                 >
-                  Head Horologist & Curator
+                  Founder & Chief Horologist
                 </p>
               </div>
             </div>
