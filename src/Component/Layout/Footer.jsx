@@ -2,8 +2,7 @@ import React from "react";
 import { 
   FaInstagram, 
   FaFacebookF, 
-  FaPinterestP, 
-  FaTwitter, 
+ 
   FaCcVisa, 
   FaCcMastercard, 
   FaCcAmex, 
@@ -38,8 +37,7 @@ const Footer = ({ bgColor = "bg-zinc-950" }) => {
               {[
                 { icon: FaInstagram, href: "#" },
                 { icon: FaFacebookF, href: "#" },
-                { icon: FaPinterestP, href: "#" },
-                { icon: FaTwitter, href: "#" },
+               
               ].map((social, index) => {
                 const Icon = social.icon;
                 return (
@@ -149,13 +147,13 @@ const Footer = ({ bgColor = "bg-zinc-950" }) => {
             © {new Date().getFullYear()} IDEAL Watches. All Rights Reserved.
           </p>
 
-          {/* Payment Badges */}
+          {/* Payment Badges
           <div className="flex items-center gap-4 text-zinc-600 text-xl">
             <FaCcVisa className="hover:text-zinc-300 transition-colors" />
             <FaCcMastercard className="hover:text-zinc-300 transition-colors" />
             <FaCcAmex className="hover:text-zinc-300 transition-colors" />
             <FaCcApplePay className="hover:text-zinc-300 transition-colors" />
-          </div>
+          </div> */}
         </div>
 
       </div>

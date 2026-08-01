@@ -1,4 +1,7 @@
 import React from 'react';
+import { FaShoppingBag } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom'; // 1. Import useNavigate
+import { useCart } from '/src/Component/context/CartContext';// Adjust path if needed
 
 const NewArrivals = () => {
   const menProducts = [
@@ -132,14 +135,14 @@ const NewArrivals = () => {
         {/* SECTION 2: WOMEN WATCHES */}
         <section className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-stretch">
           
-          {/* 2 Columns on Mobile Grid (Left on desktop) */}
+          {/* 2 Columns on Mobile Grid */}
           <div className="lg:col-span-7 grid grid-cols-2 gap-3 sm:gap-5 order-2 lg:order-1">
             {womenProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
 
-          {/* Hero Banner (Right on desktop) */}
+          {/* Hero Banner */}
           <div className="lg:col-span-5 relative group min-h-[360px] lg:min-h-[580px] overflow-hidden cursor-pointer border border-zinc-900 bg-zinc-950 order-1 lg:order-2">
             <div 
               className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 ease-out group-hover:scale-105 opacity-80"
@@ -177,10 +180,38 @@ const NewArrivals = () => {
   );
 };
 
-// Reusable Minimal Product Card Component
+// Product Card with Direct Navigation to Product Landing Page
 const ProductCard = ({ product }) => {
+  const navigate = useNavigate();
+  const { addToCart } = useCart();
+
+  // Handle navigating to Product Details Landing Page
+  const goToProductPage = () => {
+    navigate(`/product/${product.id}`);
+  };
+
+  // Handle adding product directly to bag
+  const handleAddToCart = (e) => {
+    e.stopPropagation(); // Prevents clicking button from triggering card navigation
+
+    const numericPrice = typeof product.price === 'string' 
+      ? Number(product.price.replace(/[^0-9]/g, '')) 
+      : product.price;
+
+    addToCart({
+      id: product.id,
+      name: product.title,
+      price: numericPrice,
+      image: product.image,
+      ref: product.ref,
+    });
+  };
+
   return (
-    <div className="group relative bg-zinc-950/80 border border-zinc-900 hover:border-zinc-700 p-3 sm:p-5 flex flex-col justify-between transition-all duration-500 cursor-pointer">
+    <div 
+      onClick={goToProductPage}
+      className="group relative bg-zinc-950/80 border border-zinc-900 hover:border-zinc-700 p-3 sm:p-5 flex flex-col justify-between transition-all duration-500 cursor-pointer"
+    >
       
       {/* Product Image Stage */}
       <div className="relative w-full aspect-square bg-black flex items-center justify-center p-2 sm:p-4 mb-3 overflow-hidden">
@@ -200,20 +231,10 @@ const ProductCard = ({ product }) => {
           alt={product.title} 
           className="max-h-full max-w-full object-contain filter group-hover:scale-105 transition-transform duration-500 ease-out" 
         />
-
-        {/* Subtle Quick View Overlay */}
-        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center p-2">
-          <span 
-            className="text-white text-[9px] sm:text-[10px] tracking-[0.2em] uppercase font-light border-b border-[#D4AF37] pb-0.5"
-            style={{ fontFamily: 'Montserrat, sans-serif' }}
-          >
-            Quick View
-          </span>
-        </div>
       </div>
 
       {/* Product Info */}
-      <div className="text-center space-y-1">
+      <div className="text-center space-y-1 mb-4">
         <p 
           className="text-[8px] sm:text-[9px] tracking-[0.2em] text-zinc-500 uppercase"
           style={{ fontFamily: 'Montserrat, sans-serif' }}
@@ -233,6 +254,16 @@ const ProductCard = ({ product }) => {
           {product.price}
         </p>
       </div>
+
+      {/* Add To Bag CTA */}
+      <button
+        onClick={handleAddToCart}
+        className="w-full py-2.5 rounded-full bg-zinc-900 hover:bg-[#D4AF37] text-zinc-300 hover:text-black border border-zinc-800 hover:border-[#D4AF37] text-[9px] sm:text-[10px] tracking-[0.2em] font-medium uppercase flex items-center justify-center gap-2 transition-all duration-300 z-10"
+        style={{ fontFamily: 'Montserrat, sans-serif' }}
+      >
+        <FaShoppingBag className="text-xs" />
+        Add To Bag
+      </button>
 
       {/* Subtle Hover Bottom Line */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[1px] bg-[#D4AF37] group-hover:w-1/3 transition-all duration-500" />
