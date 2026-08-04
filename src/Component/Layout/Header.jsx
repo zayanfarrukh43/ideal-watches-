@@ -64,12 +64,12 @@ const Header = () => {
               </p>
             </Link>
 
-            {/* Luxury Search Bar */}
+            {/* Luxury Search Bar (Fixed 16px text-base on mobile to prevent zoom) */}
             <div className="flex-1 max-w-xl relative">
               <input
                 type="text"
                 placeholder="Search timepieces, reference numbers & collections..."
-                className="w-full h-11 rounded-full bg-zinc-900/80 border border-zinc-800/80 pl-6 pr-12 text-xs text-white placeholder:text-zinc-500 focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37]/50 outline-none transition-all duration-300 tracking-wide font-light"
+                className="w-full h-11 rounded-full bg-zinc-900/80 border border-zinc-800/80 pl-6 pr-12 text-base lg:text-xs text-white placeholder:text-zinc-500 focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37]/50 outline-none transition-all duration-300 tracking-wide font-light"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
               />
               <button
@@ -227,13 +227,13 @@ const Header = () => {
             </div>
           </div>
 
-          {/* Mobile Search Input */}
+          {/* Mobile Search Input (text-base prevents browser zoom-in on mobile focus) */}
           <div className="lg:hidden pb-3">
             <div className="relative">
               <input
                 type="text"
                 placeholder="Search timepieces..."
-                className="w-full h-10 rounded-full bg-zinc-900 border border-zinc-800 pl-4 pr-10 text-xs text-white placeholder:text-zinc-500 focus:border-[#D4AF37] outline-none"
+                className="w-full h-10 rounded-full bg-zinc-900 border border-zinc-800 pl-4 pr-10 text-base text-white placeholder:text-zinc-500 focus:border-[#D4AF37] outline-none"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
               />
               <button className="absolute right-3 top-1/2 -translate-y-1/2">
