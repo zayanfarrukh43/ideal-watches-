@@ -1,29 +1,30 @@
-    import React, { useState } from "react";
+import React, { useState } from "react";
 import { 
   FaEnvelope, 
   FaPhoneAlt, 
   FaMapMarkerAlt, 
   FaClock, 
   FaChevronDown, 
-  FaPaperPlane 
+  FaPaperPlane,
+  FaWhatsapp
 } from "react-icons/fa";
 
 const faqs = [
   {
-    question: "How do I schedule a private viewing appointment?",
-    answer: "You can request a private appointment directly through our contact form by selecting 'Private Consultation', or by contacting our concierge desk via phone. We host viewings in Geneva, London, and New York."
+    question: "How do I schedule a private viewing appointment in Pakistan?",
+    answer: "You can request a private viewing directly through our contact form by selecting 'Private Consultation', or via WhatsApp. We host private, secure viewings at our flagship boutiques in Karachi and Lahore."
   },
   {
-    question: "Are all timepieces guaranteed authentic?",
-    answer: "Every timepiece in our collection undergoes a multi-point inspection by certified master watchmakers and comes with full original documentation and manufacturer warranty."
+    question: "Are all timepieces guaranteed 100% authentic?",
+    answer: "Yes, every timepiece in our collection undergoes a comprehensive multi-point inspection by certified master watchmakers and comes with full original international documentation, box, and warranty."
   },
   {
-    question: "What are your international shipping & insurance policies?",
-    answer: "We offer fully insured, signature-required express worldwide shipping through trusted courier partners. Full coverage is guaranteed until the package is in your hands."
+    question: "What are your delivery and cash on delivery (COD) policies across Pakistan?",
+    answer: "We offer fully insured express courier delivery (TCS / Leopards) across Pakistan within 24–48 hours. Advance security verification is required for high-value orders."
   },
   {
-    question: "Can you help source a specific rare or limited edition watch?",
-    answer: "Yes, our bespoke watch sourcing network connects directly with heritage manufactures and private collectors globally to acquire elusive references."
+    question: "Can you help source a specific rare or luxury watch in Pakistan?",
+    answer: "Absolutely. Our global sourcing network connects directly with verified private collectors and international heritage watchmakers to source rare references directly into Pakistan."
   }
 ];
 
@@ -32,6 +33,7 @@ const ContactUs = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    phone: "",
     subject: "General Inquiry",
     message: ""
   });
@@ -45,7 +47,7 @@ const ContactUs = () => {
     e.preventDefault();
     setSubmitted(true);
     setTimeout(() => setSubmitted(false), 5000);
-    setFormData({ name: "", email: "", subject: "General Inquiry", message: "" });
+    setFormData({ name: "", email: "", phone: "", subject: "General Inquiry", message: "" });
   };
 
   return (
@@ -58,7 +60,7 @@ const ContactUs = () => {
             className="text-[#D4AF37] uppercase tracking-[0.35em] text-[10px] font-medium block"
             style={{ fontFamily: "Montserrat, sans-serif" }}
           >
-            Client Services
+            Client Services — Pakistan
           </span>
           <h1 
             className="text-3xl sm:text-5xl font-extralight tracking-widest uppercase text-white"
@@ -70,13 +72,15 @@ const ContactUs = () => {
             className="text-zinc-400 text-xs sm:text-sm font-light max-w-lg mx-auto leading-relaxed"
             style={{ fontFamily: "Montserrat, sans-serif" }}
           >
-            Our dedicated horology specialists are available to assist you with inquiries, collection consultations, or private appointments.
+            Our dedicated horology specialists in Karachi and Lahore are available to assist you with luxury watch inquiries, sourcing, or private appointments.
           </p>
         </div>
 
         {/* Info Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-          <div className="bg-zinc-950/80 border border-zinc-900 p-6 sm:p-8 space-y-4 text-center group hover:border-zinc-700 transition-colors duration-500">
+          
+          {/* Main Flagship Card */}
+          <div className="bg-zinc-950/80 border border-zinc-900 p-6 sm:p-8 space-y-4 text-center group hover:border-[#D4AF37]/50 transition-colors duration-500">
             <div className="w-12 h-12 rounded-full bg-black border border-zinc-800 flex items-center justify-center mx-auto text-[#D4AF37] group-hover:border-[#D4AF37] transition-colors">
               <FaMapMarkerAlt className="text-base" />
             </div>
@@ -84,18 +88,19 @@ const ContactUs = () => {
               className="text-lg font-light uppercase tracking-wider text-zinc-200"
               style={{ fontFamily: "Cormorant Garamond, serif" }}
             >
-              Main Flagship
+              Main Flagship Boutique
             </h3>
             <p 
               className="text-xs text-zinc-400 font-light leading-relaxed"
               style={{ fontFamily: "Montserrat, sans-serif" }}
             >
-              Rue du Rhône 42 <br />
-              1204 Geneva, Switzerland
+              Zamzama Commercial Area, Phase 5 <br />
+              DHA, Karachi, Pakistan
             </p>
           </div>
 
-          <div className="bg-zinc-950/80 border border-zinc-900 p-6 sm:p-8 space-y-4 text-center group hover:border-zinc-700 transition-colors duration-500">
+          {/* Direct Client Care Card */}
+          <div className="bg-zinc-950/80 border border-zinc-900 p-6 sm:p-8 space-y-4 text-center group hover:border-[#D4AF37]/50 transition-colors duration-500">
             <div className="w-12 h-12 rounded-full bg-black border border-zinc-800 flex items-center justify-center mx-auto text-[#D4AF37] group-hover:border-[#D4AF37] transition-colors">
               <FaPhoneAlt className="text-base" />
             </div>
@@ -109,12 +114,14 @@ const ContactUs = () => {
               className="text-xs text-zinc-400 font-light leading-relaxed"
               style={{ fontFamily: "Montserrat, sans-serif" }}
             >
-              +41 22 819 00 00 <br />
-              concierge@idealwatches.com
+              +92 (021) 3587-9000 <br />
+              <span className="text-zinc-300 font-normal">+92 300 1234567 (WhatsApp)</span> <br />
+              concierge@idealwatches.pk
             </p>
           </div>
 
-          <div className="bg-zinc-950/80 border border-zinc-900 p-6 sm:p-8 space-y-4 text-center group hover:border-zinc-700 transition-colors duration-500">
+          {/* Hours of Operation Card */}
+          <div className="bg-zinc-950/80 border border-zinc-900 p-6 sm:p-8 space-y-4 text-center group hover:border-[#D4AF37]/50 transition-colors duration-500">
             <div className="w-12 h-12 rounded-full bg-black border border-zinc-800 flex items-center justify-center mx-auto text-[#D4AF37] group-hover:border-[#D4AF37] transition-colors">
               <FaClock className="text-base" />
             </div>
@@ -128,13 +135,14 @@ const ContactUs = () => {
               className="text-xs text-zinc-400 font-light leading-relaxed"
               style={{ fontFamily: "Montserrat, sans-serif" }}
             >
-              Mon — Fri: 10:00 AM – 7:00 PM <br />
-              Saturday: By Appointment Only
+              Mon — Sat: 11:00 AM – 9:00 PM PKT <br />
+              Sunday: By Private Appointment Only
             </p>
           </div>
+
         </div>
 
-        {/* Main Section: Form & Map/Visual */}
+        {/* Main Section: Form & Visual */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* Inquiry Form */}
@@ -159,12 +167,13 @@ const ContactUs = () => {
                 className="p-4 bg-zinc-900 border border-[#D4AF37]/50 text-[#D4AF37] text-xs tracking-wider uppercase text-center font-light"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
               >
-                Thank you. Your message has been sent to our concierge desk.
+                Shukriya! Your message has been received. Our concierge team will contact you shortly.
               </div>
             )}
 
             <form onSubmit={handleSubmit} className="space-y-5">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                {/* Name */}
                 <div className="space-y-1">
                   <label 
                     className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 block font-light"
@@ -177,12 +186,13 @@ const ContactUs = () => {
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="Julian Vance"
+                    placeholder="e.g. Tariq Khan"
                     className="w-full bg-black border border-zinc-800 focus:border-[#D4AF37] text-white text-xs px-4 py-3 outline-none transition-colors font-light"
                     style={{ fontFamily: "Montserrat, sans-serif" }}
                   />
                 </div>
 
+                {/* Email */}
                 <div className="space-y-1">
                   <label 
                     className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 block font-light"
@@ -195,33 +205,56 @@ const ContactUs = () => {
                     required
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    placeholder="julian@domain.com"
+                    placeholder="tariq@domain.com"
                     className="w-full bg-black border border-zinc-800 focus:border-[#D4AF37] text-white text-xs px-4 py-3 outline-none transition-colors font-light"
                     style={{ fontFamily: "Montserrat, sans-serif" }}
                   />
                 </div>
               </div>
 
-              <div className="space-y-1">
-                <label 
-                  className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 block font-light"
-                  style={{ fontFamily: "Montserrat, sans-serif" }}
-                >
-                  Inquiry Topic
-                </label>
-                <select
-                  value={formData.subject}
-                  onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                  className="w-full bg-black border border-zinc-800 focus:border-[#D4AF37] text-zinc-300 text-xs px-4 py-3 outline-none transition-colors font-light"
-                  style={{ fontFamily: "Montserrat, sans-serif" }}
-                >
-                  <option value="General Inquiry">General Inquiry</option>
-                  <option value="Watch Sourcing">Watch Sourcing / Special Order</option>
-                  <option value="Private Appointment">Schedule Private Appointment</option>
-                  <option value="Servicing & Repair">Servicing & Maintenance</option>
-                </select>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                {/* Phone / WhatsApp */}
+                <div className="space-y-1">
+                  <label 
+                    className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 block font-light"
+                    style={{ fontFamily: "Montserrat, sans-serif" }}
+                  >
+                    Phone / WhatsApp *
+                  </label>
+                  <input
+                    type="tel"
+                    required
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    placeholder="+92 300 0000000"
+                    className="w-full bg-black border border-zinc-800 focus:border-[#D4AF37] text-white text-xs px-4 py-3 outline-none transition-colors font-light"
+                    style={{ fontFamily: "Montserrat, sans-serif" }}
+                  />
+                </div>
+
+                {/* Inquiry Topic */}
+                <div className="space-y-1">
+                  <label 
+                    className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 block font-light"
+                    style={{ fontFamily: "Montserrat, sans-serif" }}
+                  >
+                    Inquiry Topic
+                  </label>
+                  <select
+                    value={formData.subject}
+                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                    className="w-full bg-black border border-zinc-800 focus:border-[#D4AF37] text-zinc-300 text-xs px-4 py-3 outline-none transition-colors font-light"
+                    style={{ fontFamily: "Montserrat, sans-serif" }}
+                  >
+                    <option value="General Inquiry">General Inquiry</option>
+                    <option value="Watch Sourcing">Watch Sourcing / Special Order</option>
+                    <option value="Private Appointment">Schedule Private Appointment (Karachi / Lahore)</option>
+                    <option value="Servicing & Repair">Servicing & Maintenance</option>
+                  </select>
+                </div>
               </div>
 
+              {/* Message */}
               <div className="space-y-1">
                 <label 
                   className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 block font-light"
@@ -240,23 +273,36 @@ const ContactUs = () => {
                 />
               </div>
 
-              <button
-                type="submit"
-                className="w-full h-12 bg-white text-black hover:bg-[#D4AF37] hover:text-black uppercase text-[11px] tracking-[0.25em] font-medium transition-all duration-300 flex items-center justify-center gap-2"
-                style={{ fontFamily: "Montserrat, sans-serif" }}
-              >
-                <FaPaperPlane className="text-xs" />
-                Submit Message
-              </button>
+              {/* Buttons */}
+              <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                <button
+                  type="submit"
+                  className="flex-1 h-12 bg-white text-black hover:bg-[#D4AF37] hover:text-black uppercase text-[11px] tracking-[0.25em] font-medium transition-all duration-300 flex items-center justify-center gap-2"
+                  style={{ fontFamily: "Montserrat, sans-serif" }}
+                >
+                  <FaPaperPlane className="text-xs" />
+                  Submit Message
+                </button>
+                <a
+                  href="https://wa.me/923001234567"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="h-12 px-6 border border-emerald-600 text-emerald-400 hover:bg-emerald-600 hover:text-white uppercase text-[11px] tracking-[0.2em] font-medium transition-all duration-300 flex items-center justify-center gap-2"
+                  style={{ fontFamily: "Montserrat, sans-serif" }}
+                >
+                  <FaWhatsapp className="text-base" />
+                  WhatsApp Us
+                </a>
+              </div>
             </form>
           </div>
 
-          {/* Right Column: Atelier Atmosphere Preview */}
+          {/* Right Column: Pakistan Salon Visual */}
           <div className="lg:col-span-5 space-y-6">
             <div className="relative aspect-[4/5] border border-zinc-900 bg-zinc-950 overflow-hidden group">
               <img 
                 src="https://images.unsplash.com/photo-1547996160-81dfa63595aa?q=80&w=1000" 
-                alt="Ideal Watches Lounge" 
+                alt="Ideal Watches Pakistan Salon" 
                 className="w-full h-full object-cover filter grayscale contrast-125 group-hover:scale-105 transition-transform duration-1000"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
@@ -266,13 +312,13 @@ const ContactUs = () => {
                   className="text-[#D4AF37] text-[9px] uppercase tracking-[0.3em] font-light block mb-1"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                 >
-                  Private Lounge
+                  Private VIP Lounge
                 </span>
                 <p 
                   className="text-base text-white font-light uppercase tracking-wider"
                   style={{ fontFamily: "Cormorant Garamond, serif" }}
                 >
-                  Geneva Showroom & Salon
+                  Karachi 
                 </p>
               </div>
             </div>

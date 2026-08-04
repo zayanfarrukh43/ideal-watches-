@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { 
   FaInstagram, 
   FaFacebookF, 
@@ -9,11 +10,28 @@ import {
   FaCcVisa, 
   FaCcMastercard,
   FaTruck,
-  FaMoneyBillWave,
-  FaShieldAlt
+  FaMoneyBillWave
 } from "react-icons/fa";
 
 const Footer = ({ bgColor = "bg-zinc-950" }) => {
+  // Collections Links Configuration
+  const collectionLinks = [
+    { label: "Men's Luxury Watches", path: "/collections/mens" },
+    { label: "Ladies Elegance", path: "/collections/ladies" },
+    { label: "Automatic Chronographs", path: "/collections/automatic" },
+    { label: "Minimalist Series", path: "/collections/minimalist" },
+    { label: "Couple Editions", path: "/collections/couples" }
+  ];
+
+  // Customer Care Links Configuration
+  const customerCareLinks = [
+    { label: "Cash on Delivery Policy", path: "/cod-policy" },
+    { label: "Order Tracking", path: "/track-order" },
+    { label: "Warranty & Servicing", path: "/warranty" },
+    { label: "7-Day Return Policy", path: "/returns" },
+    { label: "Authenticity Guarantee", path: "/authenticity" }
+  ];
+
   return (
     <footer className={`${bgColor} text-white border-t border-zinc-900 pt-14 sm:pt-16 pb-8 px-4 sm:px-6 lg:px-12 relative overflow-hidden transition-colors duration-300 font-sans`}>
       <div className="max-w-[1400px] mx-auto">
@@ -23,12 +41,14 @@ const Footer = ({ bgColor = "bg-zinc-950" }) => {
           
           {/* Brand & Narrative Column */}
           <div className="lg:col-span-4 sm:col-span-2 space-y-4">
-            <h3 
-              className="text-2xl sm:text-3xl font-light tracking-wider text-white"
-              style={{ fontFamily: "Cormorant Garamond, serif" }}
-            >
-              IDEAL WATCHES
-            </h3>
+            <Link to="/">
+              <h3 
+                className="text-2xl sm:text-3xl font-light tracking-wider text-white hover:text-[#D4AF37] transition-colors duration-200"
+                style={{ fontFamily: "Cormorant Garamond, serif" }}
+              >
+                IDEAL WATCHES
+              </h3>
+            </Link>
             
             <p 
               className="text-zinc-400 text-xs sm:text-sm font-light leading-relaxed max-w-sm"
@@ -40,9 +60,9 @@ const Footer = ({ bgColor = "bg-zinc-950" }) => {
             {/* Social Icons & WhatsApp Quick Connect */}
             <div className="flex items-center gap-3 pt-2">
               {[
-                { icon: FaInstagram, href: "#", label: "Instagram" },
-                { icon: FaFacebookF, href: "#", label: "Facebook" },
-                { icon: FaWhatsapp, href: "https://wa.me/923000000000", label: "WhatsApp" },
+                { icon: FaInstagram, href: "https://instagram.com/idealwatches.pk", label: "Instagram" },
+                { icon: FaFacebookF, href: "https://facebook.com/idealwatches.pk", label: "Facebook" },
+                { icon: FaWhatsapp, href: "https://wa.me/923001234567", label: "WhatsApp" },
               ].map((social, index) => {
                 const Icon = social.icon;
                 return (
@@ -51,7 +71,7 @@ const Footer = ({ bgColor = "bg-zinc-950" }) => {
                     href={social.href}
                     aria-label={social.label}
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     className="w-9 h-9 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-[#D4AF37] hover:border-[#D4AF37] hover:bg-zinc-900 transition-all duration-300 shadow-sm"
                   >
                     <Icon className="text-xs" />
@@ -76,14 +96,14 @@ const Footer = ({ bgColor = "bg-zinc-950" }) => {
               Collections
             </h4>
             <ul className="space-y-3" style={{ fontFamily: "Montserrat, sans-serif" }}>
-              {["Men's Luxury Watches", "Ladies Elegance", "Automatic Chronographs", "Minimalist Series", "Couple Editions"].map((item, idx) => (
+              {collectionLinks.map((item, idx) => (
                 <li key={idx}>
-                  <a 
-                    href="#" 
-                    className="text-zinc-400 hover:text-white text-xs font-light transition-colors duration-200 block"
+                  <Link 
+                    to={item.path} 
+                    className="text-zinc-400 hover:text-[#D4AF37] text-xs font-light transition-colors duration-200 block"
                   >
-                    {item}
-                  </a>
+                    {item.label}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -98,14 +118,14 @@ const Footer = ({ bgColor = "bg-zinc-950" }) => {
               Customer Care
             </h4>
             <ul className="space-y-3" style={{ fontFamily: "Montserrat, sans-serif" }}>
-              {["Cash on Delivery Policy", "Order Tracking", "Warranty & Servicing", "7-Day Return Policy", "Authenticity Guarantee"].map((item, idx) => (
+              {customerCareLinks.map((item, idx) => (
                 <li key={idx}>
-                  <a 
-                    href="#" 
-                    className="text-zinc-400 hover:text-white text-xs font-light transition-colors duration-200 block"
+                  <Link 
+                    to={item.path} 
+                    className="text-zinc-400 hover:text-[#D4AF37] text-xs font-light transition-colors duration-200 block"
                   >
-                    {item}
-                  </a>
+                    {item.label}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -120,13 +140,12 @@ const Footer = ({ bgColor = "bg-zinc-950" }) => {
               Our Boutiques
             </h4>
             <div className="space-y-3 text-xs font-light text-zinc-400" style={{ fontFamily: "Montserrat, sans-serif" }}>
-              <div>
-                <p className="text-white font-normal flex items-center gap-1.5">
+              <Link to="/boutiques/karachi" className="block group">
+                <p className="text-white font-normal flex items-center gap-1.5 group-hover:text-[#D4AF37] transition-colors">
                   <FaMapMarkerAlt className="text-[#D4AF37] text-[10px]" /> Karachi
                 </p>
-                <p className="text-[11px] text-zinc-500">Dolmen Mall Clifton, Level 1</p>
-              </div>
-         
+                <p className="text-[11px] text-zinc-500 group-hover:text-zinc-400">Dolmen Mall Clifton, Level 1</p>
+              </Link>
             </div>
           </div>
 
@@ -139,18 +158,18 @@ const Footer = ({ bgColor = "bg-zinc-950" }) => {
               Concierge
             </h4>
             <div className="space-y-2.5 text-xs font-light text-zinc-400" style={{ fontFamily: "Montserrat, sans-serif" }}>
-              <p className="flex items-center gap-2 text-zinc-300">
+              <a href="tel:+9221111000888" className="flex items-center gap-2 text-zinc-300 hover:text-[#D4AF37] transition-colors">
                 <FaPhoneAlt className="text-[#D4AF37] text-[10px]" />
                 <span>+92 (021) 111-000-888</span>
-              </p>
-              <p className="flex items-center gap-2 text-zinc-300">
+              </a>
+              <a href="https://wa.me/923001234567" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-zinc-300 hover:text-emerald-400 transition-colors">
                 <FaWhatsapp className="text-emerald-500 text-xs" />
                 <span>+92 300 1234567</span>
-              </p>
-              <p className="flex items-center gap-2 text-zinc-300">
+              </a>
+              <a href="mailto:support@idealwatches.pk" className="flex items-center gap-2 text-zinc-300 hover:text-[#D4AF37] transition-colors">
                 <FaEnvelope className="text-[#D4AF37] text-[10px]" />
                 <span>support@idealwatches.pk</span>
-              </p>
+              </a>
               <p className="pt-2 text-[10px] text-zinc-500">
                 Mon - Sat: 11:00 AM - 9:00 PM (PKT)
               </p>
@@ -176,9 +195,9 @@ const Footer = ({ bgColor = "bg-zinc-950" }) => {
 
           {/* Local Pakistani Payment Methods */}
           <div className="flex flex-wrap items-center justify-center gap-3 text-xs text-zinc-400 bg-zinc-900/60 px-4 py-2 rounded-full border border-zinc-800/80">
-            <span className="flex items-center gap-1.5 text-emerald-400 font-medium">
+            <Link to="/cod-policy" className="flex items-center gap-1.5 text-emerald-400 hover:text-emerald-300 font-medium transition-colors">
               <FaMoneyBillWave /> Cash on Delivery
-            </span>
+            </Link>
             <span className="text-zinc-700">•</span>
             <span className="flex items-center gap-1 text-zinc-300">
               <FaCcVisa className="text-base text-blue-400" />

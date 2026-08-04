@@ -11,6 +11,12 @@ import Collections from './Pages/Collections';
 import ProductDetail from './Pages/ProductDetail'; // Import page
 import ScrollToTop from './Component/ScrollToTop';
 import Checkout from './Pages/Checkout';
+import CodPolicy from './Pages/CodPolicy';
+import OrderTracking from './Pages/OrderTracking';
+import WarrantyServicing from './Pages/WarrantyServicing';
+import ReturnPolicy from './Pages/ReturnPolicy';
+import AuthenticityGuarantee from './Pages/AuthenticityGuarantee';
+import WatchesPage from './Pages/WatchesPage';
 function App() {
   return (
     <CartProvider>
@@ -27,6 +33,12 @@ function App() {
             {/* Dynamic Product Page */}
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/checkout" element={<Checkout />} />
+            <Route path="/cod-policy" element={<CodPolicy />} />
+            <Route path="/track-order" element={<OrderTracking />} />
+            <Route path="/warranty" element={<WarrantyServicing />} />
+            <Route path="/returns" element={<ReturnPolicy />} />
+            <Route path="/authenticity" element={<AuthenticityGuarantee />} />  
+            <Route path="/watches" element={<WatchesPage />} />
           </Routes>
         </main>
 

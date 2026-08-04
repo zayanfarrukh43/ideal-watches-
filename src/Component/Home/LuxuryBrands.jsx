@@ -1,24 +1,24 @@
 import React from "react";
 
 const brands = [
-  { name: "Just Cavalli", logo: "https://upload.wikimedia.org/wikipedia/commons/0/00/Just_Cavalli_logo.svg" },
-  { name: "Tory Burch", logo: "https://upload.wikimedia.org/wikipedia/commons/e/e9/Tory_Burch_logo.svg" },
-  { name: "TAG Heuer", logo: "https://upload.wikimedia.org/wikipedia/commons/8/87/TAG_Heuer_Logo.svg" },
-  { name: "Versace", logo: "https://upload.wikimedia.org/wikipedia/commons/9/90/Versace_logo.svg" },
-  { name: "Movado", logo: "https://upload.wikimedia.org/wikipedia/commons/8/88/Movado_logo.svg" },
-  { name: "Tissot", logo: "https://upload.wikimedia.org/wikipedia/commons/5/53/Tissot_logo.svg" },
-  { name: "Salvatore Ferragamo", logo: "https://upload.wikimedia.org/wikipedia/commons/1/1a/Salvatore_Ferragamo_logo.svg" },
-  { name: "Gucci", logo: "https://upload.wikimedia.org/wikipedia/commons/7/79/Gucci_logo.svg" },
-  { name: "Maurice Lacroix", logo: "https://upload.wikimedia.org/wikipedia/commons/c/c2/Maurice_Lacroix_logo.svg" },
-  { name: "Burberry", logo: "https://upload.wikimedia.org/wikipedia/commons/3/30/Burberry_logo.svg" },
-  { name: "Emporio Armani", logo: "https://upload.wikimedia.org/wikipedia/commons/2/22/Emporio_Armani_logo.svg" },
-  { name: "Guess", logo: "https://upload.wikimedia.org/wikipedia/commons/2/23/Guess_logo.svg" },
-  { name: "Boss", logo: "https://upload.wikimedia.org/wikipedia/commons/1/18/Hugo_Boss_logo.svg" },
-  { name: "Michael Kors", logo: "https://upload.wikimedia.org/wikipedia/commons/8/8b/Michael_Kors_logo.svg" },
-  { name: "Tommy Hilfiger", logo: "https://upload.wikimedia.org/wikipedia/commons/2/2b/Tommy_Hilfiger_logo.svg" },
-  { name: "Fossil", logo: "https://upload.wikimedia.org/wikipedia/commons/3/3b/Fossil_Group_logo.svg" },
-  { name: "Armani Exchange", logo: "https://upload.wikimedia.org/wikipedia/commons/1/12/Armani_Exchange_logo.svg" },
-  { name: "Daniel Wellington", logo: "https://upload.wikimedia.org/wikipedia/commons/5/53/Daniel_Wellington_logo.svg" },
+  { name: "Just Cavalli", logo: "https://api.iconify.design/simple-icons:justcavalli.svg" },
+  { name: "Tory Burch", logo: "https://api.iconify.design/simple-icons:toryburch.svg" },
+  { name: "TAG Heuer", logo: "https://api.iconify.design/simple-icons:tagheuer.svg" },
+  { name: "Versace", logo: "https://api.iconify.design/simple-icons:versace.svg" },
+  { name: "Movado", logo: "https://api.iconify.design/simple-icons:movado.svg" },
+  { name: "Tissot", logo: "https://api.iconify.design/simple-icons:tissot.svg" },
+  { name: "Salvatore Ferragamo", logo: "https://api.iconify.design/simple-icons:ferragamo.svg" },
+  { name: "Gucci", logo: "https://api.iconify.design/simple-icons:gucci.svg" },
+  { name: "Maurice Lacroix", logo: "https://api.iconify.design/simple-icons:mauricelacroix.svg" },
+  { name: "Burberry", logo: "https://api.iconify.design/simple-icons:burberry.svg" },
+  { name: "Emporio Armani", logo: "https://api.iconify.design/simple-icons:emporioarmani.svg" },
+  { name: "Guess", logo: "https://api.iconify.design/simple-icons:guess.svg" },
+  { name: "Boss", logo: "https://api.iconify.design/simple-icons:hugoboss.svg" },
+  { name: "Michael Kors", logo: "https://api.iconify.design/simple-icons:michaelkors.svg" },
+  { name: "Tommy Hilfiger", logo: "https://api.iconify.design/simple-icons:tommyhilfiger.svg" },
+  { name: "Fossil", logo: "https://api.iconify.design/simple-icons:fossil.svg" },
+  { name: "Armani Exchange", logo: "https://api.iconify.design/simple-icons:armaniexchange.svg" },
+  { name: "Daniel Wellington", logo: "https://api.iconify.design/simple-icons:danielwellington.svg" },
 ];
 
 const LuxuryBrands = () => {
@@ -33,7 +33,7 @@ const LuxuryBrands = () => {
           </h2>
         </div>
 
-        {/* Brand Grid: 3 columns on mobile, 4 on small screens, 5 on desktop */}
+        {/* Brand Grid */}
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2.5 sm:gap-4 justify-center">
           {brands.map((brand, index) => (
             <div
@@ -42,9 +42,16 @@ const LuxuryBrands = () => {
             >
               <img
                 src={brand.logo}
-                alt={brand.name}
-                className="max-h-full max-w-full object-contain filter grayscale contrast-200 opacity-90"
+                alt={`${brand.name} icon logo`}
+                onError={(e) => {
+                  e.currentTarget.style.display = "none";
+                  e.currentTarget.nextSibling.style.display = "block";
+                }}
+                className="max-h-12 max-w-full object-contain filter grayscale contrast-200 opacity-90"
               />
+              <span className="hidden text-xs font-semibold uppercase tracking-wider text-gray-800 text-center">
+                {brand.name}
+              </span>
             </div>
           ))}
         </div>

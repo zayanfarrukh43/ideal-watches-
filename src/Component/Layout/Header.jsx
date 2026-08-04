@@ -10,18 +10,22 @@ import {
   FaChevronRight,
 } from "react-icons/fa";
 import { useCart } from "../context/CartContext";
+// Optional: Import your WishlistContext if available
+// import { useWishlist } from "../context/WishlistContext";
 import CartDrawer from "./CartDrawer";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const { totalItems, setIsCartOpen } = useCart();
+  
+  // Wishlist count state (Replace with `const { wishlistItems } = useWishlist();` if using Context)
+  const wishlistCount = 0; // Dynamic badge count fallback
 
   const categories = [
     { name: "Home", href: "/" },
     { name: "About Us", href: "/about" },
     { name: "Contact Us", href: "/contact" },
-    // { name: "Brands", href: "/brand" },
     { name: "Collections", href: "/collections" },
     { name: "Watches", href: "/watches" },
     { name: "Best Sellers", href: "/best-sellers" },
@@ -78,6 +82,7 @@ const Header = () => {
 
             {/* Right Side Icons */}
             <div className="flex items-center gap-8">
+              {/* Account */}
               <Link
                 to="/account"
                 className="group flex flex-col items-center justify-center text-zinc-400 hover:text-[#D4AF37] transition-colors duration-300"
@@ -91,12 +96,18 @@ const Header = () => {
                 </span>
               </Link>
 
+              {/* Wishlist Button with Counter Badge */}
               <Link
                 to="/wishlist"
-                className="group flex flex-col items-center justify-center text-zinc-400 hover:text-[#D4AF37] transition-colors duration-300"
+                className="group flex flex-col items-center justify-center text-zinc-400 hover:text-[#D4AF37] transition-colors duration-300 relative"
               >
                 <div className="relative">
                   <FaRegHeart className="text-lg text-white group-hover:text-[#D4AF37] transition-colors duration-300" />
+                  {wishlistCount > 0 && (
+                    <span className="absolute -top-1.5 -right-2.5 w-4 h-4 rounded-full bg-[#D4AF37] text-black text-[9px] flex items-center justify-center font-bold">
+                      {wishlistCount}
+                    </span>
+                  )}
                 </div>
                 <span 
                   className="text-[10px] tracking-[0.2em] uppercase mt-1.5 font-light"
@@ -194,15 +205,21 @@ const Header = () => {
             </Link>
 
             <div className="flex items-center gap-4">
-              <Link to="/wishlist" className="p-1 relative">
-                <FaRegHeart className="text-lg text-white" />
+              {/* Mobile Wishlist Link with Badge */}
+              <Link to="/wishlist" className="p-1 relative flex items-center">
+                <FaRegHeart className="text-lg text-white hover:text-[#D4AF37] transition-colors" />
+                {wishlistCount > 0 && (
+                  <span className="absolute -top-1 -right-1.5 w-3.5 h-3.5 rounded-full bg-[#D4AF37] text-black text-[8px] flex items-center justify-center font-bold">
+                    {wishlistCount}
+                  </span>
+                )}
               </Link>
 
               {/* Mobile Cart Trigger */}
               <button onClick={() => setIsCartOpen(true)} className="relative p-1">
-                <FaShoppingBag className="text-lg text-white" />
+                <FaShoppingBag className="text-lg text-white hover:text-[#D4AF37] transition-colors" />
                 {totalItems > 0 && (
-                  <span className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-[#D4AF37] text-black text-[8px] flex items-center justify-center font-bold">
+                  <span className="absolute -top-1 -right-1.5 w-3.5 h-3.5 rounded-full bg-[#D4AF37] text-black text-[8px] flex items-center justify-center font-bold">
                     {totalItems}
                   </span>
                 )}
@@ -301,7 +318,19 @@ const Header = () => {
             </div>
 
             {/* Footer Section */}
-            <div className="relative z-10 border-t border-zinc-800/80 pt-6 mt-6">
+            <div className="relative z-10 border-t border-zinc-800/80 pt-6 mt-6 space-y-3">
+              {/* Wishlist Mobile Action */}
+              <Link
+                to="/wishlist"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex items-center justify-center h-11 rounded-full border border-zinc-800 text-zinc-300 uppercase tracking-[0.2em] text-[11px] font-medium hover:border-[#D4AF37] hover:text-[#D4AF37] transition-all duration-300"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+              >
+                <FaRegHeart className="mr-2.5 text-sm" />
+                Wishlist {wishlistCount > 0 && `(${wishlistCount})`}
+              </Link>
+
+              {/* Account Mobile Action */}
               <Link
                 to="/account"
                 onClick={() => setIsMobileMenuOpen(false)}
@@ -313,7 +342,7 @@ const Header = () => {
               </Link>
 
               <p 
-                className="text-center text-[9px] text-zinc-500 tracking-[0.3em] uppercase mt-6 font-light"
+                className="text-center text-[9px] text-zinc-500 tracking-[0.3em] uppercase mt-4 font-light"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
               >
                 IDEAL WATCHES
