@@ -1,24 +1,44 @@
 import React from "react";
 
+// Imports matching your exact filenames in src/assets/Brands/
+import armaniExchange from "../../assets/Brands/Armani_Exchange_Logo.webp";
+import burberry from "../../assets/Brands/bruburry.webp";
+import danielWellington from "../../assets/Brands/dw.png";
+import emporioArmani from "../../assets/Brands/Emporio_Armani_Logo.webp";
+import ferragamo from "../../assets/Brands/ferragamo_logo_2.webp";
+import fossil from "../../assets/Brands/Fossil_Logo.webp";
+import gucci from "../../assets/Brands/gucci.webp";
+import guess from "../../assets/Brands/Guess_Logo.webp";
+import boss from "../../assets/Brands/Hugo_Boss_Logo.webp";
+import justCavalli from "../../assets/Brands/justcalvli.webp";
+import mauriceLacroix from "../../assets/Brands/Maurice_Lacroix_Logo.webp";
+import michaelKors from "../../assets/Brands/Michael_Kors_Logo.webp";
+import movado from "../../assets/Brands/movado.webp";
+import tagHeuer from "../../assets/Brands/tagheurer.webp";
+import tissot from "../../assets/Brands/tissot.webp";
+import tommyHilfiger from "../../assets/Brands/Tommy_Hilgiger_Logo.webp";
+import toryBurch from "../../assets/Brands/torrybury2.webp";
+import versace from "../../assets/Brands/versace.webp";
+
 const brands = [
-  { name: "Just Cavalli", logo: "https://api.iconify.design/simple-icons:justcavalli.svg" },
-  { name: "Tory Burch", logo: "https://api.iconify.design/simple-icons:toryburch.svg" },
-  { name: "TAG Heuer", logo: "https://api.iconify.design/simple-icons:tagheuer.svg" },
-  { name: "Versace", logo: "https://api.iconify.design/simple-icons:versace.svg" },
-  { name: "Movado", logo: "https://api.iconify.design/simple-icons:movado.svg" },
-  { name: "Tissot", logo: "https://api.iconify.design/simple-icons:tissot.svg" },
-  { name: "Salvatore Ferragamo", logo: "https://api.iconify.design/simple-icons:ferragamo.svg" },
-  { name: "Gucci", logo: "https://api.iconify.design/simple-icons:gucci.svg" },
-  { name: "Maurice Lacroix", logo: "https://api.iconify.design/simple-icons:mauricelacroix.svg" },
-  { name: "Burberry", logo: "https://api.iconify.design/simple-icons:burberry.svg" },
-  { name: "Emporio Armani", logo: "https://api.iconify.design/simple-icons:emporioarmani.svg" },
-  { name: "Guess", logo: "https://api.iconify.design/simple-icons:guess.svg" },
-  { name: "Boss", logo: "https://api.iconify.design/simple-icons:hugoboss.svg" },
-  { name: "Michael Kors", logo: "https://api.iconify.design/simple-icons:michaelkors.svg" },
-  { name: "Tommy Hilfiger", logo: "https://api.iconify.design/simple-icons:tommyhilfiger.svg" },
-  { name: "Fossil", logo: "https://api.iconify.design/simple-icons:fossil.svg" },
-  { name: "Armani Exchange", logo: "https://api.iconify.design/simple-icons:armaniexchange.svg" },
-  { name: "Daniel Wellington", logo: "https://api.iconify.design/simple-icons:danielwellington.svg" },
+  { name: "Just Cavalli", logo: justCavalli },
+  { name: "Tory Burch", logo: toryBurch },
+  { name: "TAG Heuer", logo: tagHeuer },
+  { name: "Versace", logo: versace },
+  { name: "Movado", logo: movado },
+  { name: "Tissot", logo: tissot },
+  { name: "Salvatore Ferragamo", logo: ferragamo },
+  { name: "Gucci", logo: gucci },
+  { name: "Maurice Lacroix", logo: mauriceLacroix },
+  { name: "Burberry", logo: burberry },
+  { name: "Emporio Armani", logo: emporioArmani },
+  { name: "Guess", logo: guess },
+  { name: "Boss", logo: boss },
+  { name: "Michael Kors", logo: michaelKors },
+  { name: "Tommy Hilfiger", logo: tommyHilfiger },
+  { name: "Fossil", logo: fossil },
+  { name: "Armani Exchange", logo: armaniExchange },
+  { name: "Daniel Wellington", logo: danielWellington },
 ];
 
 const LuxuryBrands = () => {
@@ -38,17 +58,26 @@ const LuxuryBrands = () => {
           {brands.map((brand, index) => (
             <div
               key={brand.name || index}
-              className="aspect-square bg-[#ececec] flex items-center justify-center p-3 sm:p-6 cursor-pointer hover:bg-[#e2e2e2] transition-colors duration-200"
+              className="aspect-square bg-[#ececec] flex items-center justify-center p-3 sm:p-5 cursor-pointer hover:bg-[#e2e2e2] transition-colors duration-200 group overflow-hidden"
             >
-              <img
-                src={brand.logo}
-                alt={`${brand.name} icon logo`}
-                onError={(e) => {
-                  e.currentTarget.style.display = "none";
-                  e.currentTarget.nextSibling.style.display = "block";
-                }}
-                className="max-h-12 max-w-full object-contain filter grayscale contrast-200 opacity-90"
-              />
+              {/* Image Container Wrapper for Perfect Centering & Sizing */}
+              <div className="w-full h-full flex items-center justify-center">
+                <img
+                  src={brand.logo}
+                  alt={`${brand.name} logo`}
+                  loading="lazy"
+                  onError={(e) => {
+                    e.currentTarget.style.display = "none";
+                    const fallbackSpan = e.currentTarget.parentElement.nextElementSibling;
+                    if (fallbackSpan) {
+                      fallbackSpan.classList.remove("hidden");
+                    }
+                  }}
+                  className="w-full h-full object-contain mix-blend-multiply opacity-85 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300"
+                />
+              </div>
+
+              {/* Text Fallback if Image Fails */}
               <span className="hidden text-xs font-semibold uppercase tracking-wider text-gray-800 text-center">
                 {brand.name}
               </span>
