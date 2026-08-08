@@ -1,31 +1,36 @@
 import React from "react";
 import { motion } from "framer-motion";
 
+// Imports using your exact folder structure and WebP filenames
+import leatherWatch from "../../assets/Brands/leatherstrap.webp";
+import steelWatch from "../../assets/Brands/steelnessstain.webp";
+import meshWatch from "../../assets/Brands/mesh.webp";
+import rubberWatch from "../../assets/Brands/rubber.webp";
+
 const styles = [
   {
     id: 1,
     title: "Leather Strap",
     subtitle: "Classic Horology",
-    // Clean transparent PNG watch reference
-    image: "https://png.pngtree.com/png-vector/20230415/ourmid/pngtree-luxury-gold-watch-png-image_6702741.png",
+    image: leatherWatch,
   },
   {
     id: 2,
     title: "Stainless Steel",
     subtitle: "Timeless Architecture",
-    image: "https://png.pngtree.com/png-vector/20230415/ourmid/pngtree-silver-luxury-watch-png-image_6702740.png",
+    image: steelWatch,
   },
   {
     id: 3,
     title: "Mesh Strap",
     subtitle: "Modern Precision",
-    image: "https://png.pngtree.com/png-vector/20230415/ourmid/pngtree-black-luxury-watch-png-image_6702738.png",
+    image: meshWatch,
   },
   {
     id: 4,
     title: "Rubber Strap",
     subtitle: "Sport & Performance",
-    image: "https://png.pngtree.com/png-vector/20230415/ourmid/pngtree-luxury-sports-watch-png-image_6702739.png",
+    image: rubberWatch,
   },
 ];
 
