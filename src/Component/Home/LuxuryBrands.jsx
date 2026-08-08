@@ -1,88 +1,96 @@
 import React from "react";
 
 // Imports matching your exact filenames in src/assets/Brands/
-import armaniExchange from "../../assets/Brands/Armani_Exchange_Logo.webp";
-import burberry from "../../assets/Brands/bruburry.webp";
+import armaniExchange from "../../assets/Brands/aramniexchange(4).webp";
+import emporioArmani from "../../assets/Brands/armani.webp";
+import boss from "../../assets/Brands/boss(6).webp";
+import burberry from "../../assets/Brands/burberry(6).webp";
 import danielWellington from "../../assets/Brands/dw.png";
-import emporioArmani from "../../assets/Brands/Emporio_Armani_Logo.webp";
 import ferragamo from "../../assets/Brands/ferragamo_logo_2.webp";
-import fossil from "../../assets/Brands/Fossil_Logo.webp";
-import gucci from "../../assets/Brands/gucci.webp";
-import guess from "../../assets/Brands/Guess_Logo.webp";
-import boss from "../../assets/Brands/Hugo_Boss_Logo.webp";
-import justCavalli from "../../assets/Brands/justcalvli.webp";
-import mauriceLacroix from "../../assets/Brands/Maurice_Lacroix_Logo.webp";
-import michaelKors from "../../assets/Brands/Michael_Kors_Logo.webp";
-import movado from "../../assets/Brands/movado.webp";
-import tagHeuer from "../../assets/Brands/tagheurer.webp";
-import tissot from "../../assets/Brands/tissot.webp";
-import tommyHilfiger from "../../assets/Brands/Tommy_Hilgiger_Logo.webp";
-import toryBurch from "../../assets/Brands/torrybury2.webp";
-import versace from "../../assets/Brands/versace.webp";
+import fossil from "../../assets/Brands/Fossil.webp";
+import gucci from "../../assets/Brands/GUCCI (1).webp";
+import guess from "../../assets/Brands/guess(6).webp";
+import justCavalli from "../../assets/Brands/justcavalli(4).webp";
+import mauriceLacroix from "../../assets/Brands/lacroix(5).webp";
+import longines from "../../assets/Brands/longines(4).webp";
+import movado from "../../assets/Brands/movado(3).webp";
+import pagani from "../../assets/Brands/pagani(5).webp";
+import rado from "../../assets/Brands/rado(5).webp";
+import tagHeuer from "../../assets/Brands/taghever(4).webp";
+import tissot from "../../assets/Brands/tissot(2).webp";
+import toryBurch from "../../assets/Brands/toryburch(5).webp";
 
 const brands = [
-  { name: "Just Cavalli", logo: justCavalli },
-  { name: "Tory Burch", logo: toryBurch },
-  { name: "TAG Heuer", logo: tagHeuer },
-  { name: "Versace", logo: versace },
-  { name: "Movado", logo: movado },
-  { name: "Tissot", logo: tissot },
-  { name: "Salvatore Ferragamo", logo: ferragamo },
-  { name: "Gucci", logo: gucci },
-  { name: "Maurice Lacroix", logo: mauriceLacroix },
-  { name: "Burberry", logo: burberry },
-  { name: "Emporio Armani", logo: emporioArmani },
-  { name: "Guess", logo: guess },
-  { name: "Boss", logo: boss },
-  { name: "Michael Kors", logo: michaelKors },
-  { name: "Tommy Hilfiger", logo: tommyHilfiger },
-  { name: "Fossil", logo: fossil },
-  { name: "Armani Exchange", logo: armaniExchange },
-  { name: "Daniel Wellington", logo: danielWellington },
+  // Row 1
+  { name: "Gucci", logo: gucci, isBlackCard: true },
+  { name: "Michael Kors", logo: emporioArmani, isBlackCard: false },
+  { name: "Fossil", logo: fossil, isBlackCard: true },
+  { name: "Emporio Armani", logo: armaniExchange, isBlackCard: false },
+  { name: "Movado", logo: movado, isBlackCard: true },
+
+  // Row 2
+  { name: "Tissot", logo: tissot, isBlackCard: false },
+  { name: "Versace", logo: boss, isBlackCard: true },
+  { name: "Pagani Design", logo: pagani, isBlackCard: false },
+  { name: "Guess", logo: guess, isBlackCard: true },
+  { name: "Armani Exchange", logo: danielWellington, isBlackCard: false },
+
+  // Row 3
+  { name: "Boss", logo: boss, isBlackCard: true },
+  { name: "Salvatore Ferragamo", logo: ferragamo, isBlackCard: false },
+  { name: "Maurice Lacroix", logo: mauriceLacroix, isBlackCard: true },
+  { name: "Just Cavalli", logo: justCavalli, isBlackCard: false },
+  { name: "Longines", logo: longines, isBlackCard: true },
+
+  // Row 4 (Centered 4 items)
+  { name: "Burberry", logo: burberry, isBlackCard: false },
+  { name: "Rado", logo: rado, isBlackCard: true },
+  { name: "TAG Heuer", logo: tagHeuer, isBlackCard: false },
+  { name: "Tory Burch", logo: toryBurch, isBlackCard: true },
 ];
 
 const LuxuryBrands = () => {
   return (
-    <section className="bg-white py-12 px-4 sm:px-6 lg:px-8">
+    <section className="bg-white py-8 sm:py-12 px-2 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
-        {/* Title Header */}
-        <div className="text-center mb-10">
-          <h2 className="text-lg font-bold text-gray-900 tracking-wider uppercase inline-block relative pb-2">
-            SHOP BY BRAND
-            <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-[2px] bg-gray-800" />
+        {/* Centered Heading with Decorative Lines */}
+        <div className="flex items-center justify-center gap-2 sm:gap-4 mb-6 sm:mb-12">
+          <span className="w-6 sm:w-12 h-[1.5px] bg-gray-400" />
+          <h2 className="text-base sm:text-2xl font-semibold text-gray-900 tracking-wide text-center uppercase">
+            Shop By Original
           </h2>
+          <span className="w-6 sm:w-12 h-[1.5px] bg-gray-400" />
         </div>
 
-        {/* Brand Grid */}
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2.5 sm:gap-4 justify-center">
-          {brands.map((brand, index) => (
-            <div
-              key={brand.name || index}
-              className="aspect-square bg-[#ececec] flex items-center justify-center p-3 sm:p-5 cursor-pointer hover:bg-[#e2e2e2] transition-colors duration-200 group overflow-hidden"
-            >
-              {/* Image Container Wrapper for Perfect Centering & Sizing */}
-              <div className="w-full h-full flex items-center justify-center">
-                <img
-                  src={brand.logo}
-                  alt={`${brand.name} logo`}
-                  loading="lazy"
-                  onError={(e) => {
-                    e.currentTarget.style.display = "none";
-                    const fallbackSpan = e.currentTarget.parentElement.nextElementSibling;
-                    if (fallbackSpan) {
-                      fallbackSpan.classList.remove("hidden");
-                    }
-                  }}
-                  className="w-full h-full object-contain mix-blend-multiply opacity-85 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300"
-                />
-              </div>
+        {/* 
+          3 Boxes per row on Mobile: w-[calc(33.33%-0.5rem)]
+          5 Boxes per row on Desktop: lg:w-[calc(20%-1.25rem)]
+        */}
+        <div className="flex flex-wrap justify-center gap-2 sm:gap-5 lg:gap-6">
+          {brands.map((brand, index) => {
+            const isBlack = brand.isBlackCard;
 
-              {/* Text Fallback if Image Fails */}
-              <span className="hidden text-xs font-semibold uppercase tracking-wider text-gray-800 text-center">
-                {brand.name}
-              </span>
-            </div>
-          ))}
+            return (
+              <div
+                key={brand.name || index}
+                className={`w-[calc(33.33%-0.5rem)] lg:w-[calc(20%-1.25rem)] aspect-square rounded-xl sm:rounded-2xl flex items-center justify-center p-1.5 sm:p-3 transition-transform duration-300 hover:scale-105 ${
+                  isBlack ? "bg-black" : "bg-[#f5f5f7]"
+                }`}
+              >
+                <div className="w-full h-full flex items-center justify-center overflow-hidden">
+                  <img
+                    src={brand.logo}
+                    alt={`${brand.name} logo`}
+                    loading="lazy"
+                    onError={(e) => {
+                      e.currentTarget.style.display = "none";
+                    }}
+                    className="max-h-20 sm:max-h-28 w-auto max-w-[92%] object-contain"
+                  />
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
