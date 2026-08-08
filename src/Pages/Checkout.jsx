@@ -3,7 +3,6 @@ import { useNavigate, Link } from "react-router-dom";
 import { 
   FaShieldAlt, 
   FaLock, 
-  FaTruck, 
   FaCreditCard, 
   FaMoneyBillWave, 
   FaMobileAlt, 
@@ -55,12 +54,20 @@ const Checkout = () => {
   const discountAmount = (subtotal * discount) / 100;
   const grandTotal = Math.max(0, subtotal - discountAmount + shippingCost);
 
-  // Form Input Handler
+  // Form Input Handlers
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
+    }));
+  };
+
+  const handleCardChange = (e) => {
+    const { name, value } = e.target;
+    setCardDetails((prev) => ({
+      ...prev,
+      [name]: value,
     }));
   };
 
@@ -455,6 +462,9 @@ const Checkout = () => {
                   <div className="p-4 bg-zinc-950 border border-zinc-900 rounded-xl space-y-3">
                     <input
                       type="text"
+                      name="number"
+                      value={cardDetails.number}
+                      onChange={handleCardChange}
                       placeholder="Card Number (16 Digits)"
                       required
                       className="w-full bg-black border border-zinc-800 rounded-lg px-4 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37]"
@@ -462,12 +472,18 @@ const Checkout = () => {
                     <div className="grid grid-cols-2 gap-3">
                       <input
                         type="text"
+                        name="expiry"
+                        value={cardDetails.expiry}
+                        onChange={handleCardChange}
                         placeholder="MM / YY"
                         required
                         className="bg-black border border-zinc-800 rounded-lg px-4 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37]"
                       />
                       <input
                         type="password"
+                        name="cvc"
+                        value={cardDetails.cvc}
+                        onChange={handleCardChange}
                         placeholder="CVC / CVV"
                         required
                         className="bg-black border border-zinc-800 rounded-lg px-4 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37]"

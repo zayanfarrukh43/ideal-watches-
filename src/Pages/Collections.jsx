@@ -204,17 +204,17 @@ const Collections = () => {
             ))}
           </div>
 
-          {/* Search Input */}
+          {/* Search Input (ZOOM FIX APPLIED HERE) */}
           <div className="relative w-full sm:w-72">
             <input
               type="text"
               placeholder="Search watches..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-zinc-900/50 border border-zinc-800/80 focus:border-[#c5a880]/60 rounded-full text-xs text-white placeholder:text-zinc-500 pl-5 pr-10 py-2.5 outline-none font-light transition-all"
+              className="w-full bg-zinc-900/50 border border-zinc-800/80 focus:border-[#c5a880]/60 rounded-full text-base sm:text-xs text-white placeholder:text-zinc-500 pl-5 pr-10 py-2.5 outline-none font-light transition-all"
               style={{ fontFamily: "Montserrat, sans-serif" }}
             />
-            <FaSearch className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-500 text-xs" />
+            <FaSearch className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-500 text-xs pointer-events-none" />
           </div>
         </div>
 
