@@ -219,13 +219,13 @@ const Checkout = () => {
               <form onSubmit={handleApplyPromo} className="pt-3 border-t border-zinc-900 space-y-2">
                 <div className="flex gap-2">
                   <div className="relative flex-1">
-                    <FaTag className="absolute left-3 top-3 text-zinc-600 text-xs" />
+                    <FaTag className="absolute left-3 top-3.5 text-zinc-600 text-xs" />
                     <input
                       type="text"
                       placeholder="Promo Code"
                       value={promoCode}
                       onChange={(e) => setPromoCode(e.target.value)}
-                      className="w-full bg-zinc-950 border border-zinc-800 rounded-lg pl-8 pr-2 py-2 text-xs text-white uppercase placeholder-zinc-600 focus:outline-none focus:border-[#D4AF37]"
+                      className="w-full bg-zinc-950 border border-zinc-800 rounded-lg pl-8 pr-2 py-2 text-base sm:text-xs text-white uppercase placeholder-zinc-600 focus:outline-none focus:border-[#D4AF37]"
                     />
                   </div>
                   <button
@@ -294,7 +294,7 @@ const Checkout = () => {
                     placeholder="Email Address (for order tracking)"
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37] transition-all"
+                    className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-base sm:text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37] transition-all"
                   />
                   <input
                     type="tel"
@@ -303,7 +303,7 @@ const Checkout = () => {
                     placeholder="Mobile Phone Number (e.g. 0300 1234567)"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37] transition-all"
+                    className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-base sm:text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37] transition-all"
                   />
                 </div>
               </div>
@@ -325,7 +325,7 @@ const Checkout = () => {
                     placeholder="First Name"
                     value={formData.firstName}
                     onChange={handleChange}
-                    className="bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37] transition-all"
+                    className="bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-base sm:text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37] transition-all"
                   />
                   <input
                     type="text"
@@ -334,7 +334,7 @@ const Checkout = () => {
                     placeholder="Last Name"
                     value={formData.lastName}
                     onChange={handleChange}
-                    className="bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37] transition-all"
+                    className="bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-base sm:text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37] transition-all"
                   />
                 </div>
 
@@ -345,7 +345,7 @@ const Checkout = () => {
                   placeholder="Street Address, House/Apartment No."
                   value={formData.address}
                   onChange={handleChange}
-                  className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37] transition-all"
+                  className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-base sm:text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37] transition-all"
                 />
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -356,7 +356,7 @@ const Checkout = () => {
                     placeholder="City (e.g. Karachi, Lahore)"
                     value={formData.city}
                     onChange={handleChange}
-                    className="bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37] transition-all"
+                    className="bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-base sm:text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37] transition-all"
                   />
                   <input
                     type="text"
@@ -364,7 +364,7 @@ const Checkout = () => {
                     placeholder="Postal / ZIP Code (Optional)"
                     value={formData.postalCode}
                     onChange={handleChange}
-                    className="bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37] transition-all"
+                    className="bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-base sm:text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37] transition-all"
                   />
                 </div>
               </div>
@@ -467,7 +467,7 @@ const Checkout = () => {
                       onChange={handleCardChange}
                       placeholder="Card Number (16 Digits)"
                       required
-                      className="w-full bg-black border border-zinc-800 rounded-lg px-4 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37]"
+                      className="w-full bg-black border border-zinc-800 rounded-lg px-4 py-2.5 text-base sm:text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37]"
                     />
                     <div className="grid grid-cols-2 gap-3">
                       <input
@@ -477,7 +477,7 @@ const Checkout = () => {
                         onChange={handleCardChange}
                         placeholder="MM / YY"
                         required
-                        className="bg-black border border-zinc-800 rounded-lg px-4 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37]"
+                        className="bg-black border border-zinc-800 rounded-lg px-4 py-2.5 text-base sm:text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37]"
                       />
                       <input
                         type="password"
@@ -486,7 +486,7 @@ const Checkout = () => {
                         onChange={handleCardChange}
                         placeholder="CVC / CVV"
                         required
-                        className="bg-black border border-zinc-800 rounded-lg px-4 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37]"
+                        className="bg-black border border-zinc-800 rounded-lg px-4 py-2.5 text-base sm:text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37]"
                       />
                     </div>
                   </div>
@@ -573,13 +573,13 @@ const Checkout = () => {
               <form onSubmit={handleApplyPromo} className="pt-4 border-t border-zinc-900 space-y-2">
                 <div className="flex gap-2">
                   <div className="relative flex-1">
-                    <FaTag className="absolute left-3 top-3 text-zinc-600 text-xs" />
+                    <FaTag className="absolute left-3 top-3.5 text-zinc-600 text-xs" />
                     <input
                       type="text"
                       placeholder="Promo Code (LUXURY10)"
                       value={promoCode}
                       onChange={(e) => setPromoCode(e.target.value)}
-                      className="w-full bg-black border border-zinc-800 rounded-xl pl-9 pr-3 py-2 text-xs text-white uppercase placeholder-zinc-600 focus:outline-none focus:border-[#D4AF37]"
+                      className="w-full bg-black border border-zinc-800 rounded-xl pl-9 pr-3 py-2 text-base sm:text-xs text-white uppercase placeholder-zinc-600 focus:outline-none focus:border-[#D4AF37]"
                     />
                   </div>
                   <button
