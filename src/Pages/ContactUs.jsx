@@ -187,7 +187,7 @@ const ContactUs = () => {
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     placeholder="e.g. Tariq Khan"
-                    className="w-full bg-black border border-zinc-800 focus:border-[#D4AF37] text-white text-xs px-4 py-3 outline-none transition-colors font-light"
+                    className="w-full bg-black border border-zinc-800 focus:border-[#D4AF37] text-white text-base sm:text-xs px-4 py-3 outline-none transition-colors font-light"
                     style={{ fontFamily: "Montserrat, sans-serif" }}
                   />
                 </div>
@@ -206,7 +206,7 @@ const ContactUs = () => {
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="tariq@domain.com"
-                    className="w-full bg-black border border-zinc-800 focus:border-[#D4AF37] text-white text-xs px-4 py-3 outline-none transition-colors font-light"
+                    className="w-full bg-black border border-zinc-800 focus:border-[#D4AF37] text-white text-base sm:text-xs px-4 py-3 outline-none transition-colors font-light"
                     style={{ fontFamily: "Montserrat, sans-serif" }}
                   />
                 </div>
@@ -227,7 +227,7 @@ const ContactUs = () => {
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     placeholder="+92 300 0000000"
-                    className="w-full bg-black border border-zinc-800 focus:border-[#D4AF37] text-white text-xs px-4 py-3 outline-none transition-colors font-light"
+                    className="w-full bg-black border border-zinc-800 focus:border-[#D4AF37] text-white text-base sm:text-xs px-4 py-3 outline-none transition-colors font-light"
                     style={{ fontFamily: "Montserrat, sans-serif" }}
                   />
                 </div>
@@ -243,7 +243,7 @@ const ContactUs = () => {
                   <select
                     value={formData.subject}
                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    className="w-full bg-black border border-zinc-800 focus:border-[#D4AF37] text-zinc-300 text-xs px-4 py-3 outline-none transition-colors font-light"
+                    className="w-full bg-black border border-zinc-800 focus:border-[#D4AF37] text-zinc-300 text-base sm:text-xs px-4 py-3 outline-none transition-colors font-light"
                     style={{ fontFamily: "Montserrat, sans-serif" }}
                   >
                     <option value="General Inquiry">General Inquiry</option>
@@ -268,7 +268,7 @@ const ContactUs = () => {
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   placeholder="Tell us about the timepiece or service you are interested in..."
-                  className="w-full bg-black border border-zinc-800 focus:border-[#D4AF37] text-white text-xs p-4 outline-none transition-colors font-light resize-none"
+                  className="w-full bg-black border border-zinc-800 focus:border-[#D4AF37] text-white text-base sm:text-xs p-4 outline-none transition-colors font-light resize-none"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                 />
               </div>
