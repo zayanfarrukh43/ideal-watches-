@@ -19,7 +19,7 @@ import rado from "../../assets/Brands/rado(5).webp";
 import tagHeuer from "../../assets/Brands/taghever(4).webp";
 import tissot from "../../assets/Brands/tissot(2).webp";
 import toryBurch from "../../assets/Brands/toryburch(5).webp";
-
+import versace from "../../assets/Brands/versace(3).webp";
 const brands = [
   // Row 1
   { name: "Gucci", logo: gucci, isBlackCard: true },
@@ -30,7 +30,7 @@ const brands = [
 
   // Row 2
   { name: "Tissot", logo: tissot, isBlackCard: false },
-  { name: "Versace", logo: boss, isBlackCard: true },
+  { name: "Versace", logo: versace, isBlackCard: true },
   { name: "Pagani Design", logo: pagani, isBlackCard: false },
   { name: "Guess", logo: guess, isBlackCard: true },
   { name: "Armani Exchange", logo: danielWellington, isBlackCard: false },
@@ -78,15 +78,17 @@ const LuxuryBrands = () => {
                 }`}
               >
                 <div className="w-full h-full flex items-center justify-center overflow-hidden">
-                  <img
-                    src={brand.logo}
-                    alt={`${brand.name} logo`}
-                    loading="lazy"
-                    onError={(e) => {
-                      e.currentTarget.style.display = "none";
-                    }}
-                    className="max-h-20 sm:max-h-28 w-auto max-w-[92%] object-contain"
-                  />
+                  {brand.logo && (
+                    <img
+                      src={brand.logo}
+                      alt={`${brand.name} logo`}
+                      loading="lazy"
+                      onError={(e) => {
+                        e.currentTarget.style.display = "none";
+                      }}
+                      className="max-h-20 sm:max-h-28 w-auto max-w-[92%] object-contain"
+                    />
+                  )}
                 </div>
               </div>
             );
