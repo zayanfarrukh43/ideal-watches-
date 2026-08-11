@@ -3,8 +3,6 @@ import { useNavigate, Link } from "react-router-dom";
 import { 
   FaShieldAlt, 
   FaLock, 
-  FaTruck, 
-  FaCreditCard, 
   FaMoneyBillWave, 
   FaMobileAlt, 
   FaCheckCircle, 
@@ -32,10 +30,8 @@ const Checkout = () => {
     saveInfo: true,
   });
 
-  // Shipping & Payment Options State
-  const [shippingMethod, setShippingMethod] = useState("express"); // "express" | "priority"
-  const [paymentMethod, setPaymentMethod] = useState("card"); // "card" | "cod" | "wallet"
-  const [cardDetails, setCardDetails] = useState({ number: "", expiry: "", cvc: "", name: "" });
+  // Payment Options State (Default: "cod")
+  const [paymentMethod, setPaymentMethod] = useState("cod"); // "cod" | "wallet"
   
   // Promo Code State
   const [promoCode, setPromoCode] = useState("");
@@ -49,9 +45,9 @@ const Checkout = () => {
   const [orderId, setOrderId] = useState("");
   const [showOrderSummaryMobile, setShowOrderSummaryMobile] = useState(false);
 
-  // Calculated Totals
+  // Calculated Totals (Fixed Express Shipping: Rs. 300)
   const subtotal = cart.reduce((acc, item) => acc + item.price * (item.quantity || 1), 0);
-  const shippingCost = shippingMethod === "priority" ? 1500 : 0;
+  const shippingCost = 300;
   const discountAmount = (subtotal * discount) / 100;
   const grandTotal = Math.max(0, subtotal - discountAmount + shippingCost);
 
@@ -66,7 +62,7 @@ const Checkout = () => {
 
   // Promo Code Handler
   const handleApplyPromo = (e) => {
-    e.preventDefault();
+    if (e && e.preventDefault) e.preventDefault();
     if (promoCode.trim().toUpperCase() === "LUXURY10") {
       setDiscount(10);
       setPromoApplied(true);
@@ -83,7 +79,7 @@ const Checkout = () => {
 
     setIsProcessing(true);
 
-    // Simulate Payment Processing API Call
+    // Simulate API Processing
     setTimeout(() => {
       setIsProcessing(false);
       const generatedOrderId = "IW-" + Math.floor(100000 + Math.random() * 900000);
@@ -141,8 +137,8 @@ const Checkout = () => {
 
   return (
     <div className="bg-black text-white min-h-screen selection:bg-[#D4AF37] selection:text-black">
-      {/* Top Header */}
-      <header className="border-b border-zinc-900 bg-zinc-950/80 backdrop-blur-md sticky top-0 z-40">
+      {/* Top Header - Changed from sticky to relative to prevent navbar overlay issues */}
+      <header className="border-b border-zinc-900 bg-zinc-950/80 backdrop-blur-md relative z-10">
         <div className="max-w-[1300px] mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
             <h1 
@@ -167,6 +163,7 @@ const Checkout = () => {
         {/* Mobile Accordion Toggle for Order Summary */}
         <div className="lg:hidden mb-6 bg-zinc-950 border border-zinc-900 rounded-xl overflow-hidden transition-all">
           <button
+            type="button"
             onClick={() => setShowOrderSummaryMobile(!showOrderSummaryMobile)}
             className="w-full p-4 flex items-center justify-between text-xs uppercase tracking-widest text-zinc-300 hover:bg-zinc-900/50 transition-colors"
             style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -188,8 +185,8 @@ const Checkout = () => {
                 {cart.length === 0 ? (
                   <p className="text-xs text-zinc-500 text-center py-2">Your shopping bag is empty.</p>
                 ) : (
-                  cart.map((item) => (
-                    <div key={item.id} className="flex items-center gap-3">
+                  cart.map((item, idx) => (
+                    <div key={item.id || item._id || idx} className="flex items-center gap-3">
                       <div className="relative w-12 h-12 bg-zinc-950 border border-zinc-800 rounded-lg p-1 shrink-0 flex items-center justify-center">
                         <img src={item.image} alt={item.name} className="max-h-full max-w-full object-contain" />
                         <span className="absolute -top-1.5 -right-1.5 bg-[#D4AF37] text-black text-[8px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
@@ -208,21 +205,22 @@ const Checkout = () => {
                 )}
               </div>
 
-              {/* Promo Code Input on Mobile */}
-              <form onSubmit={handleApplyPromo} className="pt-3 border-t border-zinc-900 space-y-2">
+              {/* Promo Code Input on Mobile (Replaced nested <form> with <div>) */}
+              <div className="pt-3 border-t border-zinc-900 space-y-2">
                 <div className="flex gap-2">
                   <div className="relative flex-1">
-                    <FaTag className="absolute left-3 top-3 text-zinc-600 text-xs" />
+                    <FaTag className="absolute left-3 top-3.5 text-zinc-600 text-xs" />
                     <input
                       type="text"
                       placeholder="Promo Code"
                       value={promoCode}
                       onChange={(e) => setPromoCode(e.target.value)}
-                      className="w-full bg-zinc-950 border border-zinc-800 rounded-lg pl-8 pr-2 py-2 text-xs text-white uppercase placeholder-zinc-600 focus:outline-none focus:border-[#D4AF37]"
+                      className="w-full bg-zinc-950 border border-zinc-800 rounded-lg pl-8 pr-2 py-2 text-base sm:text-xs text-white uppercase placeholder-zinc-600 focus:outline-none focus:border-[#D4AF37]"
                     />
                   </div>
                   <button
-                    type="submit"
+                    type="button"
+                    onClick={handleApplyPromo}
                     className="px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-lg text-[10px] text-zinc-300 uppercase tracking-wider hover:border-[#D4AF37]"
                   >
                     Apply
@@ -230,7 +228,7 @@ const Checkout = () => {
                 </div>
                 {promoApplied && <p className="text-[10px] text-emerald-400">10% Discount Applied!</p>}
                 {promoError && <p className="text-[10px] text-rose-400">{promoError}</p>}
-              </form>
+              </div>
 
               {/* Totals Breakdown */}
               <div className="pt-3 border-t border-zinc-900 space-y-1.5 text-xs text-zinc-400">
@@ -245,10 +243,8 @@ const Checkout = () => {
                   </div>
                 )}
                 <div className="flex justify-between">
-                  <span>Shipping</span>
-                  <span className="text-white">
-                    {shippingCost === 0 ? "FREE" : `Rs. ${shippingCost.toLocaleString()}`}
-                  </span>
+                  <span>Express Shipping</span>
+                  <span className="text-white">Rs. {shippingCost.toLocaleString()}</span>
                 </div>
               </div>
             </div>
@@ -261,6 +257,7 @@ const Checkout = () => {
           <div className="lg:col-span-7 space-y-6 sm:space-y-8">
             
             <button
+              type="button"
               onClick={() => navigate(-1)}
               className="inline-flex items-center gap-2 text-xs text-zinc-400 hover:text-[#D4AF37] uppercase tracking-wider transition-colors"
               style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -287,7 +284,7 @@ const Checkout = () => {
                     placeholder="Email Address (for order tracking)"
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37] transition-all"
+                    className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-base sm:text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37] transition-all"
                   />
                   <input
                     type="tel"
@@ -296,7 +293,7 @@ const Checkout = () => {
                     placeholder="Mobile Phone Number (e.g. 0300 1234567)"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37] transition-all"
+                    className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-base sm:text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37] transition-all"
                   />
                 </div>
               </div>
@@ -318,7 +315,7 @@ const Checkout = () => {
                     placeholder="First Name"
                     value={formData.firstName}
                     onChange={handleChange}
-                    className="bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37] transition-all"
+                    className="bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-base sm:text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37] transition-all"
                   />
                   <input
                     type="text"
@@ -327,7 +324,7 @@ const Checkout = () => {
                     placeholder="Last Name"
                     value={formData.lastName}
                     onChange={handleChange}
-                    className="bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37] transition-all"
+                    className="bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-base sm:text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37] transition-all"
                   />
                 </div>
 
@@ -338,7 +335,7 @@ const Checkout = () => {
                   placeholder="Street Address, House/Apartment No."
                   value={formData.address}
                   onChange={handleChange}
-                  className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37] transition-all"
+                  className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-base sm:text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37] transition-all"
                 />
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -349,7 +346,7 @@ const Checkout = () => {
                     placeholder="City (e.g. Karachi, Lahore)"
                     value={formData.city}
                     onChange={handleChange}
-                    className="bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37] transition-all"
+                    className="bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-base sm:text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37] transition-all"
                   />
                   <input
                     type="text"
@@ -357,7 +354,7 @@ const Checkout = () => {
                     placeholder="Postal / ZIP Code (Optional)"
                     value={formData.postalCode}
                     onChange={handleChange}
-                    className="bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37] transition-all"
+                    className="bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-base sm:text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37] transition-all"
                   />
                 </div>
               </div>
@@ -371,38 +368,17 @@ const Checkout = () => {
                   3. Shipping Options
                 </h2>
 
-                <div className="space-y-3">
-                  <label 
-                    onClick={() => setShippingMethod("express")}
-                    className={`flex items-center justify-between p-3.5 sm:p-4 rounded-xl border cursor-pointer transition-all ${
-                      shippingMethod === "express" ? "bg-zinc-950 border-[#D4AF37]" : "bg-black border-zinc-900 hover:border-zinc-800"
-                    }`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <input type="radio" checked={shippingMethod === "express"} readOnly className="accent-[#D4AF37]" />
-                      <div>
-                        <p className="text-xs font-medium text-white">Complimentary Express Shipping</p>
-                        <p className="text-[10px] text-zinc-400">Insured Delivery in 2–4 Business Days</p>
-                      </div>
+                <div className="p-3.5 sm:p-4 rounded-xl border bg-zinc-950 border-[#D4AF37] flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <input type="radio" checked readOnly className="accent-[#D4AF37]" />
+                    <div>
+                      <p className="text-xs font-medium text-white">Express Shipping</p>
+                      <p className="text-[10px] text-zinc-400">Insured Delivery in 2–4 Business Days</p>
                     </div>
-                    <span className="text-xs text-[#D4AF37] font-semibold shrink-0">FREE</span>
-                  </label>
-
-                  <label 
-                    onClick={() => setShippingMethod("priority")}
-                    className={`flex items-center justify-between p-3.5 sm:p-4 rounded-xl border cursor-pointer transition-all ${
-                      shippingMethod === "priority" ? "bg-zinc-950 border-[#D4AF37]" : "bg-black border-zinc-900 hover:border-zinc-800"
-                    }`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <input type="radio" checked={shippingMethod === "priority"} readOnly className="accent-[#D4AF37]" />
-                      <div>
-                        <p className="text-xs font-medium text-white">VIP Priority Air Dispatch</p>
-                        <p className="text-[10px] text-zinc-400">Guaranteed Next-Day / 24-Hour Express</p>
-                      </div>
-                    </div>
-                    <span className="text-xs text-[#D4AF37] font-semibold shrink-0">Rs. 1,500</span>
-                  </label>
+                  </div>
+                  <span className="text-xs text-[#D4AF37] font-semibold shrink-0">
+                    Rs. {shippingCost.toLocaleString()}
+                  </span>
                 </div>
               </div>
 
@@ -415,18 +391,7 @@ const Checkout = () => {
                   4. Payment Method
                 </h2>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setPaymentMethod("card")}
-                    className={`p-3 rounded-xl border text-center flex sm:flex-col items-center justify-center gap-2 transition-all ${
-                      paymentMethod === "card" ? "bg-zinc-950 border-[#D4AF37] text-[#D4AF37]" : "border-zinc-900 text-zinc-400 hover:border-zinc-800"
-                    }`}
-                  >
-                    <FaCreditCard className="text-base sm:text-lg" />
-                    <span className="text-[10px] tracking-wider uppercase font-medium">Card</span>
-                  </button>
-
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
                   <button
                     type="button"
                     onClick={() => setPaymentMethod("cod")}
@@ -449,32 +414,6 @@ const Checkout = () => {
                     <span className="text-[10px] tracking-wider uppercase font-medium">Wallet / Transfer</span>
                   </button>
                 </div>
-
-                {/* Sub-Panel: Credit Card */}
-                {paymentMethod === "card" && (
-                  <div className="p-4 bg-zinc-950 border border-zinc-900 rounded-xl space-y-3">
-                    <input
-                      type="text"
-                      placeholder="Card Number (16 Digits)"
-                      required
-                      className="w-full bg-black border border-zinc-800 rounded-lg px-4 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37]"
-                    />
-                    <div className="grid grid-cols-2 gap-3">
-                      <input
-                        type="text"
-                        placeholder="MM / YY"
-                        required
-                        className="bg-black border border-zinc-800 rounded-lg px-4 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37]"
-                      />
-                      <input
-                        type="password"
-                        placeholder="CVC / CVV"
-                        required
-                        className="bg-black border border-zinc-800 rounded-lg px-4 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37]"
-                      />
-                    </div>
-                  </div>
-                )}
 
                 {/* Sub-Panel: Cash on Delivery */}
                 {paymentMethod === "cod" && (
@@ -533,8 +472,8 @@ const Checkout = () => {
                 {cart.length === 0 ? (
                   <p className="text-xs text-zinc-500 text-center py-6">Your shopping bag is empty.</p>
                 ) : (
-                  cart.map((item) => (
-                    <div key={item.id} className="flex items-center gap-4">
+                  cart.map((item, idx) => (
+                    <div key={item.id || item._id || idx} className="flex items-center gap-4">
                       <div className="relative w-16 h-16 bg-black border border-zinc-900 rounded-xl p-1 flex items-center justify-center shrink-0">
                         <img src={item.image} alt={item.name} className="max-h-full max-w-full object-contain" />
                         <span className="absolute -top-2 -right-2 bg-[#D4AF37] text-black text-[9px] font-bold w-5 h-5 rounded-full flex items-center justify-center">
@@ -553,21 +492,22 @@ const Checkout = () => {
                 )}
               </div>
 
-              {/* Promo Code Input */}
-              <form onSubmit={handleApplyPromo} className="pt-4 border-t border-zinc-900 space-y-2">
+              {/* Promo Code Input (Replaced nested <form> with <div>) */}
+              <div className="pt-4 border-t border-zinc-900 space-y-2">
                 <div className="flex gap-2">
                   <div className="relative flex-1">
-                    <FaTag className="absolute left-3 top-3 text-zinc-600 text-xs" />
+                    <FaTag className="absolute left-3 top-3.5 text-zinc-600 text-xs" />
                     <input
                       type="text"
                       placeholder="Promo Code (LUXURY10)"
                       value={promoCode}
                       onChange={(e) => setPromoCode(e.target.value)}
-                      className="w-full bg-black border border-zinc-800 rounded-xl pl-9 pr-3 py-2 text-xs text-white uppercase placeholder-zinc-600 focus:outline-none focus:border-[#D4AF37]"
+                      className="w-full bg-black border border-zinc-800 rounded-xl pl-9 pr-3 py-2 text-base sm:text-xs text-white uppercase placeholder-zinc-600 focus:outline-none focus:border-[#D4AF37]"
                     />
                   </div>
                   <button
-                    type="submit"
+                    type="button"
+                    onClick={handleApplyPromo}
                     className="px-4 py-2 bg-zinc-900 border border-zinc-800 hover:border-[#D4AF37] rounded-xl text-[10px] text-zinc-300 uppercase tracking-widest transition-all"
                   >
                     Apply
@@ -575,7 +515,7 @@ const Checkout = () => {
                 </div>
                 {promoApplied && <p className="text-[10px] text-emerald-400">10% Promo Discount Applied!</p>}
                 {promoError && <p className="text-[10px] text-rose-400">{promoError}</p>}
-              </form>
+              </div>
 
               {/* Subtotal Calculations */}
               <div className="space-y-2 pt-4 border-t border-zinc-900 text-xs text-zinc-400 font-light">
@@ -592,10 +532,8 @@ const Checkout = () => {
                 )}
 
                 <div className="flex justify-between">
-                  <span>Shipping</span>
-                  <span className="text-white">
-                    {shippingCost === 0 ? "FREE" : `Rs. ${shippingCost.toLocaleString()}`}
-                  </span>
+                  <span>Express Shipping</span>
+                  <span className="text-white">Rs. {shippingCost.toLocaleString()}</span>
                 </div>
 
                 <div className="flex justify-between text-sm font-normal text-white pt-3 border-t border-zinc-900">
@@ -612,7 +550,7 @@ const Checkout = () => {
                   <FaShieldAlt /> <span>Ideal Watches Guarantee</span>
                 </div>
                 <p className="text-[10px] text-zinc-500 leading-relaxed">
-                  Every order includes a 2-Year Official International Warranty and complimentary insured delivery.
+                  Every order includes a 2-Year Official International Warranty and insured express delivery.
                 </p>
               </div>
 

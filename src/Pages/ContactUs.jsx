@@ -12,7 +12,7 @@ import {
 const faqs = [
   {
     question: "How do I schedule a private viewing appointment in Pakistan?",
-    answer: "You can request a private viewing directly through our contact form by selecting 'Private Consultation', or via WhatsApp. We host private, secure viewings at our flagship boutiques in Karachi and Lahore."
+    answer: "You can request a private viewing directly through our contact form by selecting 'Private Consultation', or via WhatsApp. We host private, secure viewings at our boutique in Karachi."
   },
   {
     question: "Are all timepieces guaranteed 100% authentic?",
@@ -51,41 +51,41 @@ const ContactUs = () => {
   };
 
   return (
-    <div className="bg-black text-white min-h-screen py-16 sm:py-24 px-4 sm:px-6 lg:px-12">
-      <div className="max-w-[1400px] mx-auto space-y-20 sm:space-y-28">
+    <div className="bg-black text-white min-h-screen py-10 sm:py-20 px-4 sm:px-6 lg:px-12">
+      <div className="max-w-[1400px] mx-auto space-y-12 sm:space-y-24">
         
         {/* Header Title */}
-        <div className="text-center space-y-3">
+        <div className="text-center space-y-2 sm:space-y-3">
           <span 
-            className="text-[#D4AF37] uppercase tracking-[0.35em] text-[10px] font-medium block"
+            className="text-[#D4AF37] uppercase tracking-[0.25em] sm:tracking-[0.35em] text-[9px] sm:text-[10px] font-medium block"
             style={{ fontFamily: "Montserrat, sans-serif" }}
           >
             Client Services — Pakistan
           </span>
           <h1 
-            className="text-3xl sm:text-5xl font-extralight tracking-widest uppercase text-white"
+            className="text-3xl sm:text-5xl font-extralight tracking-wider uppercase text-white"
             style={{ fontFamily: "Cormorant Garamond, serif" }}
           >
-            Contact Concierge
+            Contact
           </h1>
           <p 
-            className="text-zinc-400 text-xs sm:text-sm font-light max-w-lg mx-auto leading-relaxed"
+            className="text-zinc-400 text-xs sm:text-sm font-light max-w-lg mx-auto leading-relaxed px-2"
             style={{ fontFamily: "Montserrat, sans-serif" }}
           >
-            Our dedicated horology specialists in Karachi and Lahore are available to assist you with luxury watch inquiries, sourcing, or private appointments.
+            Our dedicated horology specialists in Karachi are available to assist you with luxury watch inquiries, sourcing, or private appointments.
           </p>
         </div>
 
         {/* Info Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           
           {/* Main Flagship Card */}
-          <div className="bg-zinc-950/80 border border-zinc-900 p-6 sm:p-8 space-y-4 text-center group hover:border-[#D4AF37]/50 transition-colors duration-500">
-            <div className="w-12 h-12 rounded-full bg-black border border-zinc-800 flex items-center justify-center mx-auto text-[#D4AF37] group-hover:border-[#D4AF37] transition-colors">
-              <FaMapMarkerAlt className="text-base" />
+          <div className="bg-zinc-950/80 border border-zinc-900 p-5 sm:p-8 space-y-3 sm:space-y-4 text-center rounded-xl group hover:border-[#D4AF37]/50 transition-colors duration-500">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-black border border-zinc-800 flex items-center justify-center mx-auto text-[#D4AF37] group-hover:border-[#D4AF37] transition-colors">
+              <FaMapMarkerAlt className="text-sm sm:text-base" />
             </div>
             <h3 
-              className="text-lg font-light uppercase tracking-wider text-zinc-200"
+              className="text-base sm:text-lg font-light uppercase tracking-wider text-zinc-200"
               style={{ fontFamily: "Cormorant Garamond, serif" }}
             >
               Main Flagship Boutique
@@ -94,18 +94,18 @@ const ContactUs = () => {
               className="text-xs text-zinc-400 font-light leading-relaxed"
               style={{ fontFamily: "Montserrat, sans-serif" }}
             >
-              Zamzama Commercial Area, Phase 5 <br />
-              DHA, Karachi, Pakistan
+              Shop # 16, Cafe George Market <br />
+              Abdullah Haroon Road, Saddar, Karachi
             </p>
           </div>
 
           {/* Direct Client Care Card */}
-          <div className="bg-zinc-950/80 border border-zinc-900 p-6 sm:p-8 space-y-4 text-center group hover:border-[#D4AF37]/50 transition-colors duration-500">
-            <div className="w-12 h-12 rounded-full bg-black border border-zinc-800 flex items-center justify-center mx-auto text-[#D4AF37] group-hover:border-[#D4AF37] transition-colors">
-              <FaPhoneAlt className="text-base" />
+          <div className="bg-zinc-950/80 border border-zinc-900 p-5 sm:p-8 space-y-3 sm:space-y-4 text-center rounded-xl group hover:border-[#D4AF37]/50 transition-colors duration-500">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-black border border-zinc-800 flex items-center justify-center mx-auto text-[#D4AF37] group-hover:border-[#D4AF37] transition-colors">
+              <FaPhoneAlt className="text-sm sm:text-base" />
             </div>
             <h3 
-              className="text-lg font-light uppercase tracking-wider text-zinc-200"
+              className="text-base sm:text-lg font-light uppercase tracking-wider text-zinc-200"
               style={{ fontFamily: "Cormorant Garamond, serif" }}
             >
               Direct Client Care
@@ -114,19 +114,19 @@ const ContactUs = () => {
               className="text-xs text-zinc-400 font-light leading-relaxed"
               style={{ fontFamily: "Montserrat, sans-serif" }}
             >
-              +92 (021) 3587-9000 <br />
-              <span className="text-zinc-300 font-normal">+92 300 1234567 (WhatsApp)</span> <br />
-              concierge@idealwatches.pk
+              +92 316 2839665 <br />
+              <span className="text-zinc-300 font-normal">+92 316 2839665 (WhatsApp)</span> <br />
+              support@idealwatches.pk
             </p>
           </div>
 
           {/* Hours of Operation Card */}
-          <div className="bg-zinc-950/80 border border-zinc-900 p-6 sm:p-8 space-y-4 text-center group hover:border-[#D4AF37]/50 transition-colors duration-500">
-            <div className="w-12 h-12 rounded-full bg-black border border-zinc-800 flex items-center justify-center mx-auto text-[#D4AF37] group-hover:border-[#D4AF37] transition-colors">
-              <FaClock className="text-base" />
+          <div className="bg-zinc-950/80 border border-zinc-900 p-5 sm:p-8 space-y-3 sm:space-y-4 text-center rounded-xl group hover:border-[#D4AF37]/50 transition-colors duration-500 sm:col-span-2 lg:col-span-1">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-black border border-zinc-800 flex items-center justify-center mx-auto text-[#D4AF37] group-hover:border-[#D4AF37] transition-colors">
+              <FaClock className="text-sm sm:text-base" />
             </div>
             <h3 
-              className="text-lg font-light uppercase tracking-wider text-zinc-200"
+              className="text-base sm:text-lg font-light uppercase tracking-wider text-zinc-200"
               style={{ fontFamily: "Cormorant Garamond, serif" }}
             >
               Hours of Operation
@@ -143,10 +143,10 @@ const ContactUs = () => {
         </div>
 
         {/* Main Section: Form & Visual */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           
           {/* Inquiry Form */}
-          <div className="lg:col-span-7 bg-zinc-950/90 border border-zinc-900 p-6 sm:p-10 space-y-6">
+          <div className="lg:col-span-7 bg-zinc-950/90 border border-zinc-900 p-5 sm:p-8 lg:p-10 rounded-2xl space-y-6">
             <div>
               <span 
                 className="text-[#D4AF37] uppercase tracking-[0.25em] text-[9px] font-medium block mb-1"
@@ -164,17 +164,17 @@ const ContactUs = () => {
 
             {submitted && (
               <div 
-                className="p-4 bg-zinc-900 border border-[#D4AF37]/50 text-[#D4AF37] text-xs tracking-wider uppercase text-center font-light"
+                className="p-4 bg-zinc-900/90 border border-[#D4AF37]/50 text-[#D4AF37] text-xs tracking-wider uppercase text-center font-light rounded-lg"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
               >
                 Shukriya! Your message has been received. Our concierge team will contact you shortly.
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                 {/* Name */}
-                <div className="space-y-1">
+                <div className="space-y-1.5">
                   <label 
                     className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 block font-light"
                     style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -187,13 +187,13 @@ const ContactUs = () => {
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     placeholder="e.g. Tariq Khan"
-                    className="w-full bg-black border border-zinc-800 focus:border-[#D4AF37] text-white text-xs px-4 py-3 outline-none transition-colors font-light"
+                    className="w-full bg-black border border-zinc-800 focus:border-[#D4AF37] text-white text-xs sm:text-xs px-4 py-3 rounded-lg outline-none transition-colors font-light"
                     style={{ fontFamily: "Montserrat, sans-serif" }}
                   />
                 </div>
 
                 {/* Email */}
-                <div className="space-y-1">
+                <div className="space-y-1.5">
                   <label 
                     className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 block font-light"
                     style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -206,15 +206,15 @@ const ContactUs = () => {
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="tariq@domain.com"
-                    className="w-full bg-black border border-zinc-800 focus:border-[#D4AF37] text-white text-xs px-4 py-3 outline-none transition-colors font-light"
+                    className="w-full bg-black border border-zinc-800 focus:border-[#D4AF37] text-white text-xs sm:text-xs px-4 py-3 rounded-lg outline-none transition-colors font-light"
                     style={{ fontFamily: "Montserrat, sans-serif" }}
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                 {/* Phone / WhatsApp */}
-                <div className="space-y-1">
+                <div className="space-y-1.5">
                   <label 
                     className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 block font-light"
                     style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -226,14 +226,14 @@ const ContactUs = () => {
                     required
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    placeholder="+92 300 0000000"
-                    className="w-full bg-black border border-zinc-800 focus:border-[#D4AF37] text-white text-xs px-4 py-3 outline-none transition-colors font-light"
+                    placeholder="+92 316 2839665"
+                    className="w-full bg-black border border-zinc-800 focus:border-[#D4AF37] text-white text-xs sm:text-xs px-4 py-3 rounded-lg outline-none transition-colors font-light"
                     style={{ fontFamily: "Montserrat, sans-serif" }}
                   />
                 </div>
 
                 {/* Inquiry Topic */}
-                <div className="space-y-1">
+                <div className="space-y-1.5">
                   <label 
                     className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 block font-light"
                     style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -243,19 +243,19 @@ const ContactUs = () => {
                   <select
                     value={formData.subject}
                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    className="w-full bg-black border border-zinc-800 focus:border-[#D4AF37] text-zinc-300 text-xs px-4 py-3 outline-none transition-colors font-light"
+                    className="w-full bg-black border border-zinc-800 focus:border-[#D4AF37] text-zinc-300 text-xs sm:text-xs px-4 py-3 rounded-lg outline-none transition-colors font-light"
                     style={{ fontFamily: "Montserrat, sans-serif" }}
                   >
                     <option value="General Inquiry">General Inquiry</option>
                     <option value="Watch Sourcing">Watch Sourcing / Special Order</option>
-                    <option value="Private Appointment">Schedule Private Appointment (Karachi / Lahore)</option>
+                    <option value="Private Appointment">Schedule Private Appointment (Karachi)</option>
                     <option value="Servicing & Repair">Servicing & Maintenance</option>
                   </select>
                 </div>
               </div>
 
               {/* Message */}
-              <div className="space-y-1">
+              <div className="space-y-1.5">
                 <label 
                   className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 block font-light"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -264,50 +264,57 @@ const ContactUs = () => {
                 </label>
                 <textarea
                   required
-                  rows={5}
+                  rows={4}
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   placeholder="Tell us about the timepiece or service you are interested in..."
-                  className="w-full bg-black border border-zinc-800 focus:border-[#D4AF37] text-white text-xs p-4 outline-none transition-colors font-light resize-none"
+                  className="w-full bg-black border border-zinc-800 focus:border-[#D4AF37] text-white text-xs sm:text-xs p-4 rounded-lg outline-none transition-colors font-light resize-none"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                 />
               </div>
 
-              {/* Buttons */}
-              <div className="flex flex-col sm:flex-row gap-3 pt-2">
+              {/* Catchy Action Buttons (Fully Responsive) */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                
+                {/* Submit Message Button */}
                 <button
                   type="submit"
-                  className="flex-1 h-12 bg-white text-black hover:bg-[#D4AF37] hover:text-black uppercase text-[11px] tracking-[0.25em] font-medium transition-all duration-300 flex items-center justify-center gap-2"
+                  className="relative group overflow-hidden w-full h-12 rounded-xl bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#D4AF37] text-black font-semibold text-xs tracking-[0.2em] uppercase shadow-lg shadow-[#D4AF37]/20 hover:shadow-[#D4AF37]/40 active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                 >
-                  <FaPaperPlane className="text-xs" />
-                  Submit Message
+                  <span className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-out" />
+                  <FaPaperPlane className="text-xs transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  <span>Submit Message</span>
                 </button>
+
+                {/* Catchy WhatsApp Button */}
                 <a
-                  href="https://wa.me/923001234567"
+                  href="https://wa.me/923162839665"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="h-12 px-6 border border-emerald-600 text-emerald-400 hover:bg-emerald-600 hover:text-white uppercase text-[11px] tracking-[0.2em] font-medium transition-all duration-300 flex items-center justify-center gap-2"
+                  className="relative group overflow-hidden w-full h-12 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 text-white font-semibold text-xs tracking-[0.18em] uppercase shadow-lg shadow-emerald-900/30 hover:shadow-emerald-600/40 active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                 >
-                  <FaWhatsapp className="text-base" />
-                  WhatsApp Us
+                  <span className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-out" />
+                  <FaWhatsapp className="text-base text-white transition-transform duration-300 group-hover:scale-110" />
+                  <span>Chat on WhatsApp</span>
                 </a>
+
               </div>
             </form>
           </div>
 
-          {/* Right Column: Pakistan Salon Visual */}
-          <div className="lg:col-span-5 space-y-6">
-            <div className="relative aspect-[4/5] border border-zinc-900 bg-zinc-950 overflow-hidden group">
+          {/* Right Column: Salon Visual */}
+          <div className="lg:col-span-5 flex flex-col">
+            <div className="relative h-full min-h-[320px] sm:min-h-[420px] border border-zinc-900 bg-zinc-950 rounded-2xl overflow-hidden group flex items-end">
               <img 
                 src="https://images.unsplash.com/photo-1547996160-81dfa63595aa?q=80&w=1000" 
                 alt="Ideal Watches Pakistan Salon" 
-                className="w-full h-full object-cover filter grayscale contrast-125 group-hover:scale-105 transition-transform duration-1000"
+                className="absolute inset-0 w-full h-full object-cover filter grayscale contrast-125 group-hover:scale-105 transition-transform duration-1000"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
               
-              <div className="absolute bottom-6 left-6 right-6 border border-zinc-800/80 bg-black/80 backdrop-blur-md p-5 text-center">
+              <div className="relative z-10 w-full m-4 sm:m-6 border border-zinc-800/80 bg-black/80 backdrop-blur-md p-4 sm:p-5 text-center rounded-xl">
                 <span 
                   className="text-[#D4AF37] text-[9px] uppercase tracking-[0.3em] font-light block mb-1"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -327,10 +334,10 @@ const ContactUs = () => {
         </div>
 
         {/* FAQs Section */}
-        <div className="max-w-3xl mx-auto space-y-8 pt-6">
+        <div className="max-w-3xl mx-auto space-y-6 sm:space-y-8 pt-4">
           <div className="text-center space-y-2">
             <span 
-              className="text-[#D4AF37] text-[10px] uppercase tracking-[0.3em] font-medium block"
+              className="text-[#D4AF37] text-[9px] sm:text-[10px] uppercase tracking-[0.3em] font-medium block"
               style={{ fontFamily: "Montserrat, sans-serif" }}
             >
               Common Questions
@@ -347,11 +354,11 @@ const ContactUs = () => {
             {faqs.map((faq, idx) => (
               <div 
                 key={idx}
-                className="bg-zinc-950/60 border border-zinc-900 transition-colors"
+                className="bg-zinc-950/60 border border-zinc-900 rounded-xl overflow-hidden transition-colors"
               >
                 <button
                   onClick={() => toggleFaq(idx)}
-                  className="w-full p-4 sm:p-5 flex items-center justify-between text-left focus:outline-none"
+                  className="w-full p-4 sm:p-5 flex items-center justify-between text-left focus:outline-none gap-3"
                 >
                   <span 
                     className="text-sm sm:text-base font-light text-zinc-200"
@@ -360,7 +367,7 @@ const ContactUs = () => {
                     {faq.question}
                   </span>
                   <FaChevronDown 
-                    className={`text-[#D4AF37] text-xs transition-transform duration-300 ${
+                    className={`text-[#D4AF37] text-xs shrink-0 transition-transform duration-300 ${
                       openFaq === idx ? "rotate-180" : "rotate-0"
                     }`}
                   />
