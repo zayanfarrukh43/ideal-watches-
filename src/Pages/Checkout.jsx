@@ -62,7 +62,7 @@ const Checkout = () => {
 
   // Promo Code Handler
   const handleApplyPromo = (e) => {
-    e.preventDefault();
+    if (e && e.preventDefault) e.preventDefault();
     if (promoCode.trim().toUpperCase() === "LUXURY10") {
       setDiscount(10);
       setPromoApplied(true);
@@ -137,8 +137,8 @@ const Checkout = () => {
 
   return (
     <div className="bg-black text-white min-h-screen selection:bg-[#D4AF37] selection:text-black">
-      {/* Top Header */}
-      <header className="border-b border-zinc-900 bg-zinc-950/80 backdrop-blur-md sticky top-0 z-40">
+      {/* Top Header - Changed from sticky to relative to prevent navbar overlay issues */}
+      <header className="border-b border-zinc-900 bg-zinc-950/80 backdrop-blur-md relative z-10">
         <div className="max-w-[1300px] mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
             <h1 
@@ -163,6 +163,7 @@ const Checkout = () => {
         {/* Mobile Accordion Toggle for Order Summary */}
         <div className="lg:hidden mb-6 bg-zinc-950 border border-zinc-900 rounded-xl overflow-hidden transition-all">
           <button
+            type="button"
             onClick={() => setShowOrderSummaryMobile(!showOrderSummaryMobile)}
             className="w-full p-4 flex items-center justify-between text-xs uppercase tracking-widest text-zinc-300 hover:bg-zinc-900/50 transition-colors"
             style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -184,8 +185,8 @@ const Checkout = () => {
                 {cart.length === 0 ? (
                   <p className="text-xs text-zinc-500 text-center py-2">Your shopping bag is empty.</p>
                 ) : (
-                  cart.map((item) => (
-                    <div key={item.id} className="flex items-center gap-3">
+                  cart.map((item, idx) => (
+                    <div key={item.id || item._id || idx} className="flex items-center gap-3">
                       <div className="relative w-12 h-12 bg-zinc-950 border border-zinc-800 rounded-lg p-1 shrink-0 flex items-center justify-center">
                         <img src={item.image} alt={item.name} className="max-h-full max-w-full object-contain" />
                         <span className="absolute -top-1.5 -right-1.5 bg-[#D4AF37] text-black text-[8px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
@@ -204,8 +205,8 @@ const Checkout = () => {
                 )}
               </div>
 
-              {/* Promo Code Input on Mobile */}
-              <form onSubmit={handleApplyPromo} className="pt-3 border-t border-zinc-900 space-y-2">
+              {/* Promo Code Input on Mobile (Replaced nested <form> with <div>) */}
+              <div className="pt-3 border-t border-zinc-900 space-y-2">
                 <div className="flex gap-2">
                   <div className="relative flex-1">
                     <FaTag className="absolute left-3 top-3.5 text-zinc-600 text-xs" />
@@ -218,7 +219,8 @@ const Checkout = () => {
                     />
                   </div>
                   <button
-                    type="submit"
+                    type="button"
+                    onClick={handleApplyPromo}
                     className="px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-lg text-[10px] text-zinc-300 uppercase tracking-wider hover:border-[#D4AF37]"
                   >
                     Apply
@@ -226,7 +228,7 @@ const Checkout = () => {
                 </div>
                 {promoApplied && <p className="text-[10px] text-emerald-400">10% Discount Applied!</p>}
                 {promoError && <p className="text-[10px] text-rose-400">{promoError}</p>}
-              </form>
+              </div>
 
               {/* Totals Breakdown */}
               <div className="pt-3 border-t border-zinc-900 space-y-1.5 text-xs text-zinc-400">
@@ -255,6 +257,7 @@ const Checkout = () => {
           <div className="lg:col-span-7 space-y-6 sm:space-y-8">
             
             <button
+              type="button"
               onClick={() => navigate(-1)}
               className="inline-flex items-center gap-2 text-xs text-zinc-400 hover:text-[#D4AF37] uppercase tracking-wider transition-colors"
               style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -469,8 +472,8 @@ const Checkout = () => {
                 {cart.length === 0 ? (
                   <p className="text-xs text-zinc-500 text-center py-6">Your shopping bag is empty.</p>
                 ) : (
-                  cart.map((item) => (
-                    <div key={item.id} className="flex items-center gap-4">
+                  cart.map((item, idx) => (
+                    <div key={item.id || item._id || idx} className="flex items-center gap-4">
                       <div className="relative w-16 h-16 bg-black border border-zinc-900 rounded-xl p-1 flex items-center justify-center shrink-0">
                         <img src={item.image} alt={item.name} className="max-h-full max-w-full object-contain" />
                         <span className="absolute -top-2 -right-2 bg-[#D4AF37] text-black text-[9px] font-bold w-5 h-5 rounded-full flex items-center justify-center">
@@ -489,8 +492,8 @@ const Checkout = () => {
                 )}
               </div>
 
-              {/* Promo Code Input */}
-              <form onSubmit={handleApplyPromo} className="pt-4 border-t border-zinc-900 space-y-2">
+              {/* Promo Code Input (Replaced nested <form> with <div>) */}
+              <div className="pt-4 border-t border-zinc-900 space-y-2">
                 <div className="flex gap-2">
                   <div className="relative flex-1">
                     <FaTag className="absolute left-3 top-3.5 text-zinc-600 text-xs" />
@@ -503,7 +506,8 @@ const Checkout = () => {
                     />
                   </div>
                   <button
-                    type="submit"
+                    type="button"
+                    onClick={handleApplyPromo}
                     className="px-4 py-2 bg-zinc-900 border border-zinc-800 hover:border-[#D4AF37] rounded-xl text-[10px] text-zinc-300 uppercase tracking-widest transition-all"
                   >
                     Apply
@@ -511,7 +515,7 @@ const Checkout = () => {
                 </div>
                 {promoApplied && <p className="text-[10px] text-emerald-400">10% Promo Discount Applied!</p>}
                 {promoError && <p className="text-[10px] text-rose-400">{promoError}</p>}
-              </form>
+              </div>
 
               {/* Subtotal Calculations */}
               <div className="space-y-2 pt-4 border-t border-zinc-900 text-xs text-zinc-400 font-light">
