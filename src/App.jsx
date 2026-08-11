@@ -17,6 +17,7 @@ import WarrantyServicing from './Pages/WarrantyServicing';
 import ReturnPolicy from './Pages/ReturnPolicy';
 import AuthenticityGuarantee from './Pages/AuthenticityGuarantee';
 import WatchesPage from './Pages/WatchesPage';
+import BrandCollection from './Pages/BrandCollection'; // Import the BrandCollection page
 function App() {
   return (
     <CartProvider>
@@ -39,6 +40,9 @@ function App() {
             <Route path="/returns" element={<ReturnPolicy />} />
             <Route path="/authenticity" element={<AuthenticityGuarantee />} />  
             <Route path="/watches" element={<WatchesPage />} />
+            {/* Brand Collection Page */}
+            <Route path="/brand/:brandName" element={<BrandCollection />} />
+     
           </Routes>
         </main>
 

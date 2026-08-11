@@ -1,175 +1,245 @@
-import React from "react";
-import { motion } from "framer-motion";
-import { FaAward, FaTruck, FaGem, FaShieldAlt } from "react-icons/fa";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { FaAward, FaTruck, FaGem, FaShieldAlt, FaArrowRight, FaCheckCircle } from "react-icons/fa";
 
 const features = [
   {
+    id: "certified",
     icon: FaAward,
     title: "100% Certified Originals",
-    description: "Every timepiece is authenticated and supplied with official manufacturer documentation and local warranty cards.",
+    shortDesc: "Authenticated timepieces with official documentation.",
+    fullDesc: "Every timepiece undergoes rigorous multi-point verification by master watchmakers and is supplied with complete manufacturer documentation, original box, and valid warranty cards.",
+    highlights: ["Multi-Point Inspection", "Original Box & Papers", "Verified Provenance"]
   },
   {
+    id: "crafts",
     icon: FaGem,
     title: "Master Crafts & Materials",
-    description: "Constructed with scratch-resistant sapphire crystal, 316L stainless steel, solid gold accents, and premium straps.",
+    shortDesc: "High-grade sapphire crystal & 316L surgical steel.",
+    fullDesc: "Engineered with anti-reflective sapphire crystals, solid gold accents, high-grade 316L stainless steel, and hand-stitched genuine leather or solid link bracelets.",
+    highlights: ["Scratch-Resistant Sapphire", "316L Surgical Steel", "Precision Movements"]
   },
   {
+    id: "warranty",
     icon: FaShieldAlt,
-    title: "Official Local Warranty",
-    description: "Comprehensive 2 to 5 year warranty coverage with dedicated watchmaking service hubs in Karachi, Lahore, and Islamabad.",
+    title: "Official 2-Year Local Warranty",
+    shortDesc: "Comprehensive 2-year localized coverage.",
+    fullDesc: "Enjoy total confidence with full 2-year official local warranty coverage, backed by our dedicated horology service hubs and master watchmakers in Karachi, Lahore, and Islamabad.",
+    highlights: ["2-Year Official Coverage", "Dedicated Service Hubs", "Certified Technicians"]
   },
   {
+    id: "delivery",
     icon: FaTruck,
-    title: "Nationwide Insured COD",
-    description: "Enjoy complimentary Express Delivery across 100+ Pakistani cities with optional Cash on Delivery & open-box inspection.",
+    title: "Nationwide Delivery & Flexible COD",
+    shortDesc: "COD in Karachi; 70% advance & 30% on delivery for other cities.",
+    fullDesc: "Express delivery across Pakistan. We offer full Cash on Delivery within Karachi. For orders outside Karachi, a 70% advance payment is required upon order confirmation, with the remaining 30% collected on delivery.",
+    highlights: ["Karachi COD Available", "70% Advance / 30% COD Outstations", "Express Delivery"]
   },
 ];
 
 const HeritageSection = () => {
+  const [activeTab, setActiveTab] = useState(0);
+
   return (
-    <section className="bg-white text-zinc-900 py-24 border-b border-zinc-200 relative overflow-hidden font-sans">
-      {/* Subtle Background Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#D4AF37]/10 blur-[140px] pointer-events-none rounded-full" />
+    <section className="bg-black text-white py-16 sm:py-28 border-b border-zinc-900 relative overflow-hidden font-sans">
+      {/* Background Lighting Gradients */}
+      <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-[#D4AF37]/10 blur-[150px] pointer-events-none rounded-full" />
+      <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] bg-[#D4AF37]/5 blur-[120px] pointer-events-none rounded-full" />
 
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12 relative z-10">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 relative z-10 space-y-16 sm:space-y-24">
         
-        {/* ========================= */}
-        {/* Main Heritage Grid */}
-        {/* ========================= */}
-        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-          
-          {/* Left Column: Image Container */}
-          <div className="lg:col-span-6 relative">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="relative z-10"
-            >
-              <div className="relative rounded-sm overflow-hidden border border-zinc-200 group shadow-lg">
-                <img
-                  src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=900&auto=format&fit=crop&q=80"
-                  alt="Watchmaker Craftsmanship"
-                  className="w-full h-[480px] sm:h-[560px] object-cover grayscale contrast-125 group-hover:scale-105 transition-transform duration-700 ease-out"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent opacity-80" />
-                
-                {/* Image Overlay Caption */}
-                <div className="absolute bottom-8 left-8 right-8">
-                  <p 
-                    className="text-[#D4AF37] text-[10px] uppercase tracking-[0.3em] font-medium"
-                    style={{ fontFamily: "Montserrat, sans-serif" }}
-                  >
-                    Atelier Pakistan
-                  </p>
-                  <p 
-                    className="text-white text-xl font-light mt-1"
-                    style={{ fontFamily: "Cormorant Garamond, serif" }}
-                  >
-                    Curating luxury horology since 2010
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Accent Floating Border Box */}
-            <div className="hidden sm:block absolute -bottom-6 -right-6 w-full h-full border border-[#D4AF37]/30 -z-0 pointer-events-none" />
-          </div>
-
-          {/* Right Column: Narrative Content */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="lg:col-span-6"
-          >
-            <div className="inline-flex items-center gap-3 mb-4">
-              <span className="w-8 h-[1px] bg-[#D4AF37]" />
-              <span
-                className="text-[#D4AF37] text-[11px] uppercase tracking-[0.35em] font-medium"
-                style={{ fontFamily: "Montserrat, sans-serif" }}
-              >
-                The Art of Time
-              </span>
-            </div>
-
-            <h2
-              className="text-3xl sm:text-5xl font-light tracking-tight text-zinc-900 leading-[1.2] mb-6"
-              style={{ fontFamily: "Cormorant Garamond, serif" }}
-            >
-              Crafting Legacy for Pakistani Collectors
-            </h2>
-
-            <p
-              className="text-zinc-600 text-sm sm:text-base font-light leading-relaxed mb-6"
+        {/* Section Header */}
+        <div className="text-center max-w-3xl mx-auto space-y-3">
+          <div className="inline-flex items-center justify-center gap-3">
+            <span className="w-6 sm:w-10 h-[1px] bg-[#D4AF37]" />
+            <span
+              className="text-[#D4AF37] text-[10px] sm:text-xs uppercase tracking-[0.35em] font-medium"
               style={{ fontFamily: "Montserrat, sans-serif" }}
             >
-              At IDEAL Watches, luxury is not merely worn—it is inherited. Designed for Pakistan's most discerning horology enthusiasts, every timepiece in our vault reflects mechanical precision, verified authenticity, and timeless elegance.
-            </p>
+              The Art of Timekeeping
+            </span>
+            <span className="w-6 sm:w-10 h-[1px] bg-[#D4AF37]" />
+          </div>
 
-            <blockquote
-              className="border-l-2 border-[#D4AF37] pl-6 py-2 my-8 text-zinc-700 italic text-lg font-light"
-              style={{ fontFamily: "Cormorant Garamond, serif" }}
+          <h2
+            className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-tight text-white leading-[1.15]"
+            style={{ fontFamily: "Cormorant Garamond, serif" }}
+          >
+            Crafting Legacy for Pakistani Collectors
+          </h2>
+
+          <p
+            className="text-zinc-400 text-xs sm:text-sm font-light leading-relaxed max-w-xl mx-auto"
+            style={{ fontFamily: "Montserrat, sans-serif" }}
+          >
+            At IDEAL Watches, luxury is not merely worn—it is inherited. Designed for Pakistan's most discerning horology enthusiasts with mechanical precision and verified authenticity.
+          </p>
+        </div>
+
+        {/* Main Section Grid */}
+        <div className="grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          
+          {/* Left Column: Visual Showcase */}
+          <div className="lg:col-span-6 relative">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.96 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="relative rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-950 shadow-2xl group"
             >
-              "True horology transcends boundaries. Our mission is bringing certified world-class timepieces directly to collectors across Pakistan with absolute peace of mind."
-            </blockquote>
+              <img
+                src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=1000&auto=format&fit=crop&q=80"
+                alt="Watchmaker Craftsmanship"
+                className="w-full h-[380px] sm:h-[500px] object-cover filter grayscale contrast-125 group-hover:scale-105 transition-transform duration-1000 ease-out"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
 
-            {/* Signature Block */}
-            <div className="flex items-center gap-6 pt-4 border-t border-zinc-200">
-              <div>
-                <p
-                  className="text-zinc-900 text-lg tracking-wider"
-                  style={{ fontFamily: "Cormorant Garamond, serif" }}
-                >
-                  Syed Tariq Hashmi
-                </p>
-                <p
-                  className="text-zinc-500 text-[10px] uppercase tracking-[0.25em] mt-0.5"
+              {/* Floating Stat Badge */}
+              <div className="absolute top-6 left-6 border border-zinc-800/80 bg-black/80 backdrop-blur-md px-4 py-2.5 rounded-xl shadow-lg">
+                <span 
+                  className="text-[#D4AF37] text-[9px] uppercase tracking-[0.25em] block font-medium"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                 >
-                  Founder & Chief Horologist
+                  Est. 2010
+                </span>
+                <span 
+                  className="text-white text-xs font-light tracking-wide block"
+                  style={{ fontFamily: "Cormorant Garamond, serif" }}
+                >
+                  Karachi • Pakistan
+                </span>
+              </div>
+
+              {/* Image Footer Caption */}
+              <div className="absolute bottom-6 left-6 right-6 border border-zinc-800/80 bg-black/85 backdrop-blur-md p-5 rounded-xl">
+                <p 
+                  className="text-[#D4AF37] text-[10px] uppercase tracking-[0.3em] font-medium"
+                  style={{ fontFamily: "Montserrat, sans-serif" }}
+                >
+                  Atelier Pakistan
+                </p>
+                <p 
+                  className="text-white text-lg sm:text-xl font-light mt-0.5"
+                  style={{ fontFamily: "Cormorant Garamond, serif" }}
+                >
+                  "Bringing certified world-class timepieces directly to Pakistani collectors."
                 </p>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
+
+          {/* Right Column: Interactive Feature Tabs */}
+          <div className="lg:col-span-6 space-y-4">
+            {features.map((item, index) => {
+              const Icon = item.icon;
+              const isActive = activeTab === index;
+
+              return (
+                <div
+                  key={item.id}
+                  onClick={() => setActiveTab(index)}
+                  className={`cursor-pointer rounded-2xl border transition-all duration-300 p-5 sm:p-6 ${
+                    isActive
+                      ? "bg-zinc-950 border-[#D4AF37]/60 shadow-lg shadow-[#D4AF37]/5"
+                      : "bg-zinc-950/40 border-zinc-900 hover:border-zinc-800 hover:bg-zinc-950/80"
+                  }`}
+                >
+                  <div className="flex items-start gap-4">
+                    <div className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 transition-colors duration-300 ${
+                      isActive 
+                        ? "bg-gradient-to-br from-[#D4AF37] to-[#B38F2A] text-black" 
+                        : "bg-zinc-900 border border-zinc-800 text-[#D4AF37]"
+                    }`}>
+                      <Icon className="text-base" />
+                    </div>
+
+                    <div className="flex-1 space-y-1">
+                      <div className="flex items-center justify-between">
+                        <h3
+                          className={`text-lg sm:text-xl font-light tracking-wide transition-colors ${
+                            isActive ? "text-white" : "text-zinc-300"
+                          }`}
+                          style={{ fontFamily: "Cormorant Garamond, serif" }}
+                        >
+                          {item.title}
+                        </h3>
+                        <FaArrowRight className={`text-xs transition-transform duration-300 ${
+                          isActive ? "text-[#D4AF37] rotate-90" : "text-zinc-600 opacity-0 group-hover:opacity-100"
+                        }`} />
+                      </div>
+
+                      <p
+                        className="text-zinc-400 text-xs font-light leading-relaxed"
+                        style={{ fontFamily: "Montserrat, sans-serif" }}
+                      >
+                        {item.shortDesc}
+                      </p>
+
+                      {/* Expandable Active Details */}
+                      <AnimatePresence>
+                        {isActive && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: "auto" }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.3 }}
+                            className="pt-3 space-y-3 overflow-hidden"
+                          >
+                            <p 
+                              className="text-zinc-300 text-xs font-light leading-relaxed border-t border-zinc-800/80 pt-3"
+                              style={{ fontFamily: "Montserrat, sans-serif" }}
+                            >
+                              {item.fullDesc}
+                            </p>
+
+                            <div className="flex flex-wrap gap-2 pt-1">
+                              {item.highlights.map((tag, idx) => (
+                                <span
+                                  key={idx}
+                                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-[10px] text-[#D4AF37] font-medium"
+                                  style={{ fontFamily: "Montserrat, sans-serif" }}
+                                >
+                                  <FaCheckCircle className="text-[9px]" />
+                                  {tag}
+                                </span>
+                              ))}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
 
         </div>
 
-        {/* ========================= */}
-        {/* Horizontal Pillars Grid */}
-        {/* ========================= */}
-        <div className="mt-24 pt-16 border-t border-zinc-200 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        {/* Bottom Feature Grid */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 pt-8 border-t border-zinc-900">
           {features.map((item, index) => {
             const Icon = item.icon;
             return (
-              <motion.div
+              <div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="group p-6 rounded-sm bg-zinc-50/70 border border-zinc-200 hover:border-[#D4AF37]/50 hover:bg-white hover:shadow-md transition-all duration-300"
+                className="p-4 sm:p-5 rounded-xl bg-zinc-950/60 border border-zinc-900/80 hover:border-[#D4AF37]/30 transition-all duration-300 text-center space-y-2 group"
               >
-                <div className="w-10 h-10 rounded-full bg-white border border-zinc-200 flex items-center justify-center mb-5 group-hover:border-[#D4AF37] transition-colors duration-300 shadow-sm">
-                  <Icon className="text-[#D4AF37] text-sm" />
-                </div>
-
-                <h3
-                  className="text-zinc-900 text-lg font-normal mb-2 tracking-wide"
+                <Icon className="text-[#D4AF37] text-lg mx-auto group-hover:scale-110 transition-transform duration-300" />
+                <h4
+                  className="text-zinc-200 text-sm sm:text-base font-light uppercase tracking-wider"
                   style={{ fontFamily: "Cormorant Garamond, serif" }}
                 >
                   {item.title}
-                </h3>
-
-                <p
-                  className="text-zinc-600 text-xs font-light leading-relaxed"
+                </h4>
+                <p 
+                  className="text-zinc-500 text-[10px] sm:text-xs font-light line-clamp-2"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                 >
-                  {item.description}
+                  {item.shortDesc}
                 </p>
-              </motion.div>
+              </div>
             );
           })}
         </div>

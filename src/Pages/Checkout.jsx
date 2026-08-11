@@ -3,7 +3,6 @@ import { useNavigate, Link } from "react-router-dom";
 import { 
   FaShieldAlt, 
   FaLock, 
-  FaCreditCard, 
   FaMoneyBillWave, 
   FaMobileAlt, 
   FaCheckCircle, 
@@ -31,10 +30,8 @@ const Checkout = () => {
     saveInfo: true,
   });
 
-  // Shipping & Payment Options State
-  const [shippingMethod, setShippingMethod] = useState("express"); // "express" | "priority"
-  const [paymentMethod, setPaymentMethod] = useState("card"); // "card" | "cod" | "wallet"
-  const [cardDetails, setCardDetails] = useState({ number: "", expiry: "", cvc: "", name: "" });
+  // Payment Options State (Default: "cod")
+  const [paymentMethod, setPaymentMethod] = useState("cod"); // "cod" | "wallet"
   
   // Promo Code State
   const [promoCode, setPromoCode] = useState("");
@@ -48,26 +45,18 @@ const Checkout = () => {
   const [orderId, setOrderId] = useState("");
   const [showOrderSummaryMobile, setShowOrderSummaryMobile] = useState(false);
 
-  // Calculated Totals
+  // Calculated Totals (Fixed Express Shipping: Rs. 300)
   const subtotal = cart.reduce((acc, item) => acc + item.price * (item.quantity || 1), 0);
-  const shippingCost = shippingMethod === "priority" ? 1500 : 0;
+  const shippingCost = 300;
   const discountAmount = (subtotal * discount) / 100;
   const grandTotal = Math.max(0, subtotal - discountAmount + shippingCost);
 
-  // Form Input Handlers
+  // Form Input Handler
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
-    }));
-  };
-
-  const handleCardChange = (e) => {
-    const { name, value } = e.target;
-    setCardDetails((prev) => ({
-      ...prev,
-      [name]: value,
     }));
   };
 
@@ -90,7 +79,7 @@ const Checkout = () => {
 
     setIsProcessing(true);
 
-    // Simulate Payment Processing API Call
+    // Simulate API Processing
     setTimeout(() => {
       setIsProcessing(false);
       const generatedOrderId = "IW-" + Math.floor(100000 + Math.random() * 900000);
@@ -252,10 +241,8 @@ const Checkout = () => {
                   </div>
                 )}
                 <div className="flex justify-between">
-                  <span>Shipping</span>
-                  <span className="text-white">
-                    {shippingCost === 0 ? "FREE" : `Rs. ${shippingCost.toLocaleString()}`}
-                  </span>
+                  <span>Express Shipping</span>
+                  <span className="text-white">Rs. {shippingCost.toLocaleString()}</span>
                 </div>
               </div>
             </div>
@@ -378,38 +365,17 @@ const Checkout = () => {
                   3. Shipping Options
                 </h2>
 
-                <div className="space-y-3">
-                  <label 
-                    onClick={() => setShippingMethod("express")}
-                    className={`flex items-center justify-between p-3.5 sm:p-4 rounded-xl border cursor-pointer transition-all ${
-                      shippingMethod === "express" ? "bg-zinc-950 border-[#D4AF37]" : "bg-black border-zinc-900 hover:border-zinc-800"
-                    }`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <input type="radio" checked={shippingMethod === "express"} readOnly className="accent-[#D4AF37]" />
-                      <div>
-                        <p className="text-xs font-medium text-white">Complimentary Express Shipping</p>
-                        <p className="text-[10px] text-zinc-400">Insured Delivery in 2–4 Business Days</p>
-                      </div>
+                <div className="p-3.5 sm:p-4 rounded-xl border bg-zinc-950 border-[#D4AF37] flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <input type="radio" checked readOnly className="accent-[#D4AF37]" />
+                    <div>
+                      <p className="text-xs font-medium text-white">Express Shipping</p>
+                      <p className="text-[10px] text-zinc-400">Insured Delivery in 2–4 Business Days</p>
                     </div>
-                    <span className="text-xs text-[#D4AF37] font-semibold shrink-0">FREE</span>
-                  </label>
-
-                  <label 
-                    onClick={() => setShippingMethod("priority")}
-                    className={`flex items-center justify-between p-3.5 sm:p-4 rounded-xl border cursor-pointer transition-all ${
-                      shippingMethod === "priority" ? "bg-zinc-950 border-[#D4AF37]" : "bg-black border-zinc-900 hover:border-zinc-800"
-                    }`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <input type="radio" checked={shippingMethod === "priority"} readOnly className="accent-[#D4AF37]" />
-                      <div>
-                        <p className="text-xs font-medium text-white">VIP Priority Air Dispatch</p>
-                        <p className="text-[10px] text-zinc-400">Guaranteed Next-Day / 24-Hour Express</p>
-                      </div>
-                    </div>
-                    <span className="text-xs text-[#D4AF37] font-semibold shrink-0">Rs. 1,500</span>
-                  </label>
+                  </div>
+                  <span className="text-xs text-[#D4AF37] font-semibold shrink-0">
+                    Rs. {shippingCost.toLocaleString()}
+                  </span>
                 </div>
               </div>
 
@@ -422,18 +388,7 @@ const Checkout = () => {
                   4. Payment Method
                 </h2>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setPaymentMethod("card")}
-                    className={`p-3 rounded-xl border text-center flex sm:flex-col items-center justify-center gap-2 transition-all ${
-                      paymentMethod === "card" ? "bg-zinc-950 border-[#D4AF37] text-[#D4AF37]" : "border-zinc-900 text-zinc-400 hover:border-zinc-800"
-                    }`}
-                  >
-                    <FaCreditCard className="text-base sm:text-lg" />
-                    <span className="text-[10px] tracking-wider uppercase font-medium">Card</span>
-                  </button>
-
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
                   <button
                     type="button"
                     onClick={() => setPaymentMethod("cod")}
@@ -456,41 +411,6 @@ const Checkout = () => {
                     <span className="text-[10px] tracking-wider uppercase font-medium">Wallet / Transfer</span>
                   </button>
                 </div>
-
-                {/* Sub-Panel: Credit Card */}
-                {paymentMethod === "card" && (
-                  <div className="p-4 bg-zinc-950 border border-zinc-900 rounded-xl space-y-3">
-                    <input
-                      type="text"
-                      name="number"
-                      value={cardDetails.number}
-                      onChange={handleCardChange}
-                      placeholder="Card Number (16 Digits)"
-                      required
-                      className="w-full bg-black border border-zinc-800 rounded-lg px-4 py-2.5 text-base sm:text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37]"
-                    />
-                    <div className="grid grid-cols-2 gap-3">
-                      <input
-                        type="text"
-                        name="expiry"
-                        value={cardDetails.expiry}
-                        onChange={handleCardChange}
-                        placeholder="MM / YY"
-                        required
-                        className="bg-black border border-zinc-800 rounded-lg px-4 py-2.5 text-base sm:text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37]"
-                      />
-                      <input
-                        type="password"
-                        name="cvc"
-                        value={cardDetails.cvc}
-                        onChange={handleCardChange}
-                        placeholder="CVC / CVV"
-                        required
-                        className="bg-black border border-zinc-800 rounded-lg px-4 py-2.5 text-base sm:text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37]"
-                      />
-                    </div>
-                  </div>
-                )}
 
                 {/* Sub-Panel: Cash on Delivery */}
                 {paymentMethod === "cod" && (
@@ -608,10 +528,8 @@ const Checkout = () => {
                 )}
 
                 <div className="flex justify-between">
-                  <span>Shipping</span>
-                  <span className="text-white">
-                    {shippingCost === 0 ? "FREE" : `Rs. ${shippingCost.toLocaleString()}`}
-                  </span>
+                  <span>Express Shipping</span>
+                  <span className="text-white">Rs. {shippingCost.toLocaleString()}</span>
                 </div>
 
                 <div className="flex justify-between text-sm font-normal text-white pt-3 border-t border-zinc-900">
@@ -628,7 +546,7 @@ const Checkout = () => {
                   <FaShieldAlt /> <span>Ideal Watches Guarantee</span>
                 </div>
                 <p className="text-[10px] text-zinc-500 leading-relaxed">
-                  Every order includes a 2-Year Official International Warranty and complimentary insured delivery.
+                  Every order includes a 2-Year Official International Warranty and insured express delivery.
                 </p>
               </div>
 
