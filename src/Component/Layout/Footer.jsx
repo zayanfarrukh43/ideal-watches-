@@ -192,7 +192,7 @@ const Footer = ({ bgColor = "bg-zinc-950" }) => {
               © {new Date().getFullYear()} IDEAL Watches Pakistan. All Rights Reserved.
             </p>
             <p className="text-[10px] text-zinc-600">
-              Prices displayed in PKR (Pakistani Rupee) inclusive of all local taxes.
+              Prices displayed in PKR (Pakistani Rupee) 
             </p>
           </div>
 
