@@ -7,14 +7,17 @@ import {
   FaShoppingBag, 
   FaHeart, 
   FaRegHeart,
-  FaSlidersH 
+  FaSlidersH,
+  FaAward
 } from "react-icons/fa";
 
 const BRANDS = ["All", "Rolex", "Omega", "Patek Philippe", "TAG Heuer", "Audemars Piguet", "Cartier", "Tudor"];
 const CATEGORIES = ["All", "Diver", "Chronograph", "Dress", "Sports"];
 const MOVEMENTS = ["All", "Automatic", "Manual", "Quartz"];
 
-const WatchesPage = () => {
+const API_BASE_URL = "https://backen-watches.vercel.app";
+
+const BestSellersPage = () => {
   const navigate = useNavigate();
 
   // Backend Data States
@@ -22,15 +25,8 @@ const WatchesPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Wishlist State (Persisted in localStorage)
-  const [wishlist, setWishlist] = useState(() => {
-    try {
-      const saved = localStorage.getItem("watch_wishlist");
-      return saved ? JSON.parse(saved) : [];
-    } catch {
-      return [];
-    }
-  });
+  // Wishlist State (Stores Array of Watch IDs)
+  const [wishlist, setWishlist] = useState([]);
 
   // Filter & Sort States
   const [selectedBrand, setSelectedBrand] = useState("All");
@@ -40,42 +36,52 @@ const WatchesPage = () => {
   const [sortBy, setSortBy] = useState("featured");
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
 
-  // Sync wishlist with localStorage
+  // Fetch best-seller watches from backend API
   useEffect(() => {
-    try {
-      localStorage.setItem("watch_wishlist", JSON.stringify(wishlist));
-    } catch (err) {
-      console.error("Failed to save wishlist to localStorage:", err);
-    }
-  }, [wishlist]);
-
-  // Fetch watches from backend API (Updated to production Vercel URL)
-  useEffect(() => {
-    const fetchWatches = async () => {
+    const fetchBestSellers = async () => {
       try {
         setLoading(true);
-        const response = await fetch("https://backen-watches.vercel.app/api/watches");
+        // Target best seller endpoint matching standard backend patterns
+        const response = await fetch(`${API_BASE_URL}/api/watches?bestseller=true`);        
+        if (!response.ok) {
+          const fallbackResponse = await fetch(`${API_BASE_URL}/api/products?category=watch`);
+          const fallbackResult = await fallbackResponse.json();
+          const items = Array.isArray(fallbackResult) ? fallbackResult : (fallbackResult.data || fallbackResult.products || []);
+          // Filter strictly for best sellers client-side if fallback is used
+          setWatches(items.filter(item => item.isBestSeller || item.bestSeller));
+          setLoading(false);
+          return;
+        }
+
         const result = await response.json();
 
-        if (result.success && Array.isArray(result.data)) {
-          setWatches(result.data);
-        } else {
-          setError("Failed to retrieve watch collection.");
+        let items = [];
+        if (Array.isArray(result)) {
+          items = result;
+        } else if (result.success && Array.isArray(result.data)) {
+          items = result.data;
+        } else if (Array.isArray(result.products)) {
+          items = result.products;
         }
+
+        // Ensure we only keep items flagged as best sellers
+        const bestSellerItems = items.filter(watch => watch.isBestSeller || watch.bestSeller);
+        setWatches(bestSellerItems);
+
       } catch (err) {
-        console.error("Error fetching watches:", err);
+        console.error("Error fetching best sellers:", err);
         setError("Could not connect to the server.");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchWatches();
+    fetchBestSellers();
   }, []);
 
   // Toggle Wishlist Handler
   const toggleWishlist = (e, watchId) => {
-    e.stopPropagation(); // Prevents card click navigation
+    e.stopPropagation(); // Prevents card click navigation when clicking the wishlist heart
     setWishlist((prevWishlist) =>
       prevWishlist.includes(watchId)
         ? prevWishlist.filter((id) => id !== watchId)
@@ -86,19 +92,19 @@ const WatchesPage = () => {
   // Filter & Sort Logic
   const filteredWatches = useMemo(() => {
     return watches.filter((watch) => {
-      const matchBrand = selectedBrand === "All" || watch.brand?.trim().toLowerCase() === selectedBrand.trim().toLowerCase();
-      const matchCategory = selectedCategory === "All" || watch.category?.trim().toLowerCase() === selectedCategory.trim().toLowerCase();
+      const matchBrand = selectedBrand === "All" || watch.brand?.toLowerCase() === selectedBrand.toLowerCase();
+      const matchCategory = selectedCategory === "All" || watch.category?.toLowerCase() === selectedCategory.toLowerCase();
       
       const movementVal = watch.specifications?.movement || watch.movement || "";
       const matchMovement = selectedMovement === "All" || movementVal.toLowerCase().includes(selectedMovement.toLowerCase());
       
-      const matchPrice = watch.price <= maxPrice;
+      const matchPrice = (Number(watch.price) || 0) <= maxPrice;
       return matchBrand && matchCategory && matchMovement && matchPrice;
     }).sort((a, b) => {
-      if (sortBy === "price-low") return a.price - b.price;
-      if (sortBy === "price-high") return b.price - a.price;
-      if (sortBy === "rating") return (b.rating || 4.8) - (a.rating || 4.8);
-      return (a._id || a.id)?.localeCompare(b._id || b.id);
+      if (sortBy === "price-low") return (a.price || 0) - (b.price || 0);
+      if (sortBy === "price-high") return (b.price || 0) - (a.price || 0);
+      if (sortBy === "rating") return (b.rating || b.averageRating || 4.8) - (a.rating || a.averageRating || 4.8);
+      return (a._id || a.id || "").localeCompare(b._id || b.id || "");
     });
   }, [watches, selectedBrand, selectedCategory, selectedMovement, maxPrice, sortBy]);
 
@@ -110,10 +116,21 @@ const WatchesPage = () => {
     setSortBy("featured");
   };
 
+  // Helper function to robustly extract image URLs matching backend standards
+  const renderImage = (imageSource) => {
+    if (!imageSource || imageSource.length === 0) {
+      return "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=800&auto=format&fit=crop";
+    }
+    if (Array.isArray(imageSource)) {
+      return imageSource[0]?.url || imageSource[0];
+    }
+    return imageSource.url || imageSource;
+  };
+
   if (loading) {
     return (
       <div className="bg-white text-zinc-500 min-h-screen flex items-center justify-center font-mono text-xs uppercase tracking-[0.3em]">
-        Loading Horology Collection...
+        Loading Best Seller Collection...
       </div>
     );
   }
@@ -138,17 +155,20 @@ const WatchesPage = () => {
         
         {/* Banner Header */}
         <div className="text-center space-y-3 pb-6 border-b border-zinc-200 relative">
-          <span 
-            className="text-[#D4AF37] text-[11px] uppercase tracking-[0.35em] font-semibold block"
-            style={{ fontFamily: "Montserrat, sans-serif" }}
-          >
-            Swiss Horology Collection
-          </span>
+          <div className="flex items-center justify-center gap-2 text-[#D4AF37]">
+            <FaAward className="text-sm" />
+            <span 
+              className="text-[11px] uppercase tracking-[0.35em] font-semibold"
+              style={{ fontFamily: "Montserrat, sans-serif" }}
+            >
+              Most Coveted Timepieces
+            </span>
+          </div>
           <h1 
             className="text-3xl sm:text-5xl font-light text-zinc-900 uppercase tracking-tight"
             style={{ fontFamily: "Cormorant Garamond, serif" }}
           >
-            Luxury Timepieces
+            Best Sellers Collection
           </h1>
           <div className="w-12 h-[2px] bg-[#D4AF37] mx-auto mt-2" />
 
@@ -165,11 +185,11 @@ const WatchesPage = () => {
             onClick={() => setMobileFilterOpen(true)}
             className="lg:hidden flex items-center gap-2 bg-zinc-900 text-white px-4 py-2.5 rounded-sm uppercase tracking-wider font-medium"
           >
-            <FaFilter className="text-[#D4AF37]" /> Filter Watches
+            <FaFilter className="text-[#D4AF37]" /> Filter Best Sellers
           </button>
 
           <p className="text-zinc-500 font-light" style={{ fontFamily: "Montserrat, sans-serif" }}>
-            Showing <span className="font-semibold text-zinc-900">{filteredWatches.length}</span> timepieces
+            Showing <span className="font-semibold text-zinc-900">{filteredWatches.length}</span> best-selling timepieces
           </p>
 
           <div className="flex items-center gap-2 ml-auto">
@@ -208,7 +228,7 @@ const WatchesPage = () => {
             {/* Brand Filter */}
             <div className="space-y-3">
               <h4 className="text-xs uppercase font-medium text-zinc-800 tracking-wider">Brand</h4>
-              <div className="space-y-1.5 text-xs text-zinc-600 font-light max-h-48 overflow-y-auto pr-2">
+              <div className="space-y-1.5 text-xs text-zinc-600 font-light max-h-48 overflow-y-auto pr-2 scrollbar-thin">
                 {BRANDS.map((brand) => (
                   <label key={brand} className="flex items-center gap-2.5 cursor-pointer hover:text-zinc-900 transition-colors">
                     <input
@@ -286,7 +306,7 @@ const WatchesPage = () => {
           <div className="flex-1">
             {filteredWatches.length === 0 ? (
               <div className="text-center py-20 space-y-4 bg-zinc-50 border border-zinc-200 rounded-sm">
-                <p className="text-zinc-500 text-sm font-light">No watches match your selected filter criteria.</p>
+                <p className="text-zinc-500 text-sm font-light">No best-selling watches match your selected filter criteria.</p>
                 <button
                   onClick={resetFilters}
                   className="bg-zinc-900 hover:bg-[#D4AF37] text-white text-xs uppercase tracking-widest px-6 py-2.5 transition-colors"
@@ -300,8 +320,7 @@ const WatchesPage = () => {
                   const watchId = watch._id || watch.id;
                   const isWishlisted = wishlist.includes(watchId);
                   
-                  const watchImage = watch.images?.[0]?.url || watch.image || "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=800&auto=format&fit=crop";
-                  const watchTag = watch.isBestSeller ? "Best Seller" : (watch.tag || watch.category);
+                  const watchImage = renderImage(watch.images || watch.image);
                   const movementType = watch.specifications?.movement || watch.movement || "Automatic";
 
                   return (
@@ -312,7 +331,7 @@ const WatchesPage = () => {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 15 }}
                       transition={{ duration: 0.3 }}
-                      onClick={() => navigate(`/watches/${watchId}`)}
+                      onClick={() => navigate(`/product/${watchId}`)}
                       className="group bg-white border border-zinc-200 rounded-sm overflow-hidden hover:border-[#D4AF37] transition-all duration-300 flex flex-col cursor-pointer shadow-xs hover:shadow-md"
                     >
                       {/* Watch Image Container */}
@@ -322,12 +341,10 @@ const WatchesPage = () => {
                           alt={watch.name}
                           className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                         />
-                        {/* Tag Badge */}
-                        {watchTag && (
-                          <span className="absolute top-3 left-3 bg-zinc-900/90 text-[#D4AF37] text-[9px] uppercase tracking-widest px-2.5 py-1 font-semibold rounded-xs">
-                            {watchTag}
-                          </span>
-                        )}
+                        {/* Best Seller Badge */}
+                        <span className="absolute top-3 left-3 bg-zinc-900/90 text-[#D4AF37] text-[9px] uppercase tracking-widest px-2.5 py-1 font-semibold rounded-xs">
+                          Best Seller
+                        </span>
 
                         {/* Interactive Wishlist Button */}
                         <button
@@ -364,14 +381,15 @@ const WatchesPage = () => {
                           <div>
                             <p className="text-[9px] text-zinc-400 uppercase tracking-wider">Price</p>
                             <p className="text-sm font-semibold text-zinc-900" style={{ fontFamily: "Montserrat, sans-serif" }}>
-                              PKR {watch.price?.toLocaleString()}
+                              PKR {(watch.price || 0).toLocaleString()}
                             </p>
                           </div>
                           
+                          {/* Quick Add/View Button */}
                           <button 
                             onClick={(e) => {
                               e.stopPropagation();
-                              navigate(`/watches/${watchId}`);
+                              navigate(`/product/${watchId}`);
                             }} 
                             className="bg-zinc-900 hover:bg-[#D4AF37] text-white w-9 h-9 rounded-sm flex items-center justify-center transition-colors cursor-pointer"
                           >
@@ -411,7 +429,7 @@ const WatchesPage = () => {
               <div className="space-y-6">
                 <div className="flex items-center justify-between border-b border-zinc-200 pb-4">
                   <h3 className="text-sm font-semibold uppercase tracking-wider text-zinc-900 flex items-center gap-2">
-                    <FaSlidersH className="text-[#D4AF37]" /> Filter Collection
+                    <FaSlidersH className="text-[#D4AF37]" /> Filter Best Sellers
                   </h3>
                   <button 
                     onClick={() => setMobileFilterOpen(false)}
@@ -499,4 +517,4 @@ const WatchesPage = () => {
   );
 };
 
-export default WatchesPage;
+export default BestSellersPage;

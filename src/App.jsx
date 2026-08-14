@@ -19,6 +19,9 @@ import AuthenticityGuarantee from './Pages/AuthenticityGuarantee';
 import WatchesPage from './Pages/WatchesPage';
 import BrandCollection from './Pages/BrandCollection'; // Import the BrandCollection page
 import CollectionPage from './Pages/CollectionPage'; // Import the CollectionPage component
+import BestSellersPage from './Pages/BestSellers';
+import SalesPage from './Pages/SalesPage';
+import SaleDetailPage from './Pages/SaleDetailPage';
 function App() {
   return (
     <CartProvider>
@@ -41,6 +44,9 @@ function App() {
             <Route path="/returns" element={<ReturnPolicy />} />
             <Route path="/authenticity" element={<AuthenticityGuarantee />} />  
             <Route path="/watches" element={<WatchesPage />} />
+                       <Route path="/best" element={<BestSellersPage />} />
+                       <Route path="/sale" element={<SalesPage />} />
+<Route path="/sales/:id" element={<SaleDetailPage />} />
             {/* Brand Collection Page */}
             <Route path="/brand/:brandName" element={<BrandCollection />} />
             {/* Collection Page */}

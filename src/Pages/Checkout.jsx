@@ -30,8 +30,8 @@ const Checkout = () => {
     saveInfo: true,
   });
 
-  // Payment Options State (Default: "cod")
-  const [paymentMethod, setPaymentMethod] = useState("cod"); // "cod" | "wallet"
+  // Payment Options State (Default: "CashOnDelivery")
+  const [paymentMethod, setPaymentMethod] = useState("CashOnDelivery"); 
   
   // Promo Code State
   const [promoCode, setPromoCode] = useState("");
@@ -43,6 +43,7 @@ const Checkout = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
   const [orderId, setOrderId] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [showOrderSummaryMobile, setShowOrderSummaryMobile] = useState(false);
 
   // Calculated Totals (Fixed Express Shipping: Rs. 300)
@@ -73,20 +74,77 @@ const Checkout = () => {
   };
 
   // Submit Order Handler
-  const handleSubmitOrder = (e) => {
+  const handleSubmitOrder = async (e) => {
     e.preventDefault();
     if (cart.length === 0) return;
 
     setIsProcessing(true);
+    setErrorMessage("");
 
-    // Simulate API Processing
-    setTimeout(() => {
-      setIsProcessing(false);
-      const generatedOrderId = "IW-" + Math.floor(100000 + Math.random() * 900000);
-      setOrderId(generatedOrderId);
+    try {
+     const formattedOrderItems = cart.map((item) => {
+        let finalImageUrl = "https://via.placeholder.com/150";
+
+        // Check if image exists and resolve its format
+        const img = item.image || item.img || item.imageUrl || item.photo;
+
+        if (typeof img === "string" && img.trim() !== "") {
+          finalImageUrl = img;
+        } else if (img && typeof img === "object") {
+          // Extracts common url properties from objects (Cloudinary, Multer, etc.)
+          finalImageUrl = img.url || img.secure_url || img.default || img.path || JSON.stringify(img);
+        }
+
+        return {
+          watch: item.id || item._id,
+          quantity: item.quantity || 1,
+          price: item.price,
+          image: typeof finalImageUrl === "string" ? finalImageUrl : "https://via.placeholder.com/150"
+        };
+      });
+      const payload = {
+        orderItems: formattedOrderItems,
+        shippingAddress: {
+          fullName: `${formData.firstName} ${formData.lastName}`.trim(),
+          email: formData.email,
+          address: formData.apartment ? `${formData.address}, ${formData.apartment}` : formData.address,
+          city: formData.city,
+          postalCode: formData.postalCode || "00000",
+          country: "Pakistan",
+          phone: formData.phone
+        },
+        paymentMethod: paymentMethod 
+      };
+      
+      console.log("PAYLOAD SENT TO BACKEND:", JSON.stringify(payload, null, 2));
+      
+      // Updated backend URL pointing to Vercel production deployment
+      const backendUrl = "https://backen-watches.vercel.app/api/orders";
+
+      const response = await fetch(backendUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || "Failed to place order. Please try again.");
+      }
+
+      setOrderId(result.data.orderId);
       setOrderComplete(true);
       if (typeof clearCart === "function") clearCart();
-    }, 2000);
+
+    } catch (error) {
+      console.error("Order submission error:", error);
+      setErrorMessage(error.message || "An unexpected error occurred. Please try again.");
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   // ORDER COMPLETE CONFIRMATION MODAL
@@ -112,12 +170,12 @@ const Checkout = () => {
               Thank You For Your Purchase
             </h1>
             <p className="text-xs text-zinc-400">
-              Order Number: <span className="text-white font-mono font-semibold">{orderId}</span>
+              Order ID: <span className="text-white font-mono font-semibold">{orderId}</span>
             </p>
           </div>
 
           <p className="text-xs text-zinc-400 leading-relaxed font-light">
-            We have sent a detailed order confirmation and receipt to{" "}
+            We have saved your order in our database. A confirmation receipt has been noted for{" "}
             <span className="text-zinc-200 font-medium">{formData.email || "your email"}</span>. Your watch is being prepared for dispatch.
           </p>
 
@@ -137,7 +195,7 @@ const Checkout = () => {
 
   return (
     <div className="bg-black text-white min-h-screen selection:bg-[#D4AF37] selection:text-black">
-      {/* Top Header - Changed from sticky to relative to prevent navbar overlay issues */}
+      {/* Top Header */}
       <header className="border-b border-zinc-900 bg-zinc-950/80 backdrop-blur-md relative z-10">
         <div className="max-w-[1300px] mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
@@ -205,7 +263,7 @@ const Checkout = () => {
                 )}
               </div>
 
-              {/* Promo Code Input on Mobile (Replaced nested <form> with <div>) */}
+              {/* Promo Code Input on Mobile */}
               <div className="pt-3 border-t border-zinc-900 space-y-2">
                 <div className="flex gap-2">
                   <div className="relative flex-1">
@@ -264,6 +322,12 @@ const Checkout = () => {
             >
               <FaArrowLeft /> Return to Cart
             </button>
+
+            {errorMessage && (
+              <div className="p-4 bg-rose-950/40 border border-rose-800 rounded-xl text-xs text-rose-300">
+                {errorMessage}
+              </div>
+            )}
 
             <form onSubmit={handleSubmitOrder} className="space-y-6 sm:space-y-8">
               
@@ -391,12 +455,12 @@ const Checkout = () => {
                   4. Payment Method
                 </h2>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3">
                   <button
                     type="button"
-                    onClick={() => setPaymentMethod("cod")}
+                    onClick={() => setPaymentMethod("CashOnDelivery")}
                     className={`p-3 rounded-xl border text-center flex sm:flex-col items-center justify-center gap-2 transition-all ${
-                      paymentMethod === "cod" ? "bg-zinc-950 border-[#D4AF37] text-[#D4AF37]" : "border-zinc-900 text-zinc-400 hover:border-zinc-800"
+                      paymentMethod === "CashOnDelivery" ? "bg-zinc-950 border-[#D4AF37] text-[#D4AF37]" : "border-zinc-900 text-zinc-400 hover:border-zinc-800"
                     }`}
                   >
                     <FaMoneyBillWave className="text-base sm:text-lg" />
@@ -405,29 +469,38 @@ const Checkout = () => {
 
                   <button
                     type="button"
-                    onClick={() => setPaymentMethod("wallet")}
+                    onClick={() => setPaymentMethod("PayPal")}
                     className={`p-3 rounded-xl border text-center flex sm:flex-col items-center justify-center gap-2 transition-all ${
-                      paymentMethod === "wallet" ? "bg-zinc-950 border-[#D4AF37] text-[#D4AF37]" : "border-zinc-900 text-zinc-400 hover:border-zinc-800"
+                      paymentMethod === "PayPal" ? "bg-zinc-950 border-[#D4AF37] text-[#D4AF37]" : "border-zinc-900 text-zinc-400 hover:border-zinc-800"
                     }`}
                   >
                     <FaMobileAlt className="text-base sm:text-lg" />
-                    <span className="text-[10px] tracking-wider uppercase font-medium">Wallet / Transfer</span>
+                    <span className="text-[10px] tracking-wider uppercase font-medium">PayPal</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setPaymentMethod("Stripe")}
+                    className={`p-3 rounded-xl border text-center flex sm:flex-col items-center justify-center gap-2 transition-all ${
+                      paymentMethod === "Stripe" ? "bg-zinc-950 border-[#D4AF37] text-[#D4AF37]" : "border-zinc-900 text-zinc-400 hover:border-zinc-800"
+                    }`}
+                  >
+                    <FaLock className="text-base sm:text-lg" />
+                    <span className="text-[10px] tracking-wider uppercase font-medium">Stripe</span>
                   </button>
                 </div>
 
-                {/* Sub-Panel: Cash on Delivery */}
-                {paymentMethod === "cod" && (
+                {paymentMethod === "CashOnDelivery" && (
                   <div className="p-4 bg-zinc-950 border border-zinc-900 rounded-xl text-xs text-zinc-400 leading-relaxed">
                     Pay in cash upon delivery to your doorstep. Please have exact change ready for the courier agent.
                   </div>
                 )}
 
-                {/* Sub-Panel: Digital Wallets */}
-                {paymentMethod === "wallet" && (
+                {paymentMethod !== "CashOnDelivery" && (
                   <div className="p-4 bg-zinc-950 border border-zinc-900 rounded-xl space-y-2 text-xs text-zinc-400">
-                    <p className="text-white font-medium">JazzCash / EasyPaisa / Online Direct Transfer</p>
+                    <p className="text-white font-medium">Secure Online Payment ({paymentMethod})</p>
                     <p className="text-[11px] leading-relaxed">
-                      Payment instructions and account details will be dispatched immediately via SMS/Email after you confirm your order.
+                      Your order will be logged as pending until payment verification is confirmed.
                     </p>
                   </div>
                 )}
@@ -492,7 +565,7 @@ const Checkout = () => {
                 )}
               </div>
 
-              {/* Promo Code Input (Replaced nested <form> with <div>) */}
+              {/* Promo Code Input */}
               <div className="pt-4 border-t border-zinc-900 space-y-2">
                 <div className="flex gap-2">
                   <div className="relative flex-1">

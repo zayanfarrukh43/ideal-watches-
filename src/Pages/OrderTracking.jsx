@@ -13,53 +13,88 @@ import {
 
 const OrderTracking = () => {
   const [orderId, setOrderId] = useState("");
-  const [phone, setPhone] = useState("");
+  const [contactInput, setContactInput] = useState(""); 
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
   const [orderData, setOrderData] = useState(null);
   const [error, setError] = useState("");
 
-  // Simulated lookup handler (Connect this to your backend API or Courier API)
-  const handleTrackOrder = (e) => {
+  // Live Backend Lookup Handler
+  const handleTrackOrder = async (e) => {
     e.preventDefault();
-    if (!orderId.trim() || !phone.trim()) {
-      setError("Please enter both your Order ID and Phone Number.");
+    if (!orderId.trim() || !contactInput.trim()) {
+      setError("Please enter both your Order ID and Email or Phone Number.");
       return;
     }
 
     setError("");
     setLoading(true);
 
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      const isEmail = contactInput.includes("@");
+      const queryParam = isEmail ? `email=${encodeURIComponent(contactInput.trim())}` : `phone=${encodeURIComponent(contactInput.trim())}`;
+
+      // Configured with your live Vercel backend deployment URL
+      const API_BASE_URL = import.meta.env?.VITE_API_URL || process.env?.REACT_APP_BACKEND_URL || "https://backen-watches.vercel.app";
+
+      const response = await fetch(`${API_BASE_URL}/api/orders/track/${orderId.trim().toUpperCase()}?${queryParam}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        }
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || "Order not found with the provided details.");
+      }
+
+      const apiOrder = result.data;
+      
+      // Determine status timeline index based on order status
+      let statusIdx = 1;
+      const currentStatus = (apiOrder.orderStatus || apiOrder.status || "").toLowerCase();
+      if (currentStatus === "verified" || currentStatus === "processing" || currentStatus === "pending") statusIdx = 1;
+      if (currentStatus === "dispatched" || currentStatus === "shipped") statusIdx = 2;
+      if (currentStatus === "out for delivery") statusIdx = 3;
+      if (currentStatus === "delivered") statusIdx = 4;
+
+      // Extract actual products from backend orderItems
+      const formattedProducts = apiOrder.orderItems && apiOrder.orderItems.length > 0
+        ? apiOrder.orderItems.map(item => `${item.name || item.watch?.name || "Product"} (Qty: ${item.quantity || 1})`).join(", ")
+        : "N/A";
+
+      setOrderData({
+        id: apiOrder.orderId || apiOrder._id,
+        customerName: apiOrder.shippingAddress?.fullName || "Valued Customer",
+        city: apiOrder.shippingAddress?.city || "Pakistan",
+        product: formattedProducts,
+        totalAmount: `PKR ${Number(apiOrder.totalPrice || 0).toLocaleString()}`,
+        paymentMethod: apiOrder.paymentMethod || (apiOrder.isPaid ? "Paid Online" : "Cash on Delivery (COD)"),
+        courier: apiOrder.courier || "TCS Express / Leopard Courier",
+        trackingNumber: apiOrder.trackingNumber || `TRK-${Math.floor(100000 + Math.random() * 900000)}`,
+        statusIndex: statusIdx,
+        statusText: apiOrder.orderStatus || apiOrder.status || "Processing",
+        estimatedDelivery: apiOrder.estimatedDelivery || "2–4 Business Days",
+        timeline: [
+          { title: "Order Placed", date: apiOrder.createdAt ? new Date(apiOrder.createdAt).toLocaleDateString() : "Recent", completed: true, desc: "Order received successfully on website." },
+          { title: "Verification", date: "Verified", completed: statusIdx >= 1, desc: "Confirmed via contact details provided." },
+          { title: "Dispatched from Hub", date: statusIdx >= 2 ? "In Transit" : "Pending", completed: statusIdx >= 2, desc: "Handed over to courier partner." },
+          { title: "Out for Delivery", date: statusIdx >= 3 ? "Today" : "Pending", completed: statusIdx >= 3, desc: "Assigned to local delivery rider." },
+          { title: "Delivered", date: statusIdx >= 4 ? "Completed" : "Pending", completed: statusIdx >= 4, desc: "Awaiting recipient confirmation." },
+        ]
+      });
       setSearched(true);
 
-      // Mock data for demonstration - replace with actual API response
-      if (orderId.toUpperCase() === "IW-10492" || orderId.length > 3) {
-        setOrderData({
-          id: orderId.toUpperCase(),
-          customerName: "Muhammad Ali",
-          city: "Lahore",
-          product: "TAG Heuer Formula 1 Automatic",
-          totalAmount: "PKR 48,500",
-          paymentMethod: "Cash on Delivery (COD)",
-          courier: "TCS Express",
-          trackingNumber: "TCS-983421567",
-          statusIndex: 3, // 0: Placed, 1: Verified, 2: Dispatched, 3: Out for Delivery, 4: Delivered
-          statusText: "Out for Delivery",
-          estimatedDelivery: "Today by 6:00 PM",
-          timeline: [
-            { title: "Order Placed", date: "Aug 02, 2026 - 02:14 PM", completed: true, desc: "Order received successfully on website." },
-            { title: "Phone Verification", date: "Aug 02, 2026 - 04:30 PM", completed: true, desc: "Confirmed via WhatsApp / phone call with customer." },
-            { title: "Dispatched from Hub", date: "Aug 03, 2026 - 11:00 AM", completed: true, desc: "Handed over to TCS Courier (Karachi Main Hub)." },
-            { title: "Out for Delivery", date: "Aug 04, 2026 - 09:30 AM", completed: true, desc: "Assigned to local delivery rider for Lahore route." },
-            { title: "Delivered", date: "Pending", completed: false, desc: "Awaiting recipient confirmation & COD cash collection." },
-          ]
-        });
-      } else {
-        setOrderData(null);
-      }
-    }, 1000);
+    } catch (err) {
+      console.warn("Error fetching order from backend:", err.message);
+      setError(err.message || "Order not found with the provided details.");
+      setOrderData(null);
+      setSearched(true);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -82,7 +117,7 @@ const OrderTracking = () => {
           </h1>
           <div className="w-12 h-[2px] bg-[#D4AF37] mx-auto mt-4" />
           <p className="text-xs sm:text-sm text-zinc-600 font-light max-w-lg mx-auto pt-2" style={{ fontFamily: "Montserrat, sans-serif" }}>
-            Enter your order reference ID and phone number used during checkout to monitor your luxury watch delivery across Pakistan.
+            Enter your order reference ID and email or phone number used during checkout to monitor your shipment delivery.
           </p>
         </div>
 
@@ -96,27 +131,27 @@ const OrderTracking = () => {
                 </label>
                 <input
                   type="text"
-                  placeholder="e.g. IW-10492"
+                  placeholder="e.g. 198987"
                   value={orderId}
                   onChange={(e) => setOrderId(e.target.value)}
-                  className="w-full bg-white border border-zinc-300 px-4 py-3 text-sm text-zinc-900 focus:outline-none focus:border-[#D4AF37] transition-colors rounded-sm"
+                  className="w-full bg-white border border-zinc-300 px-4 py-3 text-sm text-zinc-900 focus:outline-none focus:border-[#D4AF37] transition-colors rounded-sm uppercase"
                 />
               </div>
               <div>
                 <label className="block text-xs uppercase tracking-wider text-zinc-700 font-medium mb-1.5" style={{ fontFamily: "Montserrat, sans-serif" }}>
-                  Phone Number <span className="text-[#D4AF37]">*</span>
+                  Phone Number or Email <span className="text-[#D4AF37]">*</span>
                 </label>
                 <input
                   type="text"
-                  placeholder="03001234567"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="email@domain.com or phone"
+                  value={contactInput}
+                  onChange={(e) => setContactInput(e.target.value)}
                   className="w-full bg-white border border-zinc-300 px-4 py-3 text-sm text-zinc-900 focus:outline-none focus:border-[#D4AF37] transition-colors rounded-sm"
                 />
               </div>
             </div>
 
-            {error && (
+            {error && !searched && (
               <p className="text-xs text-red-600 flex items-center gap-1.5 pt-1">
                 <FaExclamationCircle /> {error}
               </p>
@@ -176,7 +211,7 @@ const OrderTracking = () => {
                       <strong className="text-zinc-900">{orderData.customerName} ({orderData.city})</strong>
                     </div>
                     <div>
-                      <span className="text-zinc-500 block">Watch Model</span>
+                      <span className="text-zinc-500 block">Product(s) Ordered</span>
                       <strong className="text-zinc-900 truncate block">{orderData.product}</strong>
                     </div>
                     <div>
@@ -197,7 +232,6 @@ const OrderTracking = () => {
                     <div className="relative pl-6 space-y-8 before:content-[''] before:absolute before:left-2.5 before:top-2 before:bottom-2 before:w-[2px] before:bg-zinc-200">
                       {orderData.timeline.map((step, idx) => (
                         <div key={idx} className="relative flex items-start gap-4">
-                          {/* Dot Indicator */}
                           <div className={`absolute -left-6 w-5 h-5 rounded-full flex items-center justify-center text-[10px] border-2 ${
                             step.completed 
                               ? "bg-zinc-900 border-zinc-900 text-white" 
@@ -228,7 +262,7 @@ const OrderTracking = () => {
                   <FaExclamationCircle className="text-amber-600 text-2xl mx-auto" />
                   <h3 className="text-base font-semibold text-amber-900">Order Not Found</h3>
                   <p className="text-xs text-amber-800 font-light max-w-md mx-auto">
-                    We couldn't find an order matching ID <strong className="font-semibold">{orderId.toUpperCase()}</strong> with phone number <strong className="font-semibold">{phone}</strong>. Please check your details or contact concierge support.
+                    We couldn't find an order matching ID <strong className="font-semibold">{orderId.toUpperCase()}</strong> with the provided contact information. Please check your details or contact concierge support.
                   </p>
                 </div>
               )}

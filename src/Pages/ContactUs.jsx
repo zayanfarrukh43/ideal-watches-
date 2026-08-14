@@ -38,20 +38,47 @@ const ContactUs = () => {
     message: ""
   });
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   const toggleFaq = (index) => {
     setOpenFaq(openFaq === index ? null : index);
   };
 
-  const handleSubmit = (e) => {
+  // Connected to your production backend API on Vercel
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 5000);
-    setFormData({ name: "", email: "", phone: "", subject: "General Inquiry", message: "" });
+    setLoading(true);
+    setErrorMsg("");
+
+    try {
+      const response = await fetch("https://backen-watches.vercel.app/api/contacts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setSubmitted(true);
+        setFormData({ name: "", email: "", phone: "", subject: "General Inquiry", message: "" });
+        setTimeout(() => setSubmitted(false), 5000);
+      } else {
+        setErrorMsg(data.message || "Failed to submit message. Please try again.");
+      }
+    } catch (err) {
+      console.error("Error submitting contact form:", err);
+      setErrorMsg("Network error. Please check your connection.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="bg-black text-white min-h-screen py-10 sm:py-20 px-4 sm:px-6 lg:px-12">
+    <div className="bg-black text-white min-h-screen py-10 sm:py-20 px-4 sm:px-6 lg:px-12 selection:bg-[#D4AF37] selection:text-black">
       <div className="max-w-[1400px] mx-auto space-y-12 sm:space-y-24">
         
         {/* Header Title */}
@@ -78,68 +105,45 @@ const ContactUs = () => {
 
         {/* Info Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-          
-          {/* Main Flagship Card */}
           <div className="bg-zinc-950/80 border border-zinc-900 p-5 sm:p-8 space-y-3 sm:space-y-4 text-center rounded-xl group hover:border-[#D4AF37]/50 transition-colors duration-500">
             <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-black border border-zinc-800 flex items-center justify-center mx-auto text-[#D4AF37] group-hover:border-[#D4AF37] transition-colors">
               <FaMapMarkerAlt className="text-sm sm:text-base" />
             </div>
-            <h3 
-              className="text-base sm:text-lg font-light uppercase tracking-wider text-zinc-200"
-              style={{ fontFamily: "Cormorant Garamond, serif" }}
-            >
+            <h3 className="text-base sm:text-lg font-light uppercase tracking-wider text-zinc-200" style={{ fontFamily: "Cormorant Garamond, serif" }}>
               Main Flagship Boutique
             </h3>
-            <p 
-              className="text-xs text-zinc-400 font-light leading-relaxed"
-              style={{ fontFamily: "Montserrat, sans-serif" }}
-            >
+            <p className="text-xs text-zinc-400 font-light leading-relaxed" style={{ fontFamily: "Montserrat, sans-serif" }}>
               Shop # 16, Cafe George Market <br />
               Abdullah Haroon Road, Saddar, Karachi
             </p>
           </div>
 
-          {/* Direct Client Care Card */}
           <div className="bg-zinc-950/80 border border-zinc-900 p-5 sm:p-8 space-y-3 sm:space-y-4 text-center rounded-xl group hover:border-[#D4AF37]/50 transition-colors duration-500">
             <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-black border border-zinc-800 flex items-center justify-center mx-auto text-[#D4AF37] group-hover:border-[#D4AF37] transition-colors">
               <FaPhoneAlt className="text-sm sm:text-base" />
             </div>
-            <h3 
-              className="text-base sm:text-lg font-light uppercase tracking-wider text-zinc-200"
-              style={{ fontFamily: "Cormorant Garamond, serif" }}
-            >
+            <h3 className="text-base sm:text-lg font-light uppercase tracking-wider text-zinc-200" style={{ fontFamily: "Cormorant Garamond, serif" }}>
               Direct Client Care
             </h3>
-            <p 
-              className="text-xs text-zinc-400 font-light leading-relaxed"
-              style={{ fontFamily: "Montserrat, sans-serif" }}
-            >
+            <p className="text-xs text-zinc-400 font-light leading-relaxed" style={{ fontFamily: "Montserrat, sans-serif" }}>
               +92 316 2839665 <br />
               <span className="text-zinc-300 font-normal">+92 316 2839665 (WhatsApp)</span> <br />
               support@idealwatches.pk
             </p>
           </div>
 
-          {/* Hours of Operation Card */}
           <div className="bg-zinc-950/80 border border-zinc-900 p-5 sm:p-8 space-y-3 sm:space-y-4 text-center rounded-xl group hover:border-[#D4AF37]/50 transition-colors duration-500 sm:col-span-2 lg:col-span-1">
             <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-black border border-zinc-800 flex items-center justify-center mx-auto text-[#D4AF37] group-hover:border-[#D4AF37] transition-colors">
               <FaClock className="text-sm sm:text-base" />
             </div>
-            <h3 
-              className="text-base sm:text-lg font-light uppercase tracking-wider text-zinc-200"
-              style={{ fontFamily: "Cormorant Garamond, serif" }}
-            >
+            <h3 className="text-base sm:text-lg font-light uppercase tracking-wider text-zinc-200" style={{ fontFamily: "Cormorant Garamond, serif" }}>
               Hours of Operation
             </h3>
-            <p 
-              className="text-xs text-zinc-400 font-light leading-relaxed"
-              style={{ fontFamily: "Montserrat, sans-serif" }}
-            >
+            <p className="text-xs text-zinc-400 font-light leading-relaxed" style={{ fontFamily: "Montserrat, sans-serif" }}>
               Mon — Sat: 11:00 AM – 9:00 PM PKT <br />
               Sunday: By Private Appointment Only
             </p>
           </div>
-
         </div>
 
         {/* Main Section: Form & Visual */}
@@ -148,26 +152,23 @@ const ContactUs = () => {
           {/* Inquiry Form */}
           <div className="lg:col-span-7 bg-zinc-950/90 border border-zinc-900 p-5 sm:p-8 lg:p-10 rounded-2xl space-y-6">
             <div>
-              <span 
-                className="text-[#D4AF37] uppercase tracking-[0.25em] text-[9px] font-medium block mb-1"
-                style={{ fontFamily: "Montserrat, sans-serif" }}
-              >
+              <span className="text-[#D4AF37] uppercase tracking-[0.25em] text-[9px] font-medium block mb-1" style={{ fontFamily: "Montserrat, sans-serif" }}>
                 Send A Message
               </span>
-              <h2 
-                className="text-2xl sm:text-3xl font-light uppercase text-white tracking-wider"
-                style={{ fontFamily: "Cormorant Garamond, serif" }}
-              >
+              <h2 className="text-2xl sm:text-3xl font-light uppercase text-white tracking-wider" style={{ fontFamily: "Cormorant Garamond, serif" }}>
                 Bespoke Inquiry
               </h2>
             </div>
 
             {submitted && (
-              <div 
-                className="p-4 bg-zinc-900/90 border border-[#D4AF37]/50 text-[#D4AF37] text-xs tracking-wider uppercase text-center font-light rounded-lg"
-                style={{ fontFamily: "Montserrat, sans-serif" }}
-              >
-                Shukriya! Your message has been received. Our concierge team will contact you shortly.
+              <div className="p-4 bg-zinc-900/90 border border-[#D4AF37]/50 text-[#D4AF37] text-xs tracking-wider uppercase text-center font-light rounded-lg" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                Shukriya! Your message has been received and saved to our system. Our concierge team will contact you shortly.
+              </div>
+            )}
+
+            {errorMsg && (
+              <div className="p-4 bg-red-950/50 border border-red-500/50 text-red-400 text-xs tracking-wider text-center font-light rounded-lg" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                {errorMsg}
               </div>
             )}
 
@@ -175,10 +176,7 @@ const ContactUs = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                 {/* Name */}
                 <div className="space-y-1.5">
-                  <label 
-                    className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 block font-light"
-                    style={{ fontFamily: "Montserrat, sans-serif" }}
-                  >
+                  <label className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 block font-light" style={{ fontFamily: "Montserrat, sans-serif" }}>
                     Full Name *
                   </label>
                   <input
@@ -187,17 +185,14 @@ const ContactUs = () => {
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     placeholder="e.g. Tariq Khan"
-                    className="w-full bg-black border border-zinc-800 focus:border-[#D4AF37] text-white text-xs sm:text-xs px-4 py-3 rounded-lg outline-none transition-colors font-light"
+                    className="w-full bg-black border border-zinc-800 focus:border-[#D4AF37] text-white text-xs px-4 py-3 rounded-lg outline-none transition-colors font-light"
                     style={{ fontFamily: "Montserrat, sans-serif" }}
                   />
                 </div>
 
                 {/* Email */}
                 <div className="space-y-1.5">
-                  <label 
-                    className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 block font-light"
-                    style={{ fontFamily: "Montserrat, sans-serif" }}
-                  >
+                  <label className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 block font-light" style={{ fontFamily: "Montserrat, sans-serif" }}>
                     Email Address *
                   </label>
                   <input
@@ -206,7 +201,7 @@ const ContactUs = () => {
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="tariq@domain.com"
-                    className="w-full bg-black border border-zinc-800 focus:border-[#D4AF37] text-white text-xs sm:text-xs px-4 py-3 rounded-lg outline-none transition-colors font-light"
+                    className="w-full bg-black border border-zinc-800 focus:border-[#D4AF37] text-white text-xs px-4 py-3 rounded-lg outline-none transition-colors font-light"
                     style={{ fontFamily: "Montserrat, sans-serif" }}
                   />
                 </div>
@@ -215,35 +210,29 @@ const ContactUs = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                 {/* Phone / WhatsApp */}
                 <div className="space-y-1.5">
-                  <label 
-                    className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 block font-light"
-                    style={{ fontFamily: "Montserrat, sans-serif" }}
-                  >
+                  <label className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 block font-light" style={{ fontFamily: "Montserrat, sans-serif" }}>
                     Phone / WhatsApp *
                   </label>
                   <input
-                    type="tel"
+                    type="text"
                     required
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     placeholder="+92 316 2839665"
-                    className="w-full bg-black border border-zinc-800 focus:border-[#D4AF37] text-white text-xs sm:text-xs px-4 py-3 rounded-lg outline-none transition-colors font-light"
+                    className="w-full bg-black border border-zinc-800 focus:border-[#D4AF37] text-white text-xs px-4 py-3 rounded-lg outline-none transition-colors font-light"
                     style={{ fontFamily: "Montserrat, sans-serif" }}
                   />
                 </div>
 
                 {/* Inquiry Topic */}
                 <div className="space-y-1.5">
-                  <label 
-                    className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 block font-light"
-                    style={{ fontFamily: "Montserrat, sans-serif" }}
-                  >
-                    Inquiry Topic
+                  <label className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 block font-light" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                    Subject / Topic
                   </label>
                   <select
                     value={formData.subject}
                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    className="w-full bg-black border border-zinc-800 focus:border-[#D4AF37] text-zinc-300 text-xs sm:text-xs px-4 py-3 rounded-lg outline-none transition-colors font-light"
+                    className="w-full bg-black border border-zinc-800 focus:border-[#D4AF37] text-zinc-300 text-xs px-4 py-3 rounded-lg outline-none transition-colors font-light cursor-pointer"
                     style={{ fontFamily: "Montserrat, sans-serif" }}
                   >
                     <option value="General Inquiry">General Inquiry</option>
@@ -256,10 +245,7 @@ const ContactUs = () => {
 
               {/* Message */}
               <div className="space-y-1.5">
-                <label 
-                  className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 block font-light"
-                  style={{ fontFamily: "Montserrat, sans-serif" }}
-                >
+                <label className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 block font-light" style={{ fontFamily: "Montserrat, sans-serif" }}>
                   Your Message *
                 </label>
                 <textarea
@@ -268,26 +254,24 @@ const ContactUs = () => {
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   placeholder="Tell us about the timepiece or service you are interested in..."
-                  className="w-full bg-black border border-zinc-800 focus:border-[#D4AF37] text-white text-xs sm:text-xs p-4 rounded-lg outline-none transition-colors font-light resize-none"
+                  className="w-full bg-black border border-zinc-800 focus:border-[#D4AF37] text-white text-xs p-4 rounded-lg outline-none transition-colors font-light resize-none"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                 />
               </div>
 
-              {/* Catchy Action Buttons (Fully Responsive) */}
+              {/* Action Buttons */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                
-                {/* Submit Message Button */}
                 <button
                   type="submit"
-                  className="relative group overflow-hidden w-full h-12 rounded-xl bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#D4AF37] text-black font-semibold text-xs tracking-[0.2em] uppercase shadow-lg shadow-[#D4AF37]/20 hover:shadow-[#D4AF37]/40 active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2"
+                  disabled={loading}
+                  className="relative group overflow-hidden w-full h-12 rounded-xl bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#D4AF37] text-black font-semibold text-xs tracking-[0.2em] uppercase shadow-lg shadow-[#D4AF37]/20 hover:shadow-[#D4AF37]/40 active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                 >
                   <span className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-out" />
                   <FaPaperPlane className="text-xs transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                  <span>Submit Message</span>
+                  <span>{loading ? "Submitting..." : "Submit Message"}</span>
                 </button>
 
-                {/* Catchy WhatsApp Button */}
                 <a
                   href="https://wa.me/923162839665"
                   target="_blank"
@@ -299,7 +283,6 @@ const ContactUs = () => {
                   <FaWhatsapp className="text-base text-white transition-transform duration-300 group-hover:scale-110" />
                   <span>Chat on WhatsApp</span>
                 </a>
-
               </div>
             </form>
           </div>
@@ -315,16 +298,10 @@ const ContactUs = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
               
               <div className="relative z-10 w-full m-4 sm:m-6 border border-zinc-800/80 bg-black/80 backdrop-blur-md p-4 sm:p-5 text-center rounded-xl">
-                <span 
-                  className="text-[#D4AF37] text-[9px] uppercase tracking-[0.3em] font-light block mb-1"
-                  style={{ fontFamily: "Montserrat, sans-serif" }}
-                >
+                <span className="text-[#D4AF37] text-[9px] uppercase tracking-[0.3em] font-light block mb-1" style={{ fontFamily: "Montserrat, sans-serif" }}>
                   Private VIP Lounge
                 </span>
-                <p 
-                  className="text-base text-white font-light uppercase tracking-wider"
-                  style={{ fontFamily: "Cormorant Garamond, serif" }}
-                >
+                <p className="text-base text-white font-light uppercase tracking-wider" style={{ fontFamily: "Cormorant Garamond, serif" }}>
                   Karachi 
                 </p>
               </div>
@@ -336,48 +313,30 @@ const ContactUs = () => {
         {/* FAQs Section */}
         <div className="max-w-3xl mx-auto space-y-6 sm:space-y-8 pt-4">
           <div className="text-center space-y-2">
-            <span 
-              className="text-[#D4AF37] text-[9px] sm:text-[10px] uppercase tracking-[0.3em] font-medium block"
-              style={{ fontFamily: "Montserrat, sans-serif" }}
-            >
+            <span className="text-[#D4AF37] text-[9px] sm:text-[10px] uppercase tracking-[0.3em] font-medium block" style={{ fontFamily: "Montserrat, sans-serif" }}>
               Common Questions
             </span>
-            <h3 
-              className="text-2xl sm:text-3xl font-light uppercase tracking-wider text-white"
-              style={{ fontFamily: "Cormorant Garamond, serif" }}
-            >
+            <h3 className="text-2xl sm:text-3xl font-light uppercase tracking-wider text-white" style={{ fontFamily: "Cormorant Garamond, serif" }}>
               Frequently Asked Questions
             </h3>
           </div>
 
           <div className="space-y-3">
             {faqs.map((faq, idx) => (
-              <div 
-                key={idx}
-                className="bg-zinc-950/60 border border-zinc-900 rounded-xl overflow-hidden transition-colors"
-              >
+              <div key={idx} className="bg-zinc-950/60 border border-zinc-900 rounded-xl overflow-hidden transition-colors">
                 <button
                   onClick={() => toggleFaq(idx)}
-                  className="w-full p-4 sm:p-5 flex items-center justify-between text-left focus:outline-none gap-3"
+                  className="w-full p-4 sm:p-5 flex items-center justify-between text-left focus:outline-none gap-3 cursor-pointer"
                 >
-                  <span 
-                    className="text-sm sm:text-base font-light text-zinc-200"
-                    style={{ fontFamily: "Cormorant Garamond, serif" }}
-                  >
+                  <span className="text-sm sm:text-base font-light text-zinc-200" style={{ fontFamily: "Cormorant Garamond, serif" }}>
                     {faq.question}
                   </span>
-                  <FaChevronDown 
-                    className={`text-[#D4AF37] text-xs shrink-0 transition-transform duration-300 ${
-                      openFaq === idx ? "rotate-180" : "rotate-0"
-                    }`}
-                  />
+                  <FaChevronDown className={`text-[#D4AF37] text-xs shrink-0 transition-transform duration-300 ${openFaq === idx ? "rotate-180" : "rotate-0"}`} />
                 </button>
 
                 {openFaq === idx && (
                   <div className="px-4 pb-5 sm:px-5 text-xs text-zinc-400 font-light leading-relaxed border-t border-zinc-900/60 pt-3">
-                    <p style={{ fontFamily: "Montserrat, sans-serif" }}>
-                      {faq.answer}
-                    </p>
+                    <p style={{ fontFamily: "Montserrat, sans-serif" }}>{faq.answer}</p>
                   </div>
                 )}
               </div>
