@@ -312,7 +312,7 @@ const WatchesPage = () => {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 15 }}
                       transition={{ duration: 0.3 }}
-                      onClick={() => navigate(`/watches/${watchId}`)}
+                      onClick={() => navigate(`/product/${watchId}`)}
                       className="group bg-white border border-zinc-200 rounded-sm overflow-hidden hover:border-[#D4AF37] transition-all duration-300 flex flex-col cursor-pointer shadow-xs hover:shadow-md"
                     >
                       {/* Watch Image Container */}
@@ -371,7 +371,7 @@ const WatchesPage = () => {
                           <button 
                             onClick={(e) => {
                               e.stopPropagation();
-                              navigate(`/watches/${watchId}`);
+                              navigate(`/product/${watchId}`);
                             }} 
                             className="bg-zinc-900 hover:bg-[#D4AF37] text-white w-9 h-9 rounded-sm flex items-center justify-center transition-colors cursor-pointer"
                           >
