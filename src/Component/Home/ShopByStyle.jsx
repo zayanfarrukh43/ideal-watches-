@@ -5,10 +5,8 @@ import { motion } from "framer-motion";
 // Local image imports from src/assets/Brands
 import leatherImg from "../../assets/Brands/leatherstrap.webp";
 import meshImg from "../../assets/Brands/mesh.webp";
-
-// Add paths for stainless and rubber when you add those assets to the folder
-import stainlessImg from "../../assets/Brands/steelnessstain.webp"; // Temporary fallback or replace with your stainless asset
-import rubberImg from "../../assets/Brands/rubber.webp";    // Temporary fallback or replace with your rubber asset
+import stainlessImg from "../../assets/Brands/steelnessstain.webp"; 
+import rubberImg from "../../assets/Brands/rubber.webp"; 
 
 const stylesList = [
   {
@@ -75,22 +73,22 @@ const ShopByStyle = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="relative bg-[#08080a] border border-zinc-800/80 hover:border-zinc-700 transition-all duration-500 flex flex-col items-center justify-between p-8 sm:p-10 h-[480px] overflow-hidden"
+                className="relative bg-black border border-zinc-900 hover:border-zinc-800 transition-all duration-500 flex flex-col items-center justify-between p-8 sm:p-10 h-[480px] overflow-hidden"
               >
                 {/* Radial Glow Highlight */}
-                <div className="absolute inset-0 bg-radial from-zinc-800/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+                <div className="absolute inset-0 bg-radial from-zinc-900/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
                 {/* Display Area */}
                 <div className="relative w-full flex-1 flex items-center justify-center my-4">
                   <img
                     src={style.image}
                     alt={style.title}
-                    className="max-h-[220px] max-w-full object-contain filter drop-shadow-[0_15px_25px_rgba(0,0,0,0.9)] group-hover:scale-105 transition-transform duration-500 ease-out z-10"
+                    className="max-h-[220px] max-w-full object-contain filter drop-shadow-[0_15px_25px_rgba(0,0,0,1)] group-hover:scale-105 transition-transform duration-500 ease-out z-10"
                   />
                 </div>
 
                 {/* Text Label Section */}
-                <div className="text-center w-full z-10 pt-6 border-t border-zinc-900 group-hover:border-zinc-800 transition-colors duration-300">
+                <div className="text-center w-full z-10 pt-6 border-t border-zinc-900/80 group-hover:border-zinc-800 transition-colors duration-300">
                   <p 
                     className="text-[9px] uppercase tracking-[0.25em] text-zinc-500 font-light mb-1.5 group-hover:text-[#D4AF37] transition-colors duration-300"
                     style={{ fontFamily: "Montserrat, sans-serif" }}
