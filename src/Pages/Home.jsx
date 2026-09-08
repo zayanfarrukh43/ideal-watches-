@@ -5,6 +5,8 @@ import HeritageSection from "../Component/Home/HeritageSection";
 import PromotionalBanner from "../Component/Home/PromotionalBanner";
 import NewsletterSection from "../Component/Home/NewsletterSection";
 import ShopByStyle from "../Component/Home/ShopByStyle";
+import { Video } from "lucide-react";
+import VideoBanner from "../Component/Home/VideoBanner";
 const Home = () => {
   return (
     <div>
@@ -12,6 +14,7 @@ const Home = () => {
       <LuxuryBrands />
       <NewArrival />
       <ShopByStyle />
+<VideoBanner />
        <HeritageSection />
       <PromotionalBanner />
       <NewsletterSection />

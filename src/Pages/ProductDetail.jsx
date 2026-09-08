@@ -16,6 +16,8 @@ import {
 } from "react-icons/fa";
 import { useCart } from "../Component/context/CartContext";
 
+const API_BASE_URL = "https://backen-watches.vercel.app";
+
 const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -30,24 +32,37 @@ const ProductDetail = () => {
   const [added, setAdded] = useState(false);
   const [openAccordion, setOpenAccordion] = useState("specs");
 
-  // Fetch individual watch from backend by ID (Updated to production Vercel URL)
+  // Fetch from /api/watches first; fall back to /api/watch-straps if not found
   useEffect(() => {
-    const fetchWatchDetails = async () => {
+    const fetchItemDetails = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`https://backen-watches.vercel.app/api/watches/${id}`);
-        const result = await response.json();
 
-        if (result.success && result.data) {
-          setProduct(result.data);
-          // Set initial preview image from Cloudinary array
-          const initialImg = result.data.images?.[0]?.url || 'https://via.placeholder.com/800x800/09090b/ffffff?text=Watch';
+        // Attempt 1: Fetch from watches endpoint
+        const watchResponse = await fetch(`${API_BASE_URL}/api/watches/${id}`);
+        const watchResult = await watchResponse.json();
+
+        if (watchResult.success && watchResult.data) {
+          setProduct({ ...watchResult.data, itemType: "watch" });
+          const initialImg = watchResult.data.images?.[0]?.url || 'https://via.placeholder.com/800x800/09090b/ffffff?text=Watch';
           setSelectedImage(initialImg);
-        } else {
-          setError('Watch not found.');
+          return;
         }
+
+        // Attempt 2: Fallback to watch-straps endpoint
+        const strapResponse = await fetch(`${API_BASE_URL}/api/watch-straps/${id}`);
+        const strapResult = await strapResponse.json();
+
+        if (strapResult.success && strapResult.data) {
+          setProduct({ ...strapResult.data, itemType: "strap" });
+          const initialImg = strapResult.data.images?.[0]?.url || 'https://via.placeholder.com/800x800/09090b/ffffff?text=Strap';
+          setSelectedImage(initialImg);
+          return;
+        }
+
+        setError('Item not found in watches or straps collection.');
       } catch (err) {
-        console.error('Failed to fetch watch details:', err);
+        console.error('Failed to fetch item details:', err);
         setError('Failed to load product details.');
       } finally {
         setLoading(false);
@@ -55,7 +70,7 @@ const ProductDetail = () => {
     };
 
     if (id) {
-      fetchWatchDetails();
+      fetchItemDetails();
     }
   }, [id]);
 
@@ -68,7 +83,7 @@ const ProductDetail = () => {
         name: product.name,
         price: product.price,
         image: selectedImage,
-        ref: product.referenceNo,
+        ref: product.referenceNo || product.strapType || "GENEVA-ACC",
       });
     }
 
@@ -104,9 +119,9 @@ const ProductDetail = () => {
 
   const imagesList = product.images?.length > 0 
     ? product.images.map(img => img.url) 
-    : ['https://via.placeholder.com/800x800/09090b/ffffff?text=Watch'];
+    : ['https://via.placeholder.com/800x800/09090b/ffffff?text=Item'];
 
-  // Map database specifications schema keys to clean human-readable labels
+  // Map specifications dynamically for watches or straps
   const formattedSpecs = product.specifications ? {
     "Dial Finish": product.specifications.dialFinish,
     "Movement": product.specifications.movement,
@@ -115,9 +130,16 @@ const ProductDetail = () => {
     "Case Thickness": product.specifications.caseThickness,
     "Strap Material": product.specifications.strapMaterial,
     "Water Resistance": product.specifications.waterResistance
-  } : {};
+  } : {
+    "Strap Style": product.strapType || "Leather/Metal",
+    "Compatibility": "Universal Swiss Lug",
+    "Buckle Finish": "Polished Steel",
+    "Material": "Handcrafted Leather / Steel Alloy"
+  };
 
-  const displayTag = product.isBestSeller ? "Best Seller" : product.category;
+  const displayTag = product.isBestSeller 
+    ? "Best Seller" 
+    : (product.category || product.strapType || "Accessory");
 
   return (
     <div className="bg-[#08080a] text-zinc-100 min-h-screen py-8 sm:py-12 px-4 sm:px-6 lg:px-12 selection:bg-[#D4AF37] selection:text-black">
@@ -135,7 +157,7 @@ const ProductDetail = () => {
           </button>
 
           <div className="flex items-center gap-2 text-[10px] text-zinc-500 tracking-[0.2em] uppercase">
-            <span>{product.brand}</span>
+            <span>{product.brand || "Geneva Horology"}</span>
             <span className="text-zinc-700">/</span>
             <span className="text-zinc-300 font-medium">{product.name}</span>
           </div>
@@ -144,12 +166,10 @@ const ProductDetail = () => {
         {/* Hero Section: Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 xl:gap-16 items-start">
 
-          {/* LEFT: Image Gallery Stage (7 Cols on desktop) */}
+          {/* LEFT: Image Gallery Stage */}
           <div className="lg:col-span-7 space-y-5">
-            {/* Main Image Container */}
             <div className="relative bg-gradient-to-b from-zinc-900/90 to-zinc-950/90 border border-zinc-800/80 rounded-3xl p-6 sm:p-12 flex items-center justify-center overflow-hidden group shadow-[0_20px_50px_rgba(0,0,0,0.8)] backdrop-blur-md">
 
-              {/* Luxury Accent Halo Background */}
               <div className="absolute inset-0 bg-radial from-[#D4AF37]/5 via-transparent to-transparent pointer-events-none" />
 
               {/* Tag Badge */}
@@ -190,7 +210,7 @@ const ProductDetail = () => {
             )}
           </div>
 
-          {/* RIGHT: Product Details (5 Cols on desktop) */}
+          {/* RIGHT: Product Details */}
           <div className="lg:col-span-5 space-y-7">
 
             {/* Header Details */}
@@ -200,7 +220,7 @@ const ProductDetail = () => {
                   className="text-[10px] text-[#D4AF37] tracking-[0.35em] uppercase font-semibold"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                 >
-                  REF. {product.referenceNo}
+                  REF. {product.referenceNo || product.strapType || "ACC-GENEVA"}
                 </span>
                 <span className="text-[10px] text-zinc-400 uppercase tracking-widest flex items-center gap-1.5 bg-zinc-900/80 border border-zinc-800/80 px-3 py-1 rounded-full">
                   <FaGem className="text-[#D4AF37] text-xs" /> Certified Authentic
@@ -215,7 +235,7 @@ const ProductDetail = () => {
               </h1>
 
               <p className="text-xs text-zinc-400 uppercase tracking-[0.2em] font-medium">
-                {product.brand} • {product.gender} Timepiece
+                {product.brand || "Geneva Horology"} • {product.gender || "Universal"} Edition
               </p>
 
               {/* Price Display */}
@@ -234,7 +254,7 @@ const ProductDetail = () => {
 
             {/* Description */}
             <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed font-light">
-              {product.description}
+              {product.description || "Exquisite horological accessory crafted with precision standards and luxury finishes."}
             </p>
 
             {/* Quantity Selector & Action Button */}
@@ -244,7 +264,7 @@ const ProductDetail = () => {
                   className="text-[11px] uppercase text-zinc-400 tracking-[0.2em]"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                 >
-                  Quantity (Stock: {product.stock})
+                  Quantity (Stock: {product.stock ?? 10})
                 </span>
 
                 <div className="flex items-center justify-between w-32 h-11 rounded-full border border-zinc-800 bg-zinc-950 px-4">
@@ -257,7 +277,7 @@ const ProductDetail = () => {
                   </button>
                   <span className="text-sm font-medium">{quantity}</span>
                   <button
-                    onClick={() => setQuantity((q) => Math.min(product.stock || 1, q + 1))}
+                    onClick={() => setQuantity((q) => Math.min(product.stock ?? 10, q + 1))}
                     className="text-zinc-400 hover:text-[#D4AF37] transition-colors p-1 cursor-pointer"
                     aria-label="Increase quantity"
                   >
@@ -310,16 +330,18 @@ const ProductDetail = () => {
                 {openAccordion === "specs" && (
                   <div className="p-4.5 pt-0 space-y-2.5 text-xs text-zinc-300 border-t border-zinc-900/80 mt-1">
                     {Object.entries(formattedSpecs).map(([key, value]) => (
-                      <div key={key} className="flex justify-between py-1.5 border-b border-zinc-900/60 last:border-0 gap-4">
-                        <span className="text-zinc-400 uppercase tracking-wider text-[10px] shrink-0">{key}</span>
-                        <span className="text-zinc-100 font-light text-right">{value}</span>
-                      </div>
+                      value && (
+                        <div key={key} className="flex justify-between py-1.5 border-b border-zinc-900/60 last:border-0 gap-4">
+                          <span className="text-zinc-400 uppercase tracking-wider text-[10px] shrink-0">{key}</span>
+                          <span className="text-zinc-100 font-light text-right">{value}</span>
+                        </div>
+                      )
                     ))}
                   </div>
                 )}
               </div>
 
-              {/* Complimentary Shipping & Warranty Accordion */}
+              {/* Shipping & Warranty Accordion */}
               <div className="border border-zinc-800/80 bg-zinc-950/60 rounded-2xl overflow-hidden backdrop-blur-sm transition-colors">
                 <button
                   onClick={() => toggleAccordion("shipping")}
@@ -338,7 +360,7 @@ const ProductDetail = () => {
                       <FaAward className="text-[#D4AF37]" /> {product.warranty || "Includes 2-Year official manufacturer global warranty coverage."}
                     </p>
                     <p className="flex items-center gap-2">
-                      <FaUndo className="text-[#D4AF37]" /> 7-Day return policy on unworn pieces in original box.
+                      <FaUndo className="text-[#D4AF37]" /> 7-Day return policy on unworn pieces in original packaging.
                     </p>
                   </div>
                 )}
