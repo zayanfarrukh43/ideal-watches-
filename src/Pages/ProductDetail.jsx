@@ -21,7 +21,7 @@ const API_BASE_URL = "https://backen-watches.vercel.app";
 const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { addToCart } = useCart();
+  const { addToCart, buyNow } = useCart();
 
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -89,6 +89,22 @@ const ProductDetail = () => {
 
     setAdded(true);
     setTimeout(() => setAdded(false), 2500);
+  };
+
+  const handleBuyNow = () => {
+    if (!product) return;
+
+    for (let i = 0; i < quantity; i++) {
+      buyNow({
+        id: product._id,
+        name: product.name,
+        price: product.price,
+        image: selectedImage,
+        ref: product.referenceNo || product.strapType || "GENEVA-ACC",
+      });
+    }
+
+    navigate("/checkout");
   };
 
   const toggleAccordion = (key) => {
@@ -312,6 +328,17 @@ const ProductDetail = () => {
                   </>
                 )}
               </button>
+
+              {/* Buy Now CTA */}
+              {product.stock !== 0 && (
+                <button
+                  onClick={handleBuyNow}
+                  className="w-full py-4 rounded-full font-medium text-xs uppercase tracking-[0.25em] transition-all duration-300 flex items-center justify-center gap-3 border border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black cursor-pointer"
+                  style={{ fontFamily: "Montserrat, sans-serif" }}
+                >
+                  Buy Now
+                </button>
+              )}
             </div>
 
             {/* Accordions */}

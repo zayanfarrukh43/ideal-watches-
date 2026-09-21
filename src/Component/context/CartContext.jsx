@@ -40,6 +40,12 @@ export const CartProvider = ({ children }) => {
     setIsCartOpen(true);
   };
 
+  // Adds the product like addToCart but keeps the drawer closed (caller navigates to /checkout)
+  const buyNow = (product) => {
+    addToCart(product);
+    setIsCartOpen(false);
+  };
+
   const removeFromCart = (id) => {
     setCart((prevCart) => prevCart.filter((item) => getItemId(item) !== id));
   };
@@ -68,6 +74,7 @@ export const CartProvider = ({ children }) => {
       value={{
         cart,
         addToCart,
+        buyNow,
         removeFromCart,
         updateQuantity,
         clearCart,

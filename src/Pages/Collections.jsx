@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaArrowRight, FaSearch, FaShieldAlt, FaTruck, FaWhatsapp, FaClock } from "react-icons/fa";
+import { useCart } from "../Component/context/CartContext";
 
 const WHATSAPP_NUMBER = "923162839665";
 const API_BASE_URL = "https://backen-watches.vercel.app";
 
 const Collections = () => {
+  const navigate = useNavigate();
+  const { buyNow } = useCart();
+
   // Backend Data States
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -311,6 +315,25 @@ const Collections = () => {
                         View <FaArrowRight className="text-[8px]" />
                       </Link>
                     </div>
+                  </div>
+
+                  {/* Buy Now */}
+                  <div className="px-6 pb-6 pt-4">
+                    <button
+                      onClick={() => {
+                        buyNow({
+                          id: itemId,
+                          name: itemTitle,
+                          price: item.price,
+                          image: itemImage,
+                          ref: item.referenceNo || item.strapType,
+                        });
+                        navigate("/checkout");
+                      }}
+                      className="w-full py-2.5 bg-[#c5a880] hover:bg-[#b39568] text-black text-[10px] uppercase tracking-widest font-medium transition-colors cursor-pointer"
+                    >
+                      Buy Now
+                    </button>
                   </div>
                 </div>
               );

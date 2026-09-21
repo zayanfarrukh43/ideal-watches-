@@ -75,7 +75,7 @@ const NewArrivals = () => {
 // Minimalist Product Card Component
 const ProductCard = ({ product }) => {
   const navigate = useNavigate();
-  const { addToCart } = useCart();
+  const { addToCart, buyNow } = useCart();
 
   const goToProductPage = () => {
     navigate(`/product/${product._id}`);
@@ -94,6 +94,21 @@ const ProductCard = ({ product }) => {
       image: primaryImage,
       ref: product.referenceNo,
     });
+  };
+
+  const handleBuyNow = (e) => {
+    e.stopPropagation();
+
+    const primaryImage = product.images?.[0]?.url || 'https://via.placeholder.com/400x400/09090b/ffffff?text=Watch';
+
+    buyNow({
+      id: product._id,
+      name: product.name,
+      price: product.price,
+      image: primaryImage,
+      ref: product.referenceNo,
+    });
+    navigate('/checkout');
   };
 
   // Determine tag dynamically based on model attributes if applicable
@@ -155,6 +170,15 @@ const ProductCard = ({ product }) => {
         >
           <FaShoppingBag className="text-[10px]" />
           <span>Add To Bag</span>
+        </button>
+
+        {/* Buy Now CTA */}
+        <button
+          onClick={handleBuyNow}
+          className="w-full py-2.5 bg-[#D4AF37] hover:bg-[#b8952b] text-black border border-[#D4AF37] text-[9px] tracking-[0.25em] uppercase font-medium transition-all duration-300 flex items-center justify-center"
+          style={{ fontFamily: 'Montserrat, sans-serif' }}
+        >
+          Buy Now
         </button>
       </div>
     </div>

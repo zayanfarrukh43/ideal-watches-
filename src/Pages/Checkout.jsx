@@ -4,7 +4,7 @@ import {
   FaShieldAlt, 
   FaLock, 
   FaMoneyBillWave, 
-  FaMobileAlt, 
+  FaCreditCard,
   FaCheckCircle, 
   FaArrowLeft, 
   FaTag,
@@ -46,9 +46,17 @@ const Checkout = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [showOrderSummaryMobile, setShowOrderSummaryMobile] = useState(false);
 
-  // Calculated Totals (Fixed Express Shipping: Rs. 300)
+  // Shipping Options (Default: Express)
+  const SHIPPING_OPTIONS = {
+    express: { label: "Express Shipping", description: "Insured Delivery in 2–4 Business Days", cost: 300 },
+    standard: { label: "Standard Shipping", description: "Insured Delivery in 4–6 Business Days", cost: 150 },
+  };
+  const [shippingMethod, setShippingMethod] = useState("express");
+
+  // Calculated Totals
   const subtotal = cart.reduce((acc, item) => acc + item.price * (item.quantity || 1), 0);
-  const shippingCost = 300;
+  const shippingCost = SHIPPING_OPTIONS[shippingMethod].cost;
+  const shippingLabel = SHIPPING_OPTIONS[shippingMethod].label;
   const discountAmount = (subtotal * discount) / 100;
   const grandTotal = Math.max(0, subtotal - discountAmount + shippingCost);
 
@@ -301,7 +309,7 @@ const Checkout = () => {
                   </div>
                 )}
                 <div className="flex justify-between">
-                  <span>Express Shipping</span>
+                  <span>{shippingLabel}</span>
                   <span className="text-white">Rs. {shippingCost.toLocaleString()}</span>
                 </div>
               </div>
@@ -432,17 +440,32 @@ const Checkout = () => {
                   3. Shipping Options
                 </h2>
 
-                <div className="p-3.5 sm:p-4 rounded-xl border bg-zinc-950 border-[#D4AF37] flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <input type="radio" checked readOnly className="accent-[#D4AF37]" />
-                    <div>
-                      <p className="text-xs font-medium text-white">Express Shipping</p>
-                      <p className="text-[10px] text-zinc-400">Insured Delivery in 2–4 Business Days</p>
-                    </div>
-                  </div>
-                  <span className="text-xs text-[#D4AF37] font-semibold shrink-0">
-                    Rs. {shippingCost.toLocaleString()}
-                  </span>
+                <div className="space-y-2">
+                  {Object.entries(SHIPPING_OPTIONS).map(([key, option]) => (
+                    <label
+                      key={key}
+                      className={`p-3.5 sm:p-4 rounded-xl border bg-zinc-950 flex items-center justify-between cursor-pointer transition-all ${
+                        shippingMethod === key ? "border-[#D4AF37]" : "border-zinc-900 hover:border-zinc-800"
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <input
+                          type="radio"
+                          name="shippingMethod"
+                          checked={shippingMethod === key}
+                          onChange={() => setShippingMethod(key)}
+                          className="accent-[#D4AF37]"
+                        />
+                        <div>
+                          <p className="text-xs font-medium text-white">{option.label}</p>
+                          <p className="text-[10px] text-zinc-400">{option.description}</p>
+                        </div>
+                      </div>
+                      <span className="text-xs text-[#D4AF37] font-semibold shrink-0">
+                        Rs. {option.cost.toLocaleString()}
+                      </span>
+                    </label>
+                  ))}
                 </div>
               </div>
 
@@ -455,7 +478,7 @@ const Checkout = () => {
                   4. Payment Method
                 </h2>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
                   <button
                     type="button"
                     onClick={() => setPaymentMethod("CashOnDelivery")}
@@ -469,24 +492,13 @@ const Checkout = () => {
 
                   <button
                     type="button"
-                    onClick={() => setPaymentMethod("PayPal")}
+                    onClick={() => setPaymentMethod("OnlinePayment")}
                     className={`p-3 rounded-xl border text-center flex sm:flex-col items-center justify-center gap-2 transition-all ${
-                      paymentMethod === "PayPal" ? "bg-zinc-950 border-[#D4AF37] text-[#D4AF37]" : "border-zinc-900 text-zinc-400 hover:border-zinc-800"
+                      paymentMethod === "OnlinePayment" ? "bg-zinc-950 border-[#D4AF37] text-[#D4AF37]" : "border-zinc-900 text-zinc-400 hover:border-zinc-800"
                     }`}
                   >
-                    <FaMobileAlt className="text-base sm:text-lg" />
-                    <span className="text-[10px] tracking-wider uppercase font-medium">PayPal</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => setPaymentMethod("Stripe")}
-                    className={`p-3 rounded-xl border text-center flex sm:flex-col items-center justify-center gap-2 transition-all ${
-                      paymentMethod === "Stripe" ? "bg-zinc-950 border-[#D4AF37] text-[#D4AF37]" : "border-zinc-900 text-zinc-400 hover:border-zinc-800"
-                    }`}
-                  >
-                    <FaLock className="text-base sm:text-lg" />
-                    <span className="text-[10px] tracking-wider uppercase font-medium">Stripe</span>
+                    <FaCreditCard className="text-base sm:text-lg" />
+                    <span className="text-[10px] tracking-wider uppercase font-medium">Online Payment</span>
                   </button>
                 </div>
 
@@ -498,7 +510,7 @@ const Checkout = () => {
 
                 {paymentMethod !== "CashOnDelivery" && (
                   <div className="p-4 bg-zinc-950 border border-zinc-900 rounded-xl space-y-2 text-xs text-zinc-400">
-                    <p className="text-white font-medium">Secure Online Payment ({paymentMethod})</p>
+                    <p className="text-white font-medium">Secure Online Payment</p>
                     <p className="text-[11px] leading-relaxed">
                       Your order will be logged as pending until payment verification is confirmed.
                     </p>
@@ -605,7 +617,7 @@ const Checkout = () => {
                 )}
 
                 <div className="flex justify-between">
-                  <span>Express Shipping</span>
+                  <span>{shippingLabel}</span>
                   <span className="text-white">Rs. {shippingCost.toLocaleString()}</span>
                 </div>
 

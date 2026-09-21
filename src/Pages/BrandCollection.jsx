@@ -7,7 +7,7 @@ const API_BASE_URL = "https://backen-watches.vercel.app";
 
 const BrandCollection = () => {
   const { brandName } = useParams();
-  const { addToCart } = useCart();
+  const { addToCart, buyNow } = useCart();
   const navigate = useNavigate();
 
   // Backend Data States
@@ -314,6 +314,17 @@ const BrandCollection = () => {
                           className="w-full mt-2 py-2.5 bg-gray-900 hover:bg-[#D4AF37] text-white hover:text-black rounded-sm text-xs uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-2 font-medium cursor-pointer"
                         >
                           <FaShoppingBag className="text-xs" /> Add To Cart
+                        </button>
+
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            buyNow && buyNow(product);
+                            navigate("/checkout");
+                          }}
+                          className="w-full py-2.5 bg-[#D4AF37] hover:bg-[#b8952b] text-black rounded-sm text-xs uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-2 font-medium cursor-pointer"
+                        >
+                          Buy Now
                         </button>
                       </div>
                     </div>

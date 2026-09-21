@@ -18,7 +18,7 @@ const SaleDetailPage = () => {
   const navigate = useNavigate();
 
   // Pull addToCart from CartContext
-  const { addToCart } = useCart();
+  const { addToCart, buyNow } = useCart();
 
   const [campaign, setCampaign] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -82,6 +82,24 @@ const SaleDetailPage = () => {
     } else {
       console.error("addToCart function is missing from context or props.");
     }
+  };
+
+  // Buy Now Handler: add discounted item and go straight to checkout
+  const handleBuyNow = (watch, discountPercent) => {
+    const watchId = watch._id || watch.id;
+    const originalPrice = watch.price || 0;
+
+    buyNow({
+      id: watchId,
+      name: watch.name,
+      price: Math.round(originalPrice * (1 - discountPercent / 100)),
+      originalPrice: originalPrice,
+      appliedDiscount: discountPercent,
+      image: renderImage(watch.images || watch.image),
+      ref: watch.referenceNo,
+      quantity: 1,
+    });
+    navigate("/checkout");
   };
 
   // Safe Image URL Extractor for Cloudinary or standard strings
@@ -280,6 +298,14 @@ const SaleDetailPage = () => {
                           <span>Add to Cart</span>
                         </button>
                       </div>
+
+                      {/* Buy Now Function */}
+                      <button
+                        onClick={() => handleBuyNow(watch, discountVal)}
+                        className="w-full bg-[#D4AF37] hover:bg-[#b8952b] text-black py-2.5 rounded-sm text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-colors cursor-pointer font-semibold"
+                      >
+                        <span>Buy Now</span>
+                      </button>
                     </div>
                   </motion.div>
                 );

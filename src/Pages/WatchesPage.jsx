@@ -9,6 +9,7 @@ import {
   FaRegHeart,
   FaSlidersH 
 } from "react-icons/fa";
+import { useCart } from "../Component/context/CartContext";
 
 const BRANDS = ["All", "Rolex", "Omega", "Patek Philippe", "TAG Heuer", "Audemars Piguet", "Cartier", "Tudor"];
 const CATEGORIES = ["All", "Diver", "Chronograph", "Dress", "Sports"];
@@ -16,6 +17,7 @@ const MOVEMENTS = ["All", "Automatic", "Manual", "Quartz"];
 
 const WatchesPage = () => {
   const navigate = useNavigate();
+  const { buyNow } = useCart();
 
   // Backend Data States
   const [watches, setWatches] = useState([]);
@@ -378,6 +380,24 @@ const WatchesPage = () => {
                             <FaShoppingBag className="text-xs" />
                           </button>
                         </div>
+
+                        {/* Buy Now Button */}
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            buyNow({
+                              id: watchId,
+                              name: watch.name,
+                              price: watch.price,
+                              image: watchImage,
+                              ref: watch.referenceNo,
+                            });
+                            navigate("/checkout");
+                          }}
+                          className="w-full bg-[#D4AF37] hover:bg-[#b8952b] text-black py-2 rounded-sm text-[11px] uppercase tracking-wider transition-colors cursor-pointer font-semibold"
+                        >
+                          Buy Now
+                        </button>
                       </div>
                     </motion.div>
                   );
