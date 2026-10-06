@@ -504,7 +504,7 @@ const Checkout = () => {
 
                 {paymentMethod === "CashOnDelivery" && (
                   <div className="p-4 bg-zinc-950 border border-zinc-900 rounded-xl text-xs text-zinc-400 leading-relaxed">
-                    Pay in cash upon delivery to your doorstep. Please have exact change ready for the courier agent.
+                    100% Cash on Delivery available all over Pakistan. No advance payment required. Pay the full amount in cash at your doorstep. Please have exact change ready for the courier agent.
                   </div>
                 )}
 

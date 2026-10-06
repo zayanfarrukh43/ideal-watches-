@@ -38,8 +38,8 @@ const brands = [
   { name: "Maurice Lacroix", logo: mauriceLacroix, isBlackCard: true },
   { name: "Just Cavalli", logo: justCavalli, isBlackCard: false },
   { name: "Longines", logo: longines, isBlackCard: true },
-  { name: "Burberry", logo: burberry, isBlackCard: false },
-  { name: "Rado", logo: rado, isBlackCard: true },
+  { name: "Burberry", logo: burberry, isBlackCard: true },
+  // { name: "Rado", logo: rado, isBlackCard: true },
   { name: "TAG Heuer", logo: tagHeuer, isBlackCard: false },
   { name: "Tory Burch", logo: toryBurch, isBlackCard: true },
 ];

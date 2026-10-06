@@ -286,7 +286,7 @@ const WarrantyServicing = () => {
             Direct Warranty Concierge Helpline
           </p>
           <p className="text-sm font-semibold text-zinc-900 flex items-center justify-center gap-2" style={{ fontFamily: "Montserrat, sans-serif" }}>
-            <FaPhoneAlt className="text-[#D4AF37] text-xs" /> WhatsApp Support: +92 300 1234567 | Email: service@idealwatches.pk
+            <FaPhoneAlt className="text-[#D4AF37] text-xs" /> WhatsApp Support: +92 300 1234567 | Email: info.idealwatches@gmail.com
           </p>
         </div>
 

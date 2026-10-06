@@ -2,7 +2,7 @@ import React from "react";
 
 const VideoBanner = () => {
   return (
-    <section className="relative h-[500px] w-full overflow-hidden md:h-[900px]">
+    <section className="relative h-[500px] w-full bg-white overflow-hidden md:h-[900px]">
       <video
         className="absolute inset-0 h-full w-full object-cover"
         autoPlay

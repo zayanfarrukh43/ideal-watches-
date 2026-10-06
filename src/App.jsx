@@ -22,6 +22,7 @@ import CollectionPage from './Pages/CollectionPage'; // Import the CollectionPag
 import BestSellersPage from './Pages/BestSellers';
 import SalesPage from './Pages/SalesPage';
 import SaleDetailPage from './Pages/SaleDetailPage';
+import GenderCollectionPage from './Pages/GenderCollectionPage';
 function App() {
   return (
     <CartProvider>
@@ -51,6 +52,8 @@ function App() {
             <Route path="/brand/:brandName" element={<BrandCollection />} />
             {/* Collection Page */}
             <Route path="/collections/:category" element={<CollectionPage />} />
+            {/* Men / Women Collection Page */}
+            <Route path="/gender/:gender" element={<GenderCollectionPage />} />
           
      
           </Routes>

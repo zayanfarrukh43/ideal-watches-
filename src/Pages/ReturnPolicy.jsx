@@ -173,7 +173,7 @@ const ReturnPolicy = () => {
             Ready to initiate an exchange or return?
           </p>
           <p className="text-sm font-semibold text-zinc-900 flex items-center justify-center gap-2" style={{ fontFamily: "Montserrat, sans-serif" }}>
-            <FaPhoneAlt className="text-[#D4AF37] text-xs" /> Returns Concierge WhatsApp: +92 300 1234567 | returns@idealwatches.pk
+            <FaPhoneAlt className="text-[#D4AF37] text-xs" /> Returns Concierge WhatsApp: +92 300 1234567 | info.idealwatches@gmail.com
           </p>
         </div>
 

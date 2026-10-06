@@ -20,7 +20,7 @@ const faqs = [
   },
   {
     question: "What are your delivery and cash on delivery (COD) policies across Pakistan?",
-    answer: "We offer fully insured express courier delivery (TCS / Leopards) across Pakistan within 24–48 hours. Advance security verification is required for high-value orders."
+    answer: "We offer fully insured express courier delivery (TCS / Leopards) across Pakistan within 24–48 hours. 100% Cash on Delivery is available all over Pakistan with no advance payment."
   },
   {
     question: "Can you help source a specific rare or luxury watch in Pakistan?",
@@ -128,7 +128,7 @@ const ContactUs = () => {
             <p className="text-xs text-zinc-400 font-light leading-relaxed" style={{ fontFamily: "Montserrat, sans-serif" }}>
               +92 316 2839665 <br />
               <span className="text-zinc-300 font-normal">+92 316 2839665 (WhatsApp)</span> <br />
-              support@idealwatches.pk
+              info.idealwatches@gmail.com
             </p>
           </div>
 

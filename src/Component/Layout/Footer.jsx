@@ -19,7 +19,7 @@ const Footer = ({ bgColor = "bg-zinc-950" }) => {
     { label: "Home", path: "/" },
     { label: "About Us", path: "/about" },
     { label: "Contact Us", path: "/contact" },
-    { label: "Luxury Brands", path: "/brands" },
+    // { label: "Luxury Brands", path: "/brands" },
     { label: "Collections", path: "/collections" },
 
   ];
@@ -55,7 +55,9 @@ const Footer = ({ bgColor = "bg-zinc-950" }) => {
               className="text-zinc-400 text-xs sm:text-sm font-light leading-relaxed max-w-sm"
               style={{ fontFamily: "Montserrat, sans-serif" }}
             >
-              Pakistan’s premier destination for authentic luxury timepieces. Delivering certified original watches across Karachi, Lahore, Islamabad, and nationwide.
+
+Pakistan’s premier destination for certified luxury timepieces. Authentic luxury delivered nationwide across Karachi, Lahore, Islamabad, and beyond.
+
             </p>
 
             {/* Social Icons & WhatsApp Quick Connect */}
@@ -169,9 +171,9 @@ const Footer = ({ bgColor = "bg-zinc-950" }) => {
                 <FaWhatsapp className="text-emerald-500 text-xs" />
                 <span>+92 316 2839665</span>
               </a>
-              <a href="mailto:support@idealwatches.pk" className="flex items-center gap-2 text-zinc-300 hover:text-[#D4AF37] transition-colors">
+              <a href="mailto:info.idealwatches@gmail.com" className="flex items-center gap-2 text-zinc-300 hover:text-[#D4AF37] transition-colors">
                 <FaEnvelope className="text-[#D4AF37] text-[10px]" />
-                <span>support@idealwatches.pk</span>
+                <span>info.idealwatches@gmail.com</span>
               </a>
               <p className="pt-2 text-[10px] text-zinc-500">
                 Mon - Sat: 11:00 AM - 9:00 PM (PKT)

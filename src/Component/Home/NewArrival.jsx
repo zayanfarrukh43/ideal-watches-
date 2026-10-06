@@ -29,19 +29,19 @@ const NewArrivals = () => {
   }, []);
 
   return (
-    <div className="bg-black text-white min-h-screen py-20 sm:py-28 px-4 sm:px-8 lg:px-12 font-sans">
+    <div className="bg-white text-black min-h-screen py-20 sm:py-28 px-4 sm:px-8 lg:px-12 font-sans">
       <div className="max-w-[1400px] mx-auto space-y-12 sm:space-y-16">
         
         {/* Minimal Header */}
         <div className="text-center space-y-3 max-w-xl mx-auto">
           <span 
-            className="text-[#D4AF37] uppercase tracking-[0.4em] text-[9px] font-medium block"
+            className="text-[#B8901F] uppercase tracking-[0.4em] text-[9px] font-bold block"
             style={{ fontFamily: 'Montserrat, sans-serif' }}
           >
             Curated Collection
           </span>
           <h1 
-            className="text-4xl sm:text-6xl font-light tracking-wider uppercase text-white"
+            className="text-4xl sm:text-6xl font-semibold tracking-wider uppercase text-black"
             style={{ fontFamily: 'Cormorant Garamond, serif' }}
           >
             New Arrivals
@@ -51,11 +51,11 @@ const NewArrivals = () => {
 
         {/* Loading / Empty States */}
         {loading ? (
-          <div className="text-center py-20 text-zinc-500 text-sm tracking-widest uppercase font-mono">
+          <div className="text-center py-20 text-zinc-700 text-sm tracking-widest uppercase font-mono">
             Loading Collection...
           </div>
         ) : products.length === 0 ? (
-          <div className="text-center py-20 text-zinc-500 text-sm tracking-widest uppercase font-mono">
+          <div className="text-center py-20 text-zinc-700 text-sm tracking-widest uppercase font-mono">
             No timepieces found in inventory.
           </div>
         ) : (
@@ -73,7 +73,7 @@ const NewArrivals = () => {
 };
 
 // Minimalist Product Card Component
-const ProductCard = ({ product }) => {
+export const ProductCard = ({ product }) => {
   const navigate = useNavigate();
   const { addToCart, buyNow } = useCart();
 
@@ -118,12 +118,12 @@ const ProductCard = ({ product }) => {
   return (
     <div 
       onClick={goToProductPage}
-      className="group bg-zinc-950/40 border border-zinc-900 hover:border-zinc-800 p-4 sm:p-5 flex flex-col justify-between transition-all duration-500 cursor-pointer relative"
+      className="group bg-white border border-zinc-200 hover:border-zinc-300 p-4 sm:p-5 flex flex-col justify-between transition-all duration-500 cursor-pointer relative"
     >
       {/* Product Tag */}
       {displayTag && (
         <span 
-          className="absolute top-3 left-3 text-[#D4AF37] text-[8px] uppercase tracking-[0.2em] bg-black/80 px-2 py-0.5 border border-zinc-800/80 z-10"
+          className="absolute top-3 left-3 text-[#B8901F] text-[8px] uppercase tracking-[0.2em] bg-white/90 px-2 py-0.5 border border-zinc-200 z-10"
           style={{ fontFamily: 'Montserrat, sans-serif' }}
         >
           {displayTag}
@@ -131,7 +131,7 @@ const ProductCard = ({ product }) => {
       )}
 
       {/* Image Container */}
-      <div className="relative w-full aspect-square bg-black/40 flex items-center justify-center p-4 mb-4 overflow-hidden rounded-sm">
+      <div className="relative w-full aspect-square bg-zinc-50 flex items-center justify-center p-4 mb-4 overflow-hidden rounded-sm">
         <img 
           src={primaryImage} 
           alt={product.name} 
@@ -143,19 +143,19 @@ const ProductCard = ({ product }) => {
       <div className="space-y-3 text-center">
         <div>
           <p 
-            className="text-[8px] sm:text-[9px] tracking-[0.25em] text-zinc-500 uppercase mb-1"
+            className="text-[8px] sm:text-[9px] tracking-[0.25em] text-zinc-700 uppercase mb-1"
             style={{ fontFamily: 'Montserrat, sans-serif' }}
           >
             Ref. {product.referenceNo}
           </p>
           <h3 
-            className="text-xs sm:text-sm font-light text-zinc-200 tracking-wide truncate group-hover:text-white transition-colors"
+            className="text-xs sm:text-sm font-semibold text-zinc-900 tracking-wide truncate group-hover:text-black transition-colors"
             style={{ fontFamily: 'Cormorant Garamond, serif' }}
           >
             {product.name}
           </h3>
           <p 
-            className="text-[10px] sm:text-xs text-zinc-400 font-light tracking-wider mt-1"
+            className="text-[10px] sm:text-xs text-zinc-800 font-semibold tracking-wider mt-1"
             style={{ fontFamily: 'Montserrat, sans-serif' }}
           >
             Rs. {product.price?.toLocaleString()}
@@ -165,7 +165,7 @@ const ProductCard = ({ product }) => {
         {/* Add To Bag CTA */}
         <button
           onClick={handleAddToCart}
-          className="w-full py-2.5 bg-zinc-900/80 hover:bg-[#D4AF37] text-zinc-300 hover:text-black border border-zinc-800 hover:border-[#D4AF37] text-[9px] tracking-[0.25em] uppercase font-medium transition-all duration-300 flex items-center justify-center gap-2"
+          className="w-full py-2.5 bg-zinc-100 hover:bg-[#D4AF37] text-zinc-900 hover:text-black border border-zinc-200 hover:border-[#D4AF37] text-[9px] tracking-[0.25em] uppercase font-bold transition-all duration-300 flex items-center justify-center gap-2"
           style={{ fontFamily: 'Montserrat, sans-serif' }}
         >
           <FaShoppingBag className="text-[10px]" />
@@ -175,7 +175,7 @@ const ProductCard = ({ product }) => {
         {/* Buy Now CTA */}
         <button
           onClick={handleBuyNow}
-          className="w-full py-2.5 bg-[#D4AF37] hover:bg-[#b8952b] text-black border border-[#D4AF37] text-[9px] tracking-[0.25em] uppercase font-medium transition-all duration-300 flex items-center justify-center"
+          className="w-full py-2.5 bg-[#D4AF37] hover:bg-[#b8952b] text-black border border-[#D4AF37] text-[9px] tracking-[0.25em] uppercase font-bold transition-all duration-300 flex items-center justify-center"
           style={{ fontFamily: 'Montserrat, sans-serif' }}
         >
           Buy Now

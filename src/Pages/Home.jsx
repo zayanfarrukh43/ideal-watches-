@@ -7,14 +7,16 @@ import NewsletterSection from "../Component/Home/NewsletterSection";
 import ShopByStyle from "../Component/Home/ShopByStyle";
 import { Video } from "lucide-react";
 import VideoBanner from "../Component/Home/VideoBanner";
+import GenderCollection from "../Component/Home/GenderCollection";
 const Home = () => {
   return (
     <div>
       <HeroSection />
       <LuxuryBrands />
       <NewArrival />
-      <ShopByStyle />
 <VideoBanner />
+      <GenderCollection />
+      <ShopByStyle />
        <HeritageSection />
       <PromotionalBanner />
       <NewsletterSection />

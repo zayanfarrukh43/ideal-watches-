@@ -119,10 +119,10 @@ const CodPolicy = () => {
               className="text-lg font-semibold text-zinc-900 uppercase tracking-wide"
               style={{ fontFamily: "Cormorant Garamond, serif" }}
             >
-              2. High-Value / Luxury Watch Advance Deposit
+              2. 100% Cash on Delivery Nationwide
             </h2>
             <p style={{ fontFamily: "Montserrat, sans-serif" }}>
-              For orders exceeding <strong className="font-semibold text-zinc-900">PKR 50,000</strong> or custom/rare imports, a minor commitment deposit (10% to 20%) via Bank Transfer, JazzCash, or EasyPaisa may be required before shipping. The remaining balance will be collected via COD at delivery.
+              We offer <strong className="font-semibold text-zinc-900">100% Cash on Delivery</strong> to every city across Pakistan. No advance payment or deposit is required for any order. The full amount is collected by the courier at delivery.
             </p>
           </div>
 
@@ -160,7 +160,7 @@ const CodPolicy = () => {
             Questions regarding your COD order?
           </p>
           <p className="text-sm font-semibold text-zinc-900" style={{ fontFamily: "Montserrat, sans-serif" }}>
-            Support WhatsApp: +92 300 1234567 | Email: support@idealwatches.pk
+            Support WhatsApp: +92 300 1234567 | Email: info.idealwatches@gmail.com
           </p>
         </div>
 
