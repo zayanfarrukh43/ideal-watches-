@@ -65,7 +65,6 @@ Pakistan’s premier destination for certified luxury timepieces. Authentic luxu
               {[
                 { icon: FaInstagram, href: "https://instagram.com/idealwatches.pk", label: "Instagram" },
                 { icon: FaFacebookF, href: "https://facebook.com/idealwatches.pk", label: "Facebook" },
-                { icon: FaWhatsapp, href: "https://wa.me/923162839665", label: "WhatsApp" },
               ].map((social, index) => {
                 const Icon = social.icon;
                 return (
