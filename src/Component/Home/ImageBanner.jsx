@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import bannerImage from '../../assets/Ideal Watches Web Banner.png';
+import bannerImage from '../../assets/Ideal Watches Web Banner 2.png';
 
 export default function ImageBanner() {
   return (
