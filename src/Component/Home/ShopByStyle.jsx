@@ -73,30 +73,32 @@ const ShopByStyle = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="relative bg-white border border-zinc-200 hover:border-zinc-300 transition-all duration-500 flex flex-col items-center justify-between p-4 sm:p-8 lg:p-10 h-[320px] sm:h-[420px] lg:h-[480px] overflow-hidden"
+                className="relative bg-black border border-zinc-800 hover:border-[#D4AF37]/60 transition-all duration-500 flex flex-col items-center justify-between p-4 sm:p-8 lg:p-10 h-[320px] sm:h-[420px] lg:h-[480px] overflow-hidden"
               >
                 {/* Radial Glow Highlight */}
-                <div className="absolute inset-0 bg-radial from-zinc-100 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+                <div className="absolute inset-0 bg-radial from-zinc-800/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
                 {/* Display Area */}
                 <div className="relative w-full flex-1 flex items-center justify-center my-2 sm:my-4">
+                  {/* Soft spotlight so dark watches stand out on black */}
+                  <div className="absolute w-[70%] aspect-square rounded-full bg-zinc-500/25 blur-3xl pointer-events-none" />
                   <img
                     src={style.image}
                     alt={style.title}
-                    className="max-h-[130px] sm:max-h-[180px] lg:max-h-[220px] max-w-full object-contain filter drop-shadow-[0_15px_25px_rgba(0,0,0,0.25)] group-hover:scale-105 transition-transform duration-500 ease-out z-10"
+                    className="max-h-[130px] sm:max-h-[180px] lg:max-h-[220px] max-w-full object-contain filter drop-shadow-[0_15px_25px_rgba(0,0,0,0.9)] group-hover:scale-105 transition-transform duration-500 ease-out z-10"
                   />
                 </div>
 
                 {/* Text Label Section */}
-                <div className="text-center w-full z-10 pt-3 sm:pt-6 border-t border-zinc-200 group-hover:border-zinc-300 transition-colors duration-300">
+                <div className="text-center w-full z-10 pt-3 sm:pt-6 border-t border-zinc-800 group-hover:border-zinc-700 transition-colors duration-300">
                   <p 
-                    className="text-[7.5px] sm:text-[9px] uppercase tracking-[0.2em] sm:tracking-[0.25em] text-zinc-700 font-semibold mb-1 group-hover:text-[#B8901F] transition-colors duration-300 truncate"
+                    className="text-[7.5px] sm:text-[9px] uppercase tracking-[0.2em] sm:tracking-[0.25em] text-zinc-400 font-semibold mb-1 group-hover:text-[#D4AF37] transition-colors duration-300 truncate"
                     style={{ fontFamily: "Montserrat, sans-serif" }}
                   >
                     {style.subtitle}
                   </p>
                   <h3
-                    className="text-sm sm:text-lg lg:text-xl font-semibold tracking-wide text-zinc-900 group-hover:text-black transition-colors duration-300 truncate"
+                    className="text-sm sm:text-lg lg:text-xl font-semibold tracking-wide text-white group-hover:text-[#D4AF37] transition-colors duration-300 truncate"
                     style={{ fontFamily: "Cormorant Garamond, serif" }}
                   >
                     {style.title}

@@ -8,6 +8,7 @@ import ShopByStyle from "../Component/Home/ShopByStyle";
 import { Video } from "lucide-react";
 import VideoBanner from "../Component/Home/VideoBanner";
 import GenderCollection from "../Component/Home/GenderCollection";
+import ImageBanner from "../Component/Home/ImageBanner";
 const Home = () => {
   return (
     <div>
@@ -19,6 +20,7 @@ const Home = () => {
       <ShopByStyle />
        <HeritageSection />
       <PromotionalBanner />
+      <ImageBanner />
       <NewsletterSection />
     </div>
   )
