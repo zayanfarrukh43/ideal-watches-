@@ -8,7 +8,7 @@ import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 
 import banner1 from "../../assets/Ideal Watches Web Banner.png";
-import banner2 from "../../assets/Ideal Watches Web Banner 2.png";
+// import banner2 from "../../assets/Ideal Watches Web Banner 2.png";
 
 // Banners are 3:1. On smaller screens a taller frame is used and the image is
 // cropped from the sides; `position` keeps the logo text + watch in view.
@@ -20,13 +20,13 @@ const slides = [
     link: "/collections",
     position: "object-[0%_50%] sm:object-[10%_50%] lg:object-center",
   },
-  {
-    id: 2,
-    image: banner2,
-    alt: "Ideal Watches - Timeless Elegance",
-    link: "/collections",
-    position: "object-[27%_50%] sm:object-[20%_50%] lg:object-center",
-  },
+  // {
+  //   id: 2,
+  //   image: banner2,
+  //   alt: "Ideal Watches - Timeless Elegance",
+  //   link: "/collections",
+  //   position: "object-[27%_50%] sm:object-[20%_50%] lg:object-center",
+  // },
 ];
 
 const HeroSection = () => {
