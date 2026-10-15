@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   FaSearch,
-  FaRegHeart,
   FaRegUser,
   FaShoppingBag,
   FaBars,
@@ -19,7 +18,6 @@ const Header = () => {
   const navigate = useNavigate();
   const { totalItems, setIsCartOpen } = useCart();
   
-  const wishlistCount = 0; // Dynamic badge count fallback
 
   // Search States
   const [searchQuery, setSearchQuery] = useState("");
@@ -91,7 +89,7 @@ const Header = () => {
 
   return (
     <>
-      <header className="w-full bg-zinc-950 border-b border-zinc-800/80 transition-all sticky top-0 z-40">
+      <header className="w-full bg-zinc-950 border-b border-zinc-800/80 transition-all relative z-40">
         {/* Top Announcement Bar */}
         <div 
           className="bg-gradient-to-r from-zinc-950 via-[#1c180e] to-zinc-950 text-[#D4AF37] text-[10px] sm:text-[11px] font-medium tracking-[0.25em] uppercase text-center py-2 border-b border-zinc-800/50"
@@ -200,23 +198,6 @@ const Header = () => {
                 </span>
               </Link>
 
-              <Link
-                to="/wishlist"
-                className="group flex flex-col items-center justify-center text-zinc-400 hover:text-[#D4AF37] transition-colors duration-300 relative"
-              >
-                <div className="relative">
-                  <FaRegHeart className="text-lg text-white group-hover:text-[#D4AF37] transition-colors duration-300" />
-                  {wishlistCount > 0 && (
-                    <span className="absolute -top-1.5 -right-2.5 w-4 h-4 rounded-full bg-[#D4AF37] text-black text-[9px] flex items-center justify-center font-bold">
-                      {wishlistCount}
-                    </span>
-                  )}
-                </div>
-                <span className="text-[10px] tracking-[0.2em] uppercase mt-1.5 font-light" style={{ fontFamily: "Montserrat, sans-serif" }}>
-                  Wishlist
-                </span>
-              </Link>
-
               <button
                 onClick={() => setIsCartOpen(true)}
                 className="group flex flex-col items-center justify-center text-zinc-400 hover:text-[#D4AF37] transition-colors duration-300 relative"
@@ -288,15 +269,6 @@ const Header = () => {
             </Link>
 
             <div className="flex items-center gap-4">
-              <Link to="/wishlist" className="p-1 relative flex items-center">
-                <FaRegHeart className="text-lg text-white hover:text-[#D4AF37] transition-colors" />
-                {wishlistCount > 0 && (
-                  <span className="absolute -top-1 -right-1.5 w-3.5 h-3.5 rounded-full bg-[#D4AF37] text-black text-[8px] flex items-center justify-center font-bold">
-                    {wishlistCount}
-                  </span>
-                )}
-              </Link>
-
               <button onClick={() => setIsCartOpen(true)} className="relative p-1">
                 <FaShoppingBag className="text-lg text-white hover:text-[#D4AF37] transition-colors" />
                 {totalItems > 0 && (
@@ -419,16 +391,6 @@ const Header = () => {
             </div>
 
             <div className="relative z-10 border-t border-zinc-800/80 pt-6 mt-6 space-y-3">
-              <Link
-                to="/wishlist"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="flex items-center justify-center h-11 rounded-full border border-zinc-800 text-zinc-300 uppercase tracking-[0.2em] text-[11px] font-medium hover:border-[#D4AF37] hover:text-[#D4AF37] transition-all duration-300"
-                style={{ fontFamily: "Montserrat, sans-serif" }}
-              >
-                <FaRegHeart className="mr-2.5 text-sm" />
-                Wishlist {wishlistCount > 0 && `(${wishlistCount})`}
-              </Link>
-
               <Link
                 to="/account"
                 onClick={() => setIsMobileMenuOpen(false)}
