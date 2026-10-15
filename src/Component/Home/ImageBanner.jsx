@@ -1,30 +1,36 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import bannerImage from '../../assets/Ideal Watches Web Banner 2.png';
+// Web-optimised copies of Banner 2 in src/assets/banner
+// (web: 2400x800 = 3:1, mobile: 1080x1919 = 9:16)
+import bannerWeb from '../../assets/banner/banner2-web.jpg';
+import bannerMobile from '../../assets/banner/banner2-mobile.jpg';
 
 export default function ImageBanner() {
   return (
     <section className="w-full bg-[#FCFCFB] px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-      {/* Framed image card. The banner is 3:1 - on phones/tablets a taller frame is
-          used and the image is cropped from the right so the IDEAL text + watch stay
-          in view; on desktop the full banner shows uncropped. */}
+      {/* Framed image card. Phones (< 768px) get the tall mobile layout, everything
+          else the wide web layout. The frame matches each image's own shape, so the
+          banner always shows in full with nothing cropped. */}
       <Link
         to="/collections"
-        className="group relative block w-full max-w-[1600px] mx-auto overflow-hidden rounded-2xl bg-black aspect-[2/1] sm:aspect-[5/2] lg:aspect-[3/1]"
-        style={{ maxHeight: '75vh' }}
+        className="group relative block w-full max-w-[1600px] mx-auto overflow-hidden rounded-2xl bg-black aspect-[1080/1919] md:aspect-[3/1]"
       >
-        <img
-          src={bannerImage}
-          alt="Ideal Watches - Timeless Style for Modern Men"
-          loading="lazy"
-          draggable="false"
-          className="absolute inset-0 w-full h-full object-cover object-[0%_50%] sm:object-[10%_50%] lg:object-center select-none group-hover:scale-[1.02] transition-transform duration-1000 ease-out"
-        />
+        <picture>
+          <source media="(max-width: 767px)" srcSet={bannerMobile} />
+          <img
+            src={bannerWeb}
+            alt="Ideal Watches - Luxury Watches"
+            loading="lazy"
+            draggable="false"
+            className="absolute inset-0 w-full h-full object-cover select-none group-hover:scale-[1.02] transition-transform duration-1000 ease-out"
+          />
+        </picture>
 
-        {/* Shop Now - sits bottom-right, clear of the banner's own text */}
+        {/* Shop Now - bottom-centre on phones (plain area under the watch),
+            bottom-right on larger screens (clear of the banner's own text) */}
         <span
-          className="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 z-10 bg-white text-[#1A1A1A] text-[10px] md:text-xs font-semibold tracking-[0.2em] uppercase px-5 py-2.5 sm:px-7 sm:py-3.5 group-hover:bg-[#D4AF37] transition-colors"
+          className="absolute bottom-6 left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 md:bottom-6 md:right-6 z-10 whitespace-nowrap bg-white text-[#1A1A1A] text-[10px] md:text-xs font-semibold tracking-[0.2em] uppercase px-7 py-3.5 group-hover:bg-[#D4AF37] transition-colors"
           style={{ fontFamily: 'Montserrat, sans-serif' }}
         >
           Shop Now

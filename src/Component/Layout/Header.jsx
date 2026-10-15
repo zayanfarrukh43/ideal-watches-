@@ -240,8 +240,8 @@ const Header = () => {
           {/* Desktop Luxury Navigation */}
           {/* ========================= */}
           <nav className="hidden lg:flex h-12 border-t border-zinc-800/80 border-b border-zinc-800/80">
-            <div className="w-[240px] border-r border-zinc-800/80 flex items-center px-6 cursor-pointer hover:bg-zinc-900/60 transition-colors duration-300">
-              <span className="uppercase text-[11px] tracking-[0.2em] text-zinc-200 font-medium" style={{ fontFamily: "Montserrat, sans-serif" }}>
+            <div className="w-[190px] xl:w-[240px] shrink-0 border-r border-zinc-800/80 flex items-center px-4 xl:px-6 cursor-pointer hover:bg-zinc-900/60 transition-colors duration-300">
+              <span className="uppercase text-[10px] xl:text-[11px] tracking-[0.15em] xl:tracking-[0.2em] text-zinc-200 font-medium whitespace-nowrap" style={{ fontFamily: "Montserrat, sans-serif" }}>
                 Shop By Category
               </span>
             </div>
@@ -253,7 +253,7 @@ const Header = () => {
                   <Link
                     key={index}
                     to={item.href}
-                    className={`relative h-full flex items-center px-5 uppercase text-[11px] tracking-[0.2em] font-medium transition-all duration-300 ${
+                    className={`relative h-full flex items-center px-2.5 xl:px-5 uppercase text-[10px] xl:text-[11px] tracking-[0.15em] xl:tracking-[0.2em] font-medium whitespace-nowrap transition-all duration-300 ${
                       isActive ? "text-[#D4AF37]" : "text-zinc-300 hover:text-[#D4AF37]"
                     }`}
                     style={{ fontFamily: "Montserrat, sans-serif" }}

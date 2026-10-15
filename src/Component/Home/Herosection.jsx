@@ -7,25 +7,27 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 
-import banner1 from "../../assets/Ideal Watches Web Banner.png";
-// import banner2 from "../../assets/Ideal Watches Web Banner 2.png";
+// Web-optimised copies of the originals in src/assets/banner
+// (web: 2400x800 = 3:1, mobile: 1080x1919 = 9:16)
+import banner1Web from "../../assets/banner/banner1-web.jpg";
+import banner1Mobile from "../../assets/banner/banner1-mobile.jpg";
+import banner2Web from "../../assets/banner/banner2-web.jpg";
+import banner2Mobile from "../../assets/banner/banner2-mobile.jpg";
 
-// Banners are 3:1. On smaller screens a taller frame is used and the image is
-// cropped from the sides; `position` keeps the logo text + watch in view.
 const slides = [
   {
     id: 1,
-    image: banner1,
-    alt: "Ideal Watches - Timeless Style for Modern Men",
+    web: banner1Web,
+    mobile: banner1Mobile,
+    alt: "Ideal Watches - Luxury Watches",
     link: "/collections",
-    position: "object-[0%_50%] sm:object-[10%_50%] lg:object-center",
   },
   // {
   //   id: 2,
-  //   image: banner2,
+  //   web: banner2Web,
+  //   mobile: banner2Mobile,
   //   alt: "Ideal Watches - Timeless Elegance",
   //   link: "/collections",
-  //   position: "object-[27%_50%] sm:object-[20%_50%] lg:object-center",
   // },
 ];
 
@@ -54,14 +56,18 @@ const HeroSection = () => {
         {slides.map((slide, index) => (
           <SwiperSlide key={slide.id}>
             <Link to={slide.link} className="block w-full">
-              {/* Phone 2:1 → tablet 5:2 → desktop full 3:1 (capped at 85% of screen height) */}
-              <img
-                src={slide.image}
-                alt={slide.alt}
-                loading={index === 0 ? "eager" : "lazy"}
-                draggable="false"
-                className={`w-full aspect-[2/1] sm:aspect-[5/2] lg:aspect-[3/1] max-h-[85vh] object-cover select-none ${slide.position}`}
-              />
+              {/* Phones (< 768px) get the tall mobile layout, everything else the wide web layout.
+                  The frame matches each image's own shape, so nothing is cropped. */}
+              <picture>
+                <source media="(max-width: 767px)" srcSet={slide.mobile} />
+                <img
+                  src={slide.web}
+                  alt={slide.alt}
+                  loading={index === 0 ? "eager" : "lazy"}
+                  draggable="false"
+                  className="block w-full aspect-[1080/1919] md:aspect-[3/1] md:max-h-[85vh] object-cover select-none"
+                />
+              </picture>
             </Link>
           </SwiperSlide>
         ))}
