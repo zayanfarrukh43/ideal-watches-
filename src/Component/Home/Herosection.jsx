@@ -9,8 +9,8 @@ import "swiper/css/effect-fade";
 
 // Web-optimised copies of the originals in src/assets/banner
 // (web: 2400x800 = 3:1, mobile: 1080x1919 = 9:16)
-import banner1Web from "../../assets/banner/banner1-web.jpg";
-import banner1Mobile from "../../assets/banner/banner1-mobile.jpg";
+import banner1Web from "../../assets/Banner 1 v1.png";
+import banner1Mobile from "../../assets/Banner mobile layout v2.jpg.png";
 import banner2Web from "../../assets/banner/banner2-web.jpg";
 import banner2Mobile from "../../assets/banner/banner2-mobile.jpg";
 

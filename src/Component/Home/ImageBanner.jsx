@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 
 // Web-optimised copies of Banner 2 in src/assets/banner
 // (web: 2400x800 = 3:1, mobile: 1080x1919 = 9:16)
-import bannerWeb from '../../assets/banner/banner2-web.jpg';
-import bannerMobile from '../../assets/banner/banner2-mobile.jpg';
+import bannerWeb from '../../assets/Banner 2 v 2.png';
+import bannerMobile from '../../assets/Banner mobile layout v2.png';
 
 export default function ImageBanner() {
   return (
