@@ -118,7 +118,7 @@ const CartDrawer = () => {
                   {/* Details */}
                   <div className="flex-1 min-w-0 space-y-1">
                     {item.ref && (
-                      <span className="text-[9px] text-[#D4AF37] tracking-[0.25em] uppercase font-semibold block">
+                      <span className="text-[11px] text-[#D4AF37] tracking-[0.15em] uppercase font-extrabold block">
                         REF. {item.ref}
                       </span>
                     )}

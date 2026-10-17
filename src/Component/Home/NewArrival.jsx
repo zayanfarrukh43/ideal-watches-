@@ -135,7 +135,7 @@ export const ProductCard = ({ product }) => {
       )}
 
       {/* Image Container */}
-      <div className="relative w-full aspect-square bg-zinc-50 flex items-center justify-center p-4 mb-4 overflow-hidden rounded-sm">
+      <div className="relative w-full aspect-square bg-white flex items-center justify-center p-4 mb-4 overflow-hidden rounded-sm">
         <img 
           src={primaryImage} 
           alt={product.name} 
@@ -147,7 +147,7 @@ export const ProductCard = ({ product }) => {
       <div className="space-y-3 text-center">
         <div>
           <p 
-            className="text-[8px] sm:text-[9px] tracking-[0.25em] text-zinc-700 uppercase mb-1"
+            className="text-[11px] sm:text-xs tracking-[0.15em] text-black font-extrabold uppercase mb-1.5"
             style={{ fontFamily: 'Montserrat, sans-serif' }}
           >
             Ref. {product.referenceNo}

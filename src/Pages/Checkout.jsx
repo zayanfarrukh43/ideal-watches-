@@ -567,7 +567,7 @@ const Checkout = () => {
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-xs font-light text-white truncate">{item.name}</p>
-                        {item.ref && <p className="text-[9px] text-zinc-500 uppercase">REF. {item.ref}</p>}
+                        {item.ref && <p className="text-[11px] text-zinc-200 font-extrabold tracking-wider uppercase">REF. {item.ref}</p>}
                       </div>
                       <span className="text-xs text-[#D4AF37] font-light shrink-0">
                         Rs. {(item.price * (item.quantity || 1)).toLocaleString()}

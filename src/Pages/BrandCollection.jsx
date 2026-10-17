@@ -284,7 +284,7 @@ const BrandCollection = () => {
                       onClick={() => navigate(`/product/${productId}`)}
                       className="group bg-white border border-gray-200 rounded-sm p-4 flex flex-col justify-between hover:shadow-md hover:border-[#D4AF37] transition-all duration-300 cursor-pointer"
                     >
-                      <div className="relative w-full aspect-square bg-gray-50 rounded-sm p-4 flex items-center justify-center overflow-hidden mb-4">
+                      <div className="relative w-full aspect-square bg-white rounded-sm p-4 flex items-center justify-center overflow-hidden mb-4">
                         <img
                           src={productImage}
                           alt={product.name}

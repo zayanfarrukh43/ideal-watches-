@@ -318,7 +318,7 @@ const WatchesPage = () => {
                       className="group bg-white border border-zinc-200 rounded-sm overflow-hidden hover:border-[#D4AF37] transition-all duration-300 flex flex-col cursor-pointer shadow-xs hover:shadow-md"
                     >
                       {/* Watch Image Container */}
-                      <div className="relative aspect-square overflow-hidden bg-zinc-100">
+                      <div className="relative aspect-square overflow-hidden bg-white">
                         <img
                           src={watchImage}
                           alt={watch.name}

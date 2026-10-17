@@ -230,7 +230,7 @@ const ProductDetail = () => {
             {/* Meta row */}
             <div className="flex items-center justify-between gap-4">
               <span
-                className="text-[11px] text-[#8C6A12] tracking-[0.3em] uppercase font-semibold"
+                className="text-sm text-[#7A5C0F] tracking-[0.2em] uppercase font-extrabold"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
               >
                 Ref. {product.referenceNo || product.strapType || "ACC-GENEVA"}
