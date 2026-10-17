@@ -7,24 +7,25 @@ import {
   FaBars,
   FaTimes,
   FaChevronRight,
-  FaClock
 } from "react-icons/fa";
 import { useCart } from "../context/CartContext";
 import CartDrawer from "./CartDrawer";
+
+const API_BASE_URL = "https://backen-watches.vercel.app";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { totalItems, setIsCartOpen } = useCart();
-  
 
   // Search States
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
-  const [showDropdown, setShowDropdown] = useState(false);
-  const searchRef = useRef(null);
+  const [searchError, setSearchError] = useState("");
+  const searchInputRef = useRef(null);
 
   const categories = [
     { name: "Home", href: "/" },
@@ -36,51 +37,87 @@ const Header = () => {
     { name: "Sale", href: "/sale" },
   ];
 
-  // Close search dropdown when clicking outside
+  const openSearch = () => {
+    setIsMobileMenuOpen(false);
+    setIsSearchOpen(true);
+  };
+
+  const closeSearch = () => {
+    setIsSearchOpen(false);
+    setSearchQuery("");
+    setSearchResults([]);
+    setSearchError("");
+  };
+
+  // Focus the input as soon as the search panel opens
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (searchRef.current && !searchRef.current.contains(event.target)) {
-        setShowDropdown(false);
-      }
+    if (isSearchOpen) searchInputRef.current?.focus();
+  }, [isSearchOpen]);
+
+  // Close the search panel on Escape
+  useEffect(() => {
+    if (!isSearchOpen) return undefined;
+    const onKeyDown = (e) => {
+      if (e.key === "Escape") closeSearch();
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [isSearchOpen]);
 
-  // Fetch search results from backend API when query changes
+  // Close search + mobile menu whenever the page changes
   useEffect(() => {
-    const fetchSearchResults = async () => {
-      if (!searchQuery.trim()) {
-        setSearchResults([]);
-        setShowDropdown(false);
-        setIsSearching(false);
-        return;
-      }
+    closeSearch();
+    setIsMobileMenuOpen(false);
+  }, [location.pathname]);
 
-      setIsSearching(true);
+  // Fetch search results from the backend (debounced; stale requests are cancelled)
+  useEffect(() => {
+    const keyword = searchQuery.trim();
+    if (!keyword) {
+      setSearchResults([]);
+      setIsSearching(false);
+      setSearchError("");
+      return undefined;
+    }
+
+    const controller = new AbortController();
+    setIsSearching(true);
+    setSearchError("");
+
+    const debounceTimer = setTimeout(async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/search?keyword=${encodeURIComponent(searchQuery)}`);
+        const response = await fetch(
+          `${API_BASE_URL}/api/search?keyword=${encodeURIComponent(keyword)}`,
+          { signal: controller.signal }
+        );
         const result = await response.json();
-        
-        if (result.success && Array.isArray(result.data)) {
-          setSearchResults(result.data);
-          setShowDropdown(true);
-        }
+        setSearchResults(result.success && Array.isArray(result.data) ? result.data : []);
       } catch (err) {
+        if (err.name === "AbortError") return;
         console.error("Error fetching live search results:", err);
+        setSearchResults([]);
+        setSearchError("Search is unavailable right now. Please try again.");
       } finally {
-        setIsSearching(false);
+        if (!controller.signal.aborted) setIsSearching(false);
       }
-    };
+    }, 300);
 
-    const debounceTimer = setTimeout(fetchSearchResults, 300); // Debounce search request
-    return () => clearTimeout(debounceTimer);
+    return () => {
+      clearTimeout(debounceTimer);
+      controller.abort();
+    };
   }, [searchQuery]);
 
   const handleSelectProduct = (productId) => {
-    setShowDropdown(false);
-    setSearchQuery("");
+    closeSearch();
     navigate(`/product/${productId}`);
+  };
+
+  // Enter opens the first result
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    const first = searchResults[0];
+    if (first) handleSelectProduct(first._id || first.id);
   };
 
   const formatPrice = (pkr) => {
@@ -91,7 +128,7 @@ const Header = () => {
     <>
       <header className="w-full bg-zinc-950 border-b border-zinc-800/80 transition-all relative z-40">
         {/* Top Announcement Bar */}
-        <div 
+        <div
           className="bg-gradient-to-r from-zinc-950 via-[#1c180e] to-zinc-950 text-[#D4AF37] text-[10px] sm:text-[11px] font-medium tracking-[0.25em] uppercase text-center py-2 border-b border-zinc-800/50"
           style={{ fontFamily: "Montserrat, sans-serif" }}
         >
@@ -99,20 +136,20 @@ const Header = () => {
         </div>
 
         <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8">
-          
+
           {/* ========================= */}
           {/* Desktop Main Header */}
           {/* ========================= */}
           <div className="hidden lg:flex items-center justify-between h-20 gap-8">
             {/* Logo */}
             <Link to="/" className="flex-shrink-0 group">
-              <h1 
+              <h1
                 className="text-3xl xl:text-4xl font-light tracking-[0.35em] text-white leading-none group-hover:text-[#D4AF37] transition-colors duration-300"
                 style={{ fontFamily: "Cormorant Garamond, serif" }}
               >
                 IDEAL
               </h1>
-              <p 
+              <p
                 className="text-[9px] tracking-[0.5em] text-zinc-400 mt-1 uppercase font-light"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
               >
@@ -120,74 +157,26 @@ const Header = () => {
               </p>
             </Link>
 
-            {/* Luxury Live Search Bar with Dropdown */}
-            <div className="flex-1 max-w-xl relative" ref={searchRef}>
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Search timepieces, reference numbers & collections..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  onFocus={() => { if (searchQuery.trim()) setShowDropdown(true); }}
-                  className="w-full h-11 rounded-full bg-zinc-900/80 border border-zinc-800/80 pl-6 pr-12 text-xs text-white placeholder:text-zinc-500 focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37]/50 outline-none transition-all duration-300 tracking-wide font-light"
-                  style={{ fontFamily: "Montserrat, sans-serif" }}
-                />
-                <button
-                  aria-label="Search"
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-[#D4AF37] transition-colors duration-300"
-                >
-                  <FaSearch className="text-sm" />
-                </button>
-              </div>
-
-              {/* Live Search Results Dropdown */}
-              {showDropdown && (
-                <div className="absolute top-full left-0 right-0 mt-2 bg-zinc-950 border border-zinc-800 shadow-2xl rounded-lg overflow-hidden z-50 max-h-[400px] overflow-y-auto">
-                  {searchResults.length === 0 ? (
-                    <div className="p-4 text-center text-xs text-zinc-400 font-light">
-                      {isSearching ? "Searching horology vault..." : "No matching timepieces found."}
-                    </div>
-                  ) : (
-                    <div className="divide-y divide-zinc-900">
-                      {searchResults.map((item) => {
-                        const watchId = item._id || item.id;
-                        const watchImage = item.images?.[0]?.url || item.image || "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1000";
-                        const watchTitle = item.name || item.title;
-
-                        return (
-                          <div
-                            key={watchId}
-                            onClick={() => handleSelectProduct(watchId)}
-                            className="flex items-center gap-4 p-3 hover:bg-zinc-900/80 cursor-pointer transition-colors group"
-                          >
-                            <img
-                              src={watchImage}
-                              alt={watchTitle}
-                              className="w-12 h-12 object-cover rounded bg-black shrink-0 border border-zinc-800"
-                            />
-                            <div className="flex-1 min-w-0">
-                              <h4 
-                                className="text-sm font-light text-white group-hover:text-[#D4AF37] transition-colors truncate uppercase"
-                                style={{ fontFamily: "Cormorant Garamond, serif" }}
-                              >
-                                {watchTitle}
-                              </h4>
-                              <p className="text-[10px] text-zinc-400 font-light tracking-wide">
-                                {item.category || item.brand || "Horology"} • <span className="text-[#D4AF37]">{formatPrice(item.price)}</span>
-                              </p>
-                            </div>
-                            <FaChevronRight className="text-zinc-600 group-hover:text-[#D4AF37] text-xs mr-2 transition-colors" />
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-
             {/* Right Side Icons */}
             <div className="flex items-center gap-8">
+              <button
+                onClick={() => (isSearchOpen ? closeSearch() : openSearch())}
+                aria-label={isSearchOpen ? "Close search" : "Open search"}
+                aria-expanded={isSearchOpen}
+                className={`group flex flex-col items-center justify-center transition-colors duration-300 cursor-pointer ${
+                  isSearchOpen ? "text-[#D4AF37]" : "text-zinc-400 hover:text-[#D4AF37]"
+                }`}
+              >
+                {isSearchOpen ? (
+                  <FaTimes className="text-lg text-[#D4AF37]" />
+                ) : (
+                  <FaSearch className="text-lg text-white group-hover:text-[#D4AF37] transition-colors duration-300" />
+                )}
+                <span className="text-[10px] tracking-[0.2em] uppercase mt-1.5 font-light" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                  {isSearchOpen ? "Close" : "Search"}
+                </span>
+              </button>
+
               <Link
                 to="/account"
                 className="group flex flex-col items-center justify-center text-zinc-400 hover:text-[#D4AF37] transition-colors duration-300"
@@ -200,7 +189,7 @@ const Header = () => {
 
               <button
                 onClick={() => setIsCartOpen(true)}
-                className="group flex flex-col items-center justify-center text-zinc-400 hover:text-[#D4AF37] transition-colors duration-300 relative"
+                className="group flex flex-col items-center justify-center text-zinc-400 hover:text-[#D4AF37] transition-colors duration-300 relative cursor-pointer"
               >
                 <div className="relative">
                   <FaShoppingBag className="text-lg text-white group-hover:text-[#D4AF37] transition-colors duration-300" />
@@ -269,7 +258,20 @@ const Header = () => {
             </Link>
 
             <div className="flex items-center gap-4">
-              <button onClick={() => setIsCartOpen(true)} className="relative p-1">
+              <button
+                onClick={() => (isSearchOpen ? closeSearch() : openSearch())}
+                aria-label={isSearchOpen ? "Close search" : "Open search"}
+                aria-expanded={isSearchOpen}
+                className="p-1"
+              >
+                {isSearchOpen ? (
+                  <FaTimes className="text-lg text-[#D4AF37]" />
+                ) : (
+                  <FaSearch className="text-lg text-white hover:text-[#D4AF37] transition-colors" />
+                )}
+              </button>
+
+              <button onClick={() => setIsCartOpen(true)} className="relative p-1" aria-label="Open bag">
                 <FaShoppingBag className="text-lg text-white hover:text-[#D4AF37] transition-colors" />
                 {totalItems > 0 && (
                   <span className="absolute -top-1 -right-1.5 w-3.5 h-3.5 rounded-full bg-[#D4AF37] text-black text-[8px] flex items-center justify-center font-bold">
@@ -279,57 +281,79 @@ const Header = () => {
               </button>
             </div>
           </div>
-
-          {/* Mobile Search Bar with Dropdown */}
-          <div className="lg:hidden pb-3 relative">
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Search timepieces..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full h-10 rounded-full bg-zinc-900 border border-zinc-800 pl-4 pr-10 text-xs text-white placeholder:text-zinc-500 focus:border-[#D4AF37] outline-none"
-                style={{ fontFamily: "Montserrat, sans-serif" }}
-              />
-              <button className="absolute right-3 top-1/2 -translate-y-1/2">
-                <FaSearch className="text-zinc-400 text-xs" />
-              </button>
-            </div>
-
-            {/* Mobile Results Dropdown */}
-            {showDropdown && searchQuery.trim() && (
-              <div className="absolute top-full left-0 right-0 mt-1 bg-zinc-950 border border-zinc-800 shadow-xl rounded-lg overflow-hidden z-50 max-h-[300px] overflow-y-auto">
-                {searchResults.length === 0 ? (
-                  <div className="p-3 text-center text-xs text-zinc-400">No timepieces found</div>
-                ) : (
-                  <div className="divide-y divide-zinc-900">
-                    {searchResults.map((item) => {
-                      const watchId = item._id || item.id;
-                      const watchImage = item.images?.[0]?.url || item.image || "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1000";
-                      const watchTitle = item.name || item.title;
-
-                      return (
-                        <div
-                          key={watchId}
-                          onClick={() => handleSelectProduct(watchId)}
-                          className="flex items-center gap-3 p-2.5 bg-zinc-950 active:bg-zinc-900"
-                        >
-                          <img src={watchImage} alt={watchTitle} className="w-10 h-10 object-cover rounded bg-black shrink-0" />
-                          <div className="flex-1 min-w-0">
-                            <h4 className="text-xs text-white truncate uppercase" style={{ fontFamily: "Cormorant Garamond, serif" }}>
-                              {watchTitle}
-                            </h4>
-                            <p className="text-[10px] text-[#D4AF37]">{formatPrice(item.price)}</p>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
         </div>
+
+        {/* ========================= */}
+        {/* Search Panel (toggled)    */}
+        {/* ========================= */}
+        {isSearchOpen && (
+          <div className="absolute left-0 right-0 top-full z-50 bg-zinc-950 border-b border-zinc-800 shadow-2xl">
+            <div className="max-w-3xl mx-auto px-4 sm:px-6 py-4 sm:py-5">
+              <form onSubmit={handleSearchSubmit} className="relative">
+                <FaSearch className="absolute left-5 top-1/2 -translate-y-1/2 text-zinc-500 text-sm pointer-events-none" />
+                <input
+                  ref={searchInputRef}
+                  type="search"
+                  placeholder="Search watches by name, brand or reference..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full h-12 rounded-full bg-zinc-900 border border-zinc-800 pl-12 pr-5 text-base sm:text-sm text-white placeholder:text-zinc-500 focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37]/50 outline-none transition-all duration-300 tracking-wide"
+                  style={{ fontFamily: "Montserrat, sans-serif" }}
+                />
+              </form>
+
+              {/* Results */}
+              {searchQuery.trim() && (
+                <div className="mt-3 rounded-xl border border-zinc-800 overflow-hidden max-h-[60vh] overflow-y-auto">
+                  {isSearching && searchResults.length === 0 ? (
+                    <div className="p-4 text-center text-xs text-zinc-400">Searching...</div>
+                  ) : searchError ? (
+                    <div className="p-4 text-center text-xs text-rose-400">{searchError}</div>
+                  ) : searchResults.length === 0 ? (
+                    <div className="p-4 text-center text-xs text-zinc-400">
+                      No watches found for "{searchQuery.trim()}"
+                    </div>
+                  ) : (
+                    <div className="divide-y divide-zinc-900">
+                      {searchResults.map((item) => {
+                        const watchId = item._id || item.id;
+                        const watchImage = item.images?.[0]?.url || item.image || "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1000";
+                        const watchTitle = item.name || item.title;
+
+                        return (
+                          <button
+                            type="button"
+                            key={watchId}
+                            onClick={() => handleSelectProduct(watchId)}
+                            className="w-full flex items-center gap-4 p-3 text-left bg-zinc-950 hover:bg-zinc-900 cursor-pointer transition-colors group"
+                          >
+                            <img
+                              src={watchImage}
+                              alt={watchTitle}
+                              className="w-12 h-12 object-contain rounded bg-white shrink-0 border border-zinc-800"
+                            />
+                            <div className="flex-1 min-w-0">
+                              <h4
+                                className="text-sm text-white group-hover:text-[#D4AF37] transition-colors truncate"
+                                style={{ fontFamily: "Montserrat, sans-serif" }}
+                              >
+                                {watchTitle}
+                              </h4>
+                              <p className="text-[11px] text-zinc-400 tracking-wide mt-0.5">
+                                {item.brand || item.category || "Watch"} • <span className="text-[#D4AF37]">{formatPrice(item.price)}</span>
+                              </p>
+                            </div>
+                            <FaChevronRight className="text-zinc-600 group-hover:text-[#D4AF37] text-xs mr-1 transition-colors shrink-0" />
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* ========================= */}
         {/* Mobile Drawer Menu */}

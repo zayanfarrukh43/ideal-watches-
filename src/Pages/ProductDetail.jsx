@@ -113,7 +113,7 @@ const ProductDetail = () => {
 
   if (loading) {
     return (
-      <div className="bg-[#08080a] text-zinc-400 min-h-screen flex items-center justify-center font-mono text-sm tracking-widest uppercase">
+      <div className="bg-white text-zinc-800 min-h-screen flex items-center justify-center font-mono text-sm tracking-widest uppercase">
         Loading Masterpiece...
       </div>
     );
@@ -121,11 +121,11 @@ const ProductDetail = () => {
 
   if (error || !product) {
     return (
-      <div className="bg-[#08080a] text-zinc-400 min-h-screen flex flex-col items-center justify-center space-y-4">
+      <div className="bg-white text-zinc-800 min-h-screen flex flex-col items-center justify-center space-y-4">
         <p className="text-sm tracking-widest uppercase font-mono">{error || 'Product not found.'}</p>
         <button
           onClick={() => navigate(-1)}
-          className="text-xs text-[#D4AF37] uppercase tracking-widest border border-[#D4AF37]/40 px-5 py-2.5 rounded-full hover:bg-[#D4AF37] hover:text-black transition cursor-pointer"
+          className="text-xs text-[#8C6A12] uppercase tracking-widest border border-[#D4AF37]/40 px-5 py-2.5 rounded-full hover:bg-[#D4AF37] hover:text-black transition cursor-pointer"
         >
           Return to Collection
         </button>
@@ -158,68 +158,66 @@ const ProductDetail = () => {
     : (product.category || product.strapType || "Accessory");
 
   return (
-    <div className="bg-[#08080a] text-zinc-100 min-h-screen py-8 sm:py-12 px-4 sm:px-6 lg:px-12 selection:bg-[#D4AF37] selection:text-black">
-      <div className="max-w-[1340px] mx-auto space-y-10 sm:space-y-12">
+    <div className="bg-white text-zinc-900 min-h-screen px-4 sm:px-6 lg:px-12 py-6 sm:py-10 selection:bg-[#D4AF37] selection:text-black">
+      <div className="max-w-[1280px] mx-auto">
 
         {/* Top Breadcrumb & Back Navigation */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-zinc-800/80 pb-5 gap-4">
+        <div className="flex items-center justify-between gap-6 border-b border-zinc-200 pb-4">
           <button
             onClick={() => navigate(-1)}
-            className="group inline-flex items-center gap-3 text-[11px] tracking-[0.25em] text-zinc-400 hover:text-[#D4AF37] uppercase transition-all duration-300 cursor-pointer"
+            className="group inline-flex items-center gap-2.5 shrink-0 text-[11px] sm:text-xs tracking-[0.2em] text-zinc-900 font-semibold hover:text-[#8C6A12] uppercase transition-colors duration-300 cursor-pointer"
             style={{ fontFamily: "Montserrat, sans-serif" }}
           >
-            <FaArrowLeft className="group-hover:-translate-x-1.5 transition-transform duration-300 text-zinc-500 group-hover:text-[#D4AF37]" />
-            <span>Return to Collection</span>
+            <FaArrowLeft className="group-hover:-translate-x-1 transition-transform duration-300" />
+            <span>Back</span>
           </button>
 
-          <div className="flex items-center gap-2 text-[10px] text-zinc-500 tracking-[0.2em] uppercase">
-            <span>{product.brand || "Geneva Horology"}</span>
-            <span className="text-zinc-700">/</span>
-            <span className="text-zinc-300 font-medium">{product.name}</span>
-          </div>
+          <nav className="hidden sm:flex items-center gap-2 min-w-0 text-[11px] text-zinc-600 tracking-[0.15em] uppercase">
+            <span className="shrink-0">{product.brand || "Geneva Horology"}</span>
+            <span className="text-zinc-300">/</span>
+            <span className="text-zinc-900 font-semibold truncate">{product.name}</span>
+          </nav>
         </div>
 
-        {/* Hero Section: Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 xl:gap-16 items-start">
+        {/* Main Grid: image | details (equal halves on desktop) */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-14 xl:gap-20 items-start pt-6 sm:pt-10">
 
-          {/* LEFT: Image Gallery Stage */}
-          <div className="lg:col-span-7 space-y-5">
-            <div className="relative bg-gradient-to-b from-zinc-900/90 to-zinc-950/90 border border-zinc-800/80 rounded-3xl p-6 sm:p-12 flex items-center justify-center overflow-hidden group shadow-[0_20px_50px_rgba(0,0,0,0.8)] backdrop-blur-md">
-
-              <div className="absolute inset-0 bg-radial from-[#D4AF37]/5 via-transparent to-transparent pointer-events-none" />
-
+          {/* LEFT: Image Gallery (stays in view while scrolling details on desktop) */}
+          <div className="lg:sticky lg:top-6">
+            <div className="relative aspect-square w-full bg-white border border-zinc-200 rounded-2xl flex items-center justify-center p-6 sm:p-10 overflow-hidden group">
               {/* Tag Badge */}
               {displayTag && (
-                <div 
-                  className="absolute top-5 left-5 text-[#D4AF37] text-[9px] uppercase tracking-[0.3em] bg-black/80 backdrop-blur-md px-4 py-1.5 border border-[#D4AF37]/30 rounded-full z-10 flex items-center gap-2 shadow-lg"
+                <span
+                  className="absolute top-4 left-4 z-10 inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.25em] font-semibold text-[#8C6A12] bg-white border border-[#D4AF37]/40 px-3 py-1 rounded-full"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                 >
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
                   {displayTag}
-                </div>
+                </span>
               )}
 
               <img
                 src={selectedImage}
                 alt={product.name}
-                className="w-full max-h-[460px] sm:max-h-[540px] object-contain group-hover:scale-105 transition-transform duration-700 ease-out drop-shadow-[0_25px_25px_rgba(0,0,0,0.9)]"
+                className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-700 ease-out"
               />
             </div>
 
             {/* Thumbnails */}
             {imagesList.length > 1 && (
-              <div className="flex items-center gap-3.5 pt-1 overflow-x-auto pb-2 scrollbar-none">
+              <div className="flex items-center gap-3 mt-4 overflow-x-auto pb-1 scrollbar-none">
                 {imagesList.map((imgUrl, idx) => (
                   <button
                     key={idx}
                     onClick={() => setSelectedImage(imgUrl)}
-                    className={`relative w-20 h-20 sm:w-22 sm:h-22 rounded-2xl border p-2 bg-zinc-950 overflow-hidden transition-all duration-300 flex-shrink-0 cursor-pointer ${
-                      selectedImage === imgUrl 
-                        ? "border-[#D4AF37] ring-1 ring-[#D4AF37] opacity-100 shadow-[0_0_15px_rgba(212,175,55,0.25)]" 
-                        : "border-zinc-800/80 hover:border-zinc-600 opacity-50 hover:opacity-100"
+                    aria-label={`View image ${idx + 1}`}
+                    className={`w-20 h-20 shrink-0 rounded-xl border bg-white p-1.5 overflow-hidden transition-all duration-300 cursor-pointer ${
+                      selectedImage === imgUrl
+                        ? "border-[#D4AF37] ring-1 ring-[#D4AF37]"
+                        : "border-zinc-200 opacity-60 hover:opacity-100 hover:border-zinc-400"
                     }`}
                   >
-                    <img src={imgUrl} alt="Thumbnail view" className="w-full h-full object-contain" />
+                    <img src={imgUrl} alt="" className="w-full h-full object-contain" />
                   </button>
                 ))}
               </div>
@@ -227,186 +225,191 @@ const ProductDetail = () => {
           </div>
 
           {/* RIGHT: Product Details */}
-          <div className="lg:col-span-5 space-y-7">
+          <div className="flex flex-col">
 
-            {/* Header Details */}
-            <div className="space-y-3.5">
-              <div className="flex items-center justify-between">
-                <span 
-                  className="text-[10px] text-[#D4AF37] tracking-[0.35em] uppercase font-semibold"
-                  style={{ fontFamily: "Montserrat, sans-serif" }}
-                >
-                  REF. {product.referenceNo || product.strapType || "ACC-GENEVA"}
-                </span>
-                <span className="text-[10px] text-zinc-400 uppercase tracking-widest flex items-center gap-1.5 bg-zinc-900/80 border border-zinc-800/80 px-3 py-1 rounded-full">
-                  <FaGem className="text-[#D4AF37] text-xs" /> Certified Authentic
-                </span>
-              </div>
+            {/* Meta row */}
+            <div className="flex items-center justify-between gap-4">
+              <span
+                className="text-[11px] text-[#8C6A12] tracking-[0.3em] uppercase font-semibold"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+              >
+                Ref. {product.referenceNo || product.strapType || "ACC-GENEVA"}
+              </span>
+              <span className="inline-flex items-center gap-1.5 text-[10px] sm:text-[11px] text-zinc-800 font-semibold uppercase tracking-widest bg-zinc-50 border border-zinc-200 px-3 py-1 rounded-full">
+                <FaGem className="text-[#8C6A12]" /> Certified Authentic
+              </span>
+            </div>
 
-              <h1
-                className="text-3xl sm:text-4xl lg:text-5xl font-light tracking-tight text-white leading-[1.15]"
+            {/* Title + brand */}
+            <h1
+              className="mt-4 text-3xl sm:text-4xl xl:text-[2.75rem] font-semibold tracking-tight text-black leading-[1.1]"
+              style={{ fontFamily: "Cormorant Garamond, serif" }}
+            >
+              {product.name}
+            </h1>
+            <p
+              className="mt-3 text-xs text-zinc-700 uppercase tracking-[0.2em] font-semibold"
+              style={{ fontFamily: "Montserrat, sans-serif" }}
+            >
+              {product.brand || "Geneva Horology"} <span className="text-zinc-300 mx-1.5">|</span> {product.gender || "Universal"} Edition
+            </p>
+
+            {/* Price */}
+            <div className="mt-6 py-5 border-y border-zinc-200">
+              <p
+                className="text-3xl sm:text-4xl text-[#8C6A12] font-bold tracking-wide leading-none"
                 style={{ fontFamily: "Cormorant Garamond, serif" }}
               >
-                {product.name}
-              </h1>
-
-              <p className="text-xs text-zinc-400 uppercase tracking-[0.2em] font-medium">
-                {product.brand || "Geneva Horology"} • {product.gender || "Universal"} Edition
+                Rs. {product.price?.toLocaleString()}
               </p>
-
-              {/* Price Display */}
-              <div className="pt-3 flex items-baseline gap-4 border-t border-zinc-900">
-                <span 
-                  className="text-3xl sm:text-4xl text-[#D4AF37] font-light tracking-wide"
-                  style={{ fontFamily: "Cormorant Garamond, serif" }}
-                >
-                  Rs. {product.price?.toLocaleString()}
-                </span>
-                <span className="text-[10px] text-zinc-500 uppercase tracking-widest font-medium">
-                  Duty & Import Taxes Included
-                </span>
-              </div>
+              <p className="mt-2 text-[11px] text-zinc-600 uppercase tracking-widest font-semibold">
+                Duty &amp; import taxes included
+              </p>
             </div>
 
             {/* Description */}
-            <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed font-light">
+            <p className="mt-6 text-sm sm:text-base text-zinc-800 leading-relaxed">
               {product.description || "Exquisite horological accessory crafted with precision standards and luxury finishes."}
             </p>
 
-            {/* Quantity Selector & Action Button */}
-            <div className="space-y-4 pt-1">
-              <div className="flex items-center justify-between">
-                <span 
-                  className="text-[11px] uppercase text-zinc-400 tracking-[0.2em]"
+            {/* Purchase */}
+            <div className="mt-8">
+              <div className="flex items-center justify-between mb-3">
+                <span
+                  className="text-xs uppercase text-zinc-900 font-semibold tracking-[0.2em]"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                 >
-                  Quantity (Stock: {product.stock ?? 10})
+                  Quantity
                 </span>
-
-                <div className="flex items-center justify-between w-32 h-11 rounded-full border border-zinc-800 bg-zinc-950 px-4">
-                  <button
-                    onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                    className="text-zinc-400 hover:text-[#D4AF37] transition-colors p-1 cursor-pointer"
-                    aria-label="Decrease quantity"
-                  >
-                    <FaMinus className="text-[10px]" />
-                  </button>
-                  <span className="text-sm font-medium">{quantity}</span>
-                  <button
-                    onClick={() => setQuantity((q) => Math.min(product.stock ?? 10, q + 1))}
-                    className="text-zinc-400 hover:text-[#D4AF37] transition-colors p-1 cursor-pointer"
-                    aria-label="Increase quantity"
-                  >
-                    <FaPlus className="text-[10px]" />
-                  </button>
-                </div>
+                <span className="text-xs text-zinc-600 font-medium">
+                  {product.stock === 0 ? "Out of stock" : `${product.stock ?? 10} in stock`}
+                </span>
               </div>
 
-              {/* Add To Bag CTA */}
-              <button
-                onClick={handleAddToCart}
-                disabled={added || product.stock === 0}
-                className={`w-full py-4 sm:py-4.5 rounded-full font-medium text-xs uppercase tracking-[0.25em] transition-all duration-500 flex items-center justify-center gap-3 shadow-xl ${
-                  product.stock === 0 
-                    ? "bg-zinc-800 text-zinc-500 cursor-not-allowed" 
-                    : added 
-                      ? "bg-zinc-900 text-[#D4AF37] border border-[#D4AF37]/60 shadow-[0_0_20px_rgba(212,175,55,0.2)]" 
-                      : "bg-[#D4AF37] text-black hover:bg-[#e0bc43] hover:shadow-[0_10px_30px_rgba(212,175,55,0.3)] hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
-                }`}
-                style={{ fontFamily: "Montserrat, sans-serif" }}
-              >
-                {product.stock === 0 ? (
-                  "Out of Stock"
-                ) : added ? (
-                  <>
-                    <FaCheck className="text-sm" /> Added To Your Bag
-                  </>
-                ) : (
-                  <>
-                    <FaShoppingBag />
-                    Acquire Item • Rs. {(product.price * quantity).toLocaleString()}
-                  </>
-                )}
-              </button>
+              <div className="flex gap-3">
+                {/* Quantity stepper */}
+                <div className="flex items-center justify-between w-32 h-14 shrink-0 rounded-full border border-zinc-300 bg-white px-4">
+                  <button
+                    onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                    className="text-zinc-800 hover:text-[#8C6A12] transition-colors p-1 cursor-pointer"
+                    aria-label="Decrease quantity"
+                  >
+                    <FaMinus className="text-[11px]" />
+                  </button>
+                  <span className="text-base font-bold">{quantity}</span>
+                  <button
+                    onClick={() => setQuantity((q) => Math.min(product.stock ?? 10, q + 1))}
+                    className="text-zinc-800 hover:text-[#8C6A12] transition-colors p-1 cursor-pointer"
+                    aria-label="Increase quantity"
+                  >
+                    <FaPlus className="text-[11px]" />
+                  </button>
+                </div>
 
-              {/* Buy Now CTA */}
+                {/* Add To Bag */}
+                <button
+                  onClick={handleAddToCart}
+                  disabled={added || product.stock === 0}
+                  className={`flex-1 h-14 rounded-full font-semibold text-[11px] sm:text-xs uppercase tracking-[0.2em] transition-colors duration-300 flex items-center justify-center gap-2.5 ${
+                    product.stock === 0
+                      ? "bg-zinc-200 text-zinc-600 cursor-not-allowed"
+                      : added
+                        ? "bg-zinc-50 text-[#8C6A12] border border-[#D4AF37]"
+                        : "bg-[#D4AF37] text-black hover:bg-[#c9a430] cursor-pointer"
+                  }`}
+                  style={{ fontFamily: "Montserrat, sans-serif" }}
+                >
+                  {product.stock === 0 ? (
+                    "Out of Stock"
+                  ) : added ? (
+                    <>
+                      <FaCheck /> Added To Bag
+                    </>
+                  ) : (
+                    <>
+                      <FaShoppingBag /> Add To Bag
+                    </>
+                  )}
+                </button>
+              </div>
+
+              {/* Buy Now */}
               {product.stock !== 0 && (
                 <button
                   onClick={handleBuyNow}
-                  className="w-full py-4 rounded-full font-medium text-xs uppercase tracking-[0.25em] transition-all duration-300 flex items-center justify-center gap-3 border border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black cursor-pointer"
+                  className="mt-3 w-full h-14 rounded-full font-semibold text-[11px] sm:text-xs uppercase tracking-[0.2em] transition-colors duration-300 flex items-center justify-center bg-black text-white hover:bg-[#D4AF37] hover:text-black cursor-pointer"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                 >
-                  Buy Now
+                  Buy Now • Rs. {(product.price * quantity).toLocaleString()}
                 </button>
               )}
             </div>
 
-            {/* Accordions */}
-            <div className="space-y-3 pt-3">
+            {/* Trust badges */}
+            <div className="mt-6 grid grid-cols-2 gap-3">
+              <div className="flex items-center gap-3 p-3.5 rounded-xl bg-zinc-50 border border-zinc-200">
+                <FaTruck className="text-[#8C6A12] text-base shrink-0" />
+                <span className="text-xs leading-snug text-zinc-900 font-medium">Insured Express Shipping</span>
+              </div>
+              <div className="flex items-center gap-3 p-3.5 rounded-xl bg-zinc-50 border border-zinc-200">
+                <FaShieldAlt className="text-[#8C6A12] text-base shrink-0" />
+                <span className="text-xs leading-snug text-zinc-900 font-medium">Official Manufacturer Guarantee</span>
+              </div>
+            </div>
 
-              {/* Technical Specifications Accordion */}
-              <div className="border border-zinc-800/80 bg-zinc-950/60 rounded-2xl overflow-hidden backdrop-blur-sm transition-colors">
+            {/* Details sections */}
+            <div className="mt-8 border-t border-zinc-200">
+
+              {/* Technical Specifications */}
+              <div className="border-b border-zinc-200">
                 <button
                   onClick={() => toggleAccordion("specs")}
-                  className="w-full p-4.5 flex items-center justify-between text-left text-xs uppercase tracking-[0.2em] text-zinc-200 hover:text-[#D4AF37] transition-colors cursor-pointer"
+                  className="w-full py-5 flex items-center justify-between text-left text-xs uppercase tracking-[0.2em] text-zinc-900 font-bold hover:text-[#8C6A12] transition-colors cursor-pointer"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                 >
                   <span>Technical Specifications</span>
-                  {openAccordion === "specs" ? <FaChevronUp className="text-[#D4AF37]" /> : <FaChevronDown className="text-zinc-500" />}
+                  {openAccordion === "specs" ? <FaChevronUp className="text-[#8C6A12]" /> : <FaChevronDown className="text-zinc-600" />}
                 </button>
                 {openAccordion === "specs" && (
-                  <div className="p-4.5 pt-0 space-y-2.5 text-xs text-zinc-300 border-t border-zinc-900/80 mt-1">
+                  <dl className="pb-5">
                     {Object.entries(formattedSpecs).map(([key, value]) => (
                       value && (
-                        <div key={key} className="flex justify-between py-1.5 border-b border-zinc-900/60 last:border-0 gap-4">
-                          <span className="text-zinc-400 uppercase tracking-wider text-[10px] shrink-0">{key}</span>
-                          <span className="text-zinc-100 font-light text-right">{value}</span>
+                        <div key={key} className="grid grid-cols-[minmax(0,2fr)_minmax(0,3fr)] gap-4 py-3 border-b border-zinc-100 last:border-0">
+                          <dt className="text-[11px] text-zinc-600 font-semibold uppercase tracking-wider">{key}</dt>
+                          <dd className="text-sm text-zinc-900 font-medium text-right">{value}</dd>
                         </div>
                       )
                     ))}
-                  </div>
+                  </dl>
                 )}
               </div>
 
-              {/* Shipping & Warranty Accordion */}
-              <div className="border border-zinc-800/80 bg-zinc-950/60 rounded-2xl overflow-hidden backdrop-blur-sm transition-colors">
+              {/* Shipping & Returns */}
+              <div className="border-b border-zinc-200">
                 <button
                   onClick={() => toggleAccordion("shipping")}
-                  className="w-full p-4.5 flex items-center justify-between text-left text-xs uppercase tracking-[0.2em] text-zinc-200 hover:text-[#D4AF37] transition-colors cursor-pointer"
+                  className="w-full py-5 flex items-center justify-between text-left text-xs uppercase tracking-[0.2em] text-zinc-900 font-bold hover:text-[#8C6A12] transition-colors cursor-pointer"
                   style={{ fontFamily: "Montserrat, sans-serif" }}
                 >
-                  <span>Shipping & Global Warranty</span>
-                  {openAccordion === "shipping" ? <FaChevronUp className="text-[#D4AF37]" /> : <FaChevronDown className="text-zinc-500" />}
+                  <span>Shipping &amp; Returns</span>
+                  {openAccordion === "shipping" ? <FaChevronUp className="text-[#8C6A12]" /> : <FaChevronDown className="text-zinc-600" />}
                 </button>
                 {openAccordion === "shipping" && (
-                  <div className="p-4.5 pt-0 space-y-3 text-xs text-zinc-400 border-t border-zinc-900/80 mt-1 leading-relaxed">
-                    <p className="flex items-center gap-2">
-                      <FaTruck className="text-[#D4AF37]" /> Express insured courier delivery dispatched within 24–48 hours.
-                    </p>
-                    <p className="flex items-center gap-2">
-                      <FaAward className="text-[#D4AF37]" /> {product.warranty || "Includes 2-Year official manufacturer global warranty coverage."}
-                    </p>
-                    <p className="flex items-center gap-2">
-                      <FaUndo className="text-[#D4AF37]" /> 7-Day return policy on unworn pieces in original packaging.
-                    </p>
-                  </div>
+                  <ul className="pb-5 space-y-3 text-sm text-zinc-800 leading-relaxed">
+                    <li className="flex items-start gap-3">
+                      <FaTruck className="text-[#8C6A12] mt-1 shrink-0" /> Express insured courier delivery dispatched within 24–48 hours.
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <FaAward className="text-[#8C6A12] mt-1 shrink-0" /> {product.warranty || "Includes 2-Year official manufacturer global warranty coverage."}
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <FaUndo className="text-[#8C6A12] mt-1 shrink-0" /> 7-Day return policy on unworn pieces in original packaging.
+                    </li>
+                  </ul>
                 )}
               </div>
 
             </div>
-
-            {/* Badges */}
-            <div className="grid grid-cols-2 gap-3 pt-2 text-xs text-zinc-400">
-              <div className="flex items-center gap-3 bg-zinc-950/80 p-3.5 rounded-2xl border border-zinc-800/80">
-                <FaTruck className="text-[#D4AF37] text-base shrink-0" />
-                <span className="text-[11px] leading-tight text-zinc-300">Insured Worldwide Express Shipping</span>
-              </div>
-              <div className="flex items-center gap-3 bg-zinc-950/80 p-3.5 rounded-2xl border border-zinc-800/80">
-                <FaShieldAlt className="text-[#D4AF37] text-base shrink-0" />
-                <span className="text-[11px] leading-tight text-zinc-300">Official Manufacturer Guarantee</span>
-              </div>
-            </div>
-
           </div>
         </div>
 

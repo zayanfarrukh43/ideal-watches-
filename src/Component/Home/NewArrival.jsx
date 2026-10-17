@@ -16,7 +16,11 @@ const NewArrivals = () => {
         const response = await fetch(`${API_BASE_URL}/api/watches`);
         const result = await response.json();
         if (result.success) {
-          setProducts(result.data);
+          // Newest first, keep only the 4 most recently added
+          const latest = [...result.data]
+            .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0))
+            .slice(0, 4);
+          setProducts(latest);
         }
       } catch (err) {
         console.error('Failed to fetch watches:', err);
