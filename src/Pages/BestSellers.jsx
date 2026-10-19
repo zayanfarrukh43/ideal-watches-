@@ -11,6 +11,8 @@ import {
   FaAward
 } from "react-icons/fa";
 import { useCart } from "../Component/context/CartContext";
+import Paginated from "../Component/Pagination";
+import { productImage as optimizeImage, IMAGE_SIZES } from "../utils/productImage";
 
 const BRANDS = ["All", "Rolex", "Omega", "Patek Philippe", "TAG Heuer", "Audemars Piguet", "Cartier", "Tudor"];
 const CATEGORIES = ["All", "Diver", "Chronograph", "Dress", "Sports"];
@@ -121,7 +123,7 @@ const BestSellersPage = () => {
   // Helper function to robustly extract image URLs matching backend standards
   const renderImage = (imageSource) => {
     if (!imageSource || imageSource.length === 0) {
-      return "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=800&auto=format&fit=crop";
+      return "https://www.idealwatches.shop/favicon-512.png";
     }
     if (Array.isArray(imageSource)) {
       return imageSource[0]?.url || imageSource[0];
@@ -317,110 +319,114 @@ const BestSellersPage = () => {
                 </button>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredWatches.map((watch) => {
-                  const watchId = watch._id || watch.id;
-                  const isWishlisted = wishlist.includes(watchId);
-                  
-                  const watchImage = renderImage(watch.images || watch.image);
-                  const movementType = watch.specifications?.movement || watch.movement || "Automatic";
-
-                  return (
-                    <motion.div
-                      key={watchId}
-                      layout
-                      initial={{ opacity: 0, y: 15 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 15 }}
-                      transition={{ duration: 0.3 }}
-                      onClick={() => navigate(`/product/${watchId}`)}
-                      className="group bg-white border border-zinc-200 rounded-sm overflow-hidden hover:border-[#D4AF37] transition-all duration-300 flex flex-col cursor-pointer shadow-xs hover:shadow-md"
-                    >
-                      {/* Watch Image Container */}
-                      <div className="relative aspect-square overflow-hidden bg-white">
-                        <img
-                          src={watchImage}
-                          alt={watch.name}
-                          className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
-                        />
-                        {/* Best Seller Badge */}
-                        <span className="absolute top-3 left-3 bg-zinc-900/90 text-[#D4AF37] text-[9px] uppercase tracking-widest px-2.5 py-1 font-semibold rounded-xs">
-                          Best Seller
-                        </span>
-
-                        {/* Interactive Wishlist Button */}
-                        <button
-                          onClick={(e) => toggleWishlist(e, watchId)}
-                          aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
-                          className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center transition-transform active:scale-95 shadow-sm z-10"
+              <Paginated items={filteredWatches}>
+                {(pageItems) => (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {pageItems.map((watch) => {
+                      const watchId = watch._id || watch.id;
+                      const isWishlisted = wishlist.includes(watchId);
+                      
+                      const watchImage = renderImage(watch.images || watch.image);
+                      const movementType = watch.specifications?.movement || watch.movement || "Automatic";
+    
+                      return (
+                        <motion.div
+                          key={watchId}
+                          layout
+                          initial={{ opacity: 0, y: 15 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 15 }}
+                          transition={{ duration: 0.3 }}
+                          onClick={() => navigate(`/product/${watchId}`)}
+                          className="group bg-white border border-zinc-200 rounded-sm overflow-hidden hover:border-[#D4AF37] transition-all duration-300 flex flex-col cursor-pointer shadow-xs hover:shadow-md"
                         >
-                          {isWishlisted ? (
-                            <FaHeart className="text-xs text-red-500 transition-colors" />
-                          ) : (
-                            <FaRegHeart className="text-xs text-zinc-600 hover:text-red-500 transition-colors" />
-                          )}
-                        </button>
-                      </div>
-
-                      {/* Product Info */}
-                      <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
-                        <div className="space-y-1">
-                          <span className="text-[#D4AF37] text-[10px] uppercase tracking-widest block font-semibold">
-                            {watch.brand}
-                          </span>
-                          <h3 
-                            className="text-base font-normal text-zinc-900 line-clamp-1 group-hover:text-[#D4AF37] transition-colors"
-                            style={{ fontFamily: "Cormorant Garamond, serif" }}
-                          >
-                            {watch.name}
-                          </h3>
-                          <p className="text-[11px] text-zinc-400 font-light">
-                            {movementType} • {watch.category}
-                          </p>
-                        </div>
-
-                        <div className="pt-2 border-t border-zinc-100 flex items-center justify-between">
-                          <div>
-                            <p className="text-[9px] text-zinc-400 uppercase tracking-wider">Price</p>
-                            <p className="text-sm font-semibold text-zinc-900" style={{ fontFamily: "Montserrat, sans-serif" }}>
-                              PKR {(watch.price || 0).toLocaleString()}
-                            </p>
+                          {/* Watch Image Container */}
+                          <div className="relative aspect-square overflow-hidden bg-white">
+                            <img
+                              src={optimizeImage(watchImage, IMAGE_SIZES.card)}
+                              alt={watch.name}
+                              className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                            />
+                            {/* Best Seller Badge */}
+                            <span className="absolute top-3 left-3 bg-zinc-900/90 text-[#D4AF37] text-[9px] uppercase tracking-widest px-2.5 py-1 font-semibold rounded-xs">
+                              Best Seller
+                            </span>
+    
+                            {/* Interactive Wishlist Button */}
+                            <button
+                              onClick={(e) => toggleWishlist(e, watchId)}
+                              aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
+                              className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center transition-transform active:scale-95 shadow-sm z-10"
+                            >
+                              {isWishlisted ? (
+                                <FaHeart className="text-xs text-red-500 transition-colors" />
+                              ) : (
+                                <FaRegHeart className="text-xs text-zinc-600 hover:text-red-500 transition-colors" />
+                              )}
+                            </button>
                           </div>
-                          
-                          {/* Quick Add/View Button */}
-                          <button 
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              navigate(`/product/${watchId}`);
-                            }} 
-                            className="bg-zinc-900 hover:bg-[#D4AF37] text-white w-9 h-9 rounded-sm flex items-center justify-center transition-colors cursor-pointer"
-                          >
-                            <FaShoppingBag className="text-xs" />
-                          </button>
-                        </div>
-
-                        {/* Buy Now Button */}
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            buyNow({
-                              id: watchId,
-                              name: watch.name,
-                              price: watch.price || 0,
-                              image: watchImage,
-                              ref: watch.referenceNo,
-                            });
-                            navigate("/checkout");
-                          }}
-                          className="w-full bg-[#D4AF37] hover:bg-[#b8952b] text-black py-2 rounded-sm text-[11px] uppercase tracking-wider transition-colors cursor-pointer font-semibold"
-                        >
-                          Buy Now
-                        </button>
-                      </div>
-                    </motion.div>
-                  );
-                })}
-              </div>
+    
+                          {/* Product Info */}
+                          <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
+                            <div className="space-y-1">
+                              <span className="text-[#D4AF37] text-[10px] uppercase tracking-widest block font-semibold">
+                                {watch.brand}
+                              </span>
+                              <h3 
+                                className="text-base font-normal text-zinc-900 line-clamp-1 group-hover:text-[#D4AF37] transition-colors"
+                                style={{ fontFamily: "Cormorant Garamond, serif" }}
+                              >
+                                {watch.name}
+                              </h3>
+                              <p className="text-[11px] text-zinc-400 font-light">
+                                {movementType} • {watch.category}
+                              </p>
+                            </div>
+    
+                            <div className="pt-2 border-t border-zinc-100 flex items-center justify-between">
+                              <div>
+                                <p className="text-[9px] text-zinc-400 uppercase tracking-wider">Price</p>
+                                <p className="text-sm font-semibold text-zinc-900" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                                  PKR {(watch.price || 0).toLocaleString()}
+                                </p>
+                              </div>
+                              
+                              {/* Quick Add/View Button */}
+                              <button 
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  navigate(`/product/${watchId}`);
+                                }} 
+                                className="bg-zinc-900 hover:bg-[#D4AF37] text-white w-9 h-9 rounded-sm flex items-center justify-center transition-colors cursor-pointer"
+                              >
+                                <FaShoppingBag className="text-xs" />
+                              </button>
+                            </div>
+    
+                            {/* Buy Now Button */}
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                buyNow({
+                                  id: watchId,
+                                  name: watch.name,
+                                  price: watch.price || 0,
+                                  image: watchImage,
+                                  ref: watch.referenceNo,
+                                });
+                                navigate("/checkout");
+                              }}
+                              className="w-full bg-[#D4AF37] hover:bg-[#b8952b] text-black py-2 rounded-sm text-[11px] uppercase tracking-wider transition-colors cursor-pointer font-semibold"
+                            >
+                              Buy Now
+                            </button>
+                          </div>
+                        </motion.div>
+                      );
+                    })}
+                  </div>
+                )}
+              </Paginated>
             )}
           </div>
 

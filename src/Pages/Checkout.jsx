@@ -12,6 +12,7 @@ import {
   FaChevronUp
 } from "react-icons/fa";
 import { useCart } from "../Component/context/CartContext";
+import { productImage as optimizeImage, IMAGE_SIZES } from "../utils/productImage";
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -91,7 +92,7 @@ const Checkout = () => {
 
     try {
      const formattedOrderItems = cart.map((item) => {
-        let finalImageUrl = "https://via.placeholder.com/150";
+        let finalImageUrl = "https://www.idealwatches.shop/favicon-512.png";
 
         // Check if image exists and resolve its format
         const img = item.image || item.img || item.imageUrl || item.photo;
@@ -107,7 +108,7 @@ const Checkout = () => {
           watch: item.id || item._id,
           quantity: item.quantity || 1,
           price: item.price,
-          image: typeof finalImageUrl === "string" ? finalImageUrl : "https://via.placeholder.com/150"
+          image: typeof finalImageUrl === "string" ? finalImageUrl : "https://www.idealwatches.shop/favicon-512.png"
         };
       });
       const payload = {
@@ -254,7 +255,7 @@ const Checkout = () => {
                   cart.map((item, idx) => (
                     <div key={item.id || item._id || idx} className="flex items-center gap-3">
                       <div className="relative w-12 h-12 bg-zinc-950 border border-zinc-800 rounded-lg p-1 shrink-0 flex items-center justify-center">
-                        <img src={item.image} alt={item.name} className="max-h-full max-w-full object-contain" />
+                        <img src={optimizeImage(item.image, IMAGE_SIZES.thumb)} alt={item.name} className="max-h-full max-w-full object-contain" />
                         <span className="absolute -top-1.5 -right-1.5 bg-[#D4AF37] text-black text-[8px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
                           {item.quantity || 1}
                         </span>
@@ -560,7 +561,7 @@ const Checkout = () => {
                   cart.map((item, idx) => (
                     <div key={item.id || item._id || idx} className="flex items-center gap-4">
                       <div className="relative w-16 h-16 bg-black border border-zinc-900 rounded-xl p-1 flex items-center justify-center shrink-0">
-                        <img src={item.image} alt={item.name} className="max-h-full max-w-full object-contain" />
+                        <img src={optimizeImage(item.image, IMAGE_SIZES.thumb)} alt={item.name} className="max-h-full max-w-full object-contain" />
                         <span className="absolute -top-2 -right-2 bg-[#D4AF37] text-black text-[9px] font-bold w-5 h-5 rounded-full flex items-center justify-center">
                           {item.quantity || 1}
                         </span>

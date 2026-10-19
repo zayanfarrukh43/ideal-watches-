@@ -11,6 +11,7 @@ import {
   FaShieldAlt, 
   FaLock 
 } from "react-icons/fa";
+import { productImage as optimizeImage, IMAGE_SIZES } from "../../utils/productImage";
 
 const CartDrawer = () => {
   const { cart, isCartOpen, setIsCartOpen, removeFromCart, updateQuantity, totalPrice } = useCart();
@@ -109,7 +110,7 @@ const CartDrawer = () => {
                   {/* Thumbnail Image Container */}
                   <div className="relative w-20 h-20 rounded-xl bg-gradient-to-b from-zinc-900 to-zinc-950 border border-zinc-800/80 p-2 shrink-0 flex items-center justify-center overflow-hidden">
                     <img 
-                      src={item.image} 
+                      src={optimizeImage(item.image, IMAGE_SIZES.thumb)} 
                       alt={item.name} 
                       className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
                     />

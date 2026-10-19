@@ -3,6 +3,7 @@ const API_BASE_URL = 'https://backen-watches.vercel.app';
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ProductCard } from "../Component/Home/NewArrival";
+import Paginated from "../Component/Pagination";
 
 const genderDetails = {
   men: {
@@ -100,11 +101,15 @@ const GenderCollectionPage = () => {
             No timepieces found in this collection.
           </div>
         ) : (
-          <section className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-            {products.map((product) => (
-              <ProductCard key={product._id} product={product} />
-            ))}
-          </section>
+          <Paginated items={products}>
+            {(pageItems) => (
+              <section className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                {pageItems.map((product) => (
+                  <ProductCard key={product._id} product={product} />
+                ))}
+              </section>
+            )}
+          </Paginated>
         )}
 
       </div>

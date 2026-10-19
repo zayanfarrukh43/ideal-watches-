@@ -15,6 +15,7 @@ import {
   FaAward
 } from "react-icons/fa";
 import { useCart } from "../Component/context/CartContext";
+import { productImage as optimizeImage, IMAGE_SIZES } from "../utils/productImage";
 
 const API_BASE_URL = "https://backen-watches.vercel.app";
 
@@ -44,7 +45,7 @@ const ProductDetail = () => {
 
         if (watchResult.success && watchResult.data) {
           setProduct({ ...watchResult.data, itemType: "watch" });
-          const initialImg = watchResult.data.images?.[0]?.url || 'https://via.placeholder.com/800x800/09090b/ffffff?text=Watch';
+          const initialImg = watchResult.data.images?.[0]?.url || 'https://www.idealwatches.shop/favicon-512.png';
           setSelectedImage(initialImg);
           return;
         }
@@ -55,7 +56,7 @@ const ProductDetail = () => {
 
         if (strapResult.success && strapResult.data) {
           setProduct({ ...strapResult.data, itemType: "strap" });
-          const initialImg = strapResult.data.images?.[0]?.url || 'https://via.placeholder.com/800x800/09090b/ffffff?text=Strap';
+          const initialImg = strapResult.data.images?.[0]?.url || 'https://www.idealwatches.shop/favicon-512.png';
           setSelectedImage(initialImg);
           return;
         }
@@ -135,7 +136,7 @@ const ProductDetail = () => {
 
   const imagesList = product.images?.length > 0 
     ? product.images.map(img => img.url) 
-    : ['https://via.placeholder.com/800x800/09090b/ffffff?text=Item'];
+    : ['https://www.idealwatches.shop/favicon-512.png'];
 
   // Map specifications dynamically for watches or straps
   const formattedSpecs = product.specifications ? {
@@ -184,7 +185,7 @@ const ProductDetail = () => {
 
           {/* LEFT: Image Gallery (stays in view while scrolling details on desktop) */}
           <div className="lg:sticky lg:top-6">
-            <div className="relative aspect-square w-full bg-white border border-zinc-200 rounded-2xl flex items-center justify-center p-6 sm:p-10 overflow-hidden group">
+            <div className="relative aspect-square w-full bg-white border border-zinc-200 rounded-2xl flex items-center justify-center p-8 sm:p-12 overflow-hidden group">
               {/* Tag Badge */}
               {displayTag && (
                 <span
@@ -197,9 +198,9 @@ const ProductDetail = () => {
               )}
 
               <img
-                src={selectedImage}
+                src={optimizeImage(selectedImage, IMAGE_SIZES.detail)}
                 alt={product.name}
-                className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-700 ease-out"
+                className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700 ease-out"
               />
             </div>
 
@@ -217,7 +218,7 @@ const ProductDetail = () => {
                         : "border-zinc-200 opacity-60 hover:opacity-100 hover:border-zinc-400"
                     }`}
                   >
-                    <img src={imgUrl} alt="" className="w-full h-full object-contain" />
+                    <img src={optimizeImage(imgUrl, IMAGE_SIZES.thumb)} alt="" className="w-full h-full object-contain" />
                   </button>
                 ))}
               </div>

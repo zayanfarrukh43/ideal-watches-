@@ -2,6 +2,8 @@ import React, { useState, useEffect, useMemo } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { FaArrowLeft, FaShoppingBag, FaFilter, FaTimes, FaSlidersH } from "react-icons/fa";
 import { useCart } from "../Component/context/CartContext";
+import Paginated from "../Component/Pagination";
+import { productImage as optimizeImage, IMAGE_SIZES } from "../utils/productImage";
 
 const API_BASE_URL = "https://backen-watches.vercel.app";
 
@@ -95,7 +97,7 @@ const BrandCollection = () => {
   // Helper function to robustly extract image URLs matching backend standards
   const renderImage = (imageSource) => {
     if (!imageSource || imageSource.length === 0) {
-      return "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=800&auto=format&fit=crop";
+      return "https://www.idealwatches.shop/favicon-512.png";
     }
     if (Array.isArray(imageSource)) {
       return imageSource[0]?.url || imageSource[0];
@@ -271,66 +273,70 @@ const BrandCollection = () => {
                 </Link>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                {brandProducts.map((product) => {
-                  const productId = product._id || product.id;
-                  const productImage = renderImage(product.images || product.image);
-                  const productStrap = product.strap || product.specifications?.strap || "Luxury Strap";
-                  const productGender = product.gender || product.category || "Unisex";
-
-                  return (
-                    <div
-                      key={productId}
-                      onClick={() => navigate(`/product/${productId}`)}
-                      className="group bg-white border border-gray-200 rounded-sm p-4 flex flex-col justify-between hover:shadow-md hover:border-[#D4AF37] transition-all duration-300 cursor-pointer"
-                    >
-                      <div className="relative w-full aspect-square bg-white rounded-sm p-4 flex items-center justify-center overflow-hidden mb-4">
-                        <img
-                          src={productImage}
-                          alt={product.name}
-                          className="max-h-full max-w-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <span className="text-[10px] text-gray-400 uppercase tracking-widest font-semibold block">
-                          {productStrap} • {productGender}
-                        </span>
-                        <h3 
-                          className="text-base font-normal text-gray-900 truncate group-hover:text-[#D4AF37] transition-colors"
-                          style={{ fontFamily: "Cormorant Garamond, serif" }}
+              <Paginated items={brandProducts}>
+                {(pageItems) => (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                    {pageItems.map((product) => {
+                      const productId = product._id || product.id;
+                      const productImage = renderImage(product.images || product.image);
+                      const productStrap = product.strap || product.specifications?.strap || "Luxury Strap";
+                      const productGender = product.gender || product.category || "Unisex";
+    
+                      return (
+                        <div
+                          key={productId}
+                          onClick={() => navigate(`/product/${productId}`)}
+                          className="group bg-white border border-gray-200 rounded-sm p-4 flex flex-col justify-between hover:shadow-md hover:border-[#D4AF37] transition-all duration-300 cursor-pointer"
                         >
-                          {product.name}
-                        </h3>
-                        <p className="text-sm font-semibold text-gray-900" style={{ fontFamily: "Montserrat, sans-serif" }}>
-                          PKR {(product.price || 0).toLocaleString()}
-                        </p>
-
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            addToCart && addToCart(product);
-                          }}
-                          className="w-full mt-2 py-2.5 bg-gray-900 hover:bg-[#D4AF37] text-white hover:text-black rounded-sm text-xs uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-2 font-medium cursor-pointer"
-                        >
-                          <FaShoppingBag className="text-xs" /> Add To Cart
-                        </button>
-
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            buyNow && buyNow(product);
-                            navigate("/checkout");
-                          }}
-                          className="w-full py-2.5 bg-[#D4AF37] hover:bg-[#b8952b] text-black rounded-sm text-xs uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-2 font-medium cursor-pointer"
-                        >
-                          Buy Now
-                        </button>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
+                          <div className="relative w-full aspect-square bg-white rounded-sm p-4 flex items-center justify-center overflow-hidden mb-4">
+                            <img
+                              src={optimizeImage(productImage, IMAGE_SIZES.card)}
+                              alt={product.name}
+                              className="max-h-full max-w-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            />
+                          </div>
+    
+                          <div className="space-y-2">
+                            <span className="text-[10px] text-gray-400 uppercase tracking-widest font-semibold block">
+                              {productStrap} • {productGender}
+                            </span>
+                            <h3 
+                              className="text-base font-normal text-gray-900 truncate group-hover:text-[#D4AF37] transition-colors"
+                              style={{ fontFamily: "Cormorant Garamond, serif" }}
+                            >
+                              {product.name}
+                            </h3>
+                            <p className="text-sm font-semibold text-gray-900" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                              PKR {(product.price || 0).toLocaleString()}
+                            </p>
+    
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                addToCart && addToCart(product);
+                              }}
+                              className="w-full mt-2 py-2.5 bg-gray-900 hover:bg-[#D4AF37] text-white hover:text-black rounded-sm text-xs uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-2 font-medium cursor-pointer"
+                            >
+                              <FaShoppingBag className="text-xs" /> Add To Cart
+                            </button>
+    
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                buyNow && buyNow(product);
+                                navigate("/checkout");
+                              }}
+                              className="w-full py-2.5 bg-[#D4AF37] hover:bg-[#b8952b] text-black rounded-sm text-xs uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-2 font-medium cursor-pointer"
+                            >
+                              Buy Now
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </Paginated>
             )}
           </div>
 

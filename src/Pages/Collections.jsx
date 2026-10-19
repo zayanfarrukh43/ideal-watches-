@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaArrowRight, FaSearch, FaShieldAlt, FaTruck, FaWhatsapp, FaClock } from "react-icons/fa";
 import { useCart } from "../Component/context/CartContext";
+import Paginated from "../Component/Pagination";
+import { productImage as optimizeImage, IMAGE_SIZES } from "../utils/productImage";
 
 const WHATSAPP_NUMBER = "923162839665";
 const API_BASE_URL = "https://backen-watches.vercel.app";
@@ -240,105 +242,109 @@ const Collections = () => {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {filteredItems.map((item) => {
-              const itemId = item._id || item.id;
-              const itemImage = item.images?.[0]?.url || item.image || "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1000";
-              const itemTitle = item.name || item.title;
-              const itemCategory = item.categoryTag;
-              const itemSpec = item.strap || item.strapType || item.specifications?.strap || (item.itemType === "strap" ? "Handcrafted Strap" : "Automatic Movement");
-
-              return (
-                <div
-                  key={itemId}
-                  className="group flex flex-col justify-between bg-zinc-950 border border-zinc-800/50 hover:border-zinc-700 transition-all duration-300"
-                >
-                  <div>
-                    {/* Image Link */}
-                    <Link to={`/product/${itemId}`} className="block relative aspect-[4/3] overflow-hidden bg-black">
-                      <img 
-                        src={itemImage} 
-                        alt={itemTitle} 
-                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent opacity-60" />
-                      
-                      <span className="absolute top-3 right-3 text-[9px] uppercase tracking-widest text-zinc-400 font-light bg-zinc-950/90 px-2 py-0.5 border border-zinc-800/80 flex items-center gap-1">
-                        <FaClock className="text-[8px] text-[#c5a880]" /> {item.itemType === "strap" ? "Strap & Accessory" : "Swiss Certified"}
-                      </span>
-                    </Link>
-
-                    {/* Specs & Description */}
-                    <div className="p-6 space-y-2.5">
-                      <div className="flex items-center justify-between text-[9px] uppercase tracking-[0.2em]">
-                        <span className="text-[#c5a880] font-medium">{itemCategory}</span>
-                        <span className="text-zinc-500 font-light truncate max-w-[150px]">{itemSpec}</span>
-                      </div>
-
-                      <Link to={`/product/${itemId}`}>
-                        <h3 
-                          className="text-xl font-light text-zinc-100 uppercase tracking-wide group-hover:text-[#c5a880] transition-colors truncate"
-                          style={{ fontFamily: "Cormorant Garamond, serif" }}
-                        >
-                          {itemTitle}
-                        </h3>
-                      </Link>
-
-                      <p className="text-xs text-zinc-400 font-light leading-relaxed line-clamp-2">
-                        {item.description || "Exquisite horological piece crafted with precision and luxury standards."}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Card Footer */}
-                  <div className="px-6 pb-6 pt-3 border-t border-zinc-900 mx-6 flex items-center justify-between text-xs">
-                    <div>
-                      <span className="text-[9px] uppercase tracking-widest text-zinc-500 block font-light">Price</span>
-                      <span className="text-zinc-200 font-light tracking-wide">{formatPrice(item.price)}</span>
-                    </div>
-
-                    <div className="flex items-center gap-3">
-                      <a
-                        href={getWhatsAppLink(itemTitle)}
-                        target="_blank"
-                        rel="noreferrer"
-                        title="Inquire on WhatsApp"
-                        className="p-2 border border-zinc-800 hover:border-emerald-500/50 bg-zinc-900/50 text-zinc-400 hover:text-emerald-400 transition-colors rounded-full"
-                      >
-                        <FaWhatsapp className="text-sm" />
-                      </a>
-
-                      <Link
-                        to={`/product/${itemId}`}
-                        className="text-[#c5a880] text-[10px] uppercase tracking-widest font-medium flex items-center gap-1 group-hover:translate-x-1 transition-transform"
-                      >
-                        View <FaArrowRight className="text-[8px]" />
-                      </Link>
-                    </div>
-                  </div>
-
-                  {/* Buy Now */}
-                  <div className="px-6 pb-6 pt-4">
-                    <button
-                      onClick={() => {
-                        buyNow({
-                          id: itemId,
-                          name: itemTitle,
-                          price: item.price,
-                          image: itemImage,
-                          ref: item.referenceNo || item.strapType,
-                        });
-                        navigate("/checkout");
-                      }}
-                      className="w-full py-2.5 bg-[#c5a880] hover:bg-[#b39568] text-black text-[10px] uppercase tracking-widest font-medium transition-colors cursor-pointer"
+          <Paginated items={filteredItems}>
+            {(pageItems) => (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                {pageItems.map((item) => {
+                  const itemId = item._id || item.id;
+                  const itemImage = item.images?.[0]?.url || item.image || "https://www.idealwatches.shop/favicon-512.png";
+                  const itemTitle = item.name || item.title;
+                  const itemCategory = item.categoryTag;
+                  const itemSpec = item.strap || item.strapType || item.specifications?.strap || (item.itemType === "strap" ? "Handcrafted Strap" : "Automatic Movement");
+    
+                  return (
+                    <div
+                      key={itemId}
+                      className="group flex flex-col justify-between bg-zinc-950 border border-zinc-800/50 hover:border-zinc-700 transition-all duration-300"
                     >
-                      Buy Now
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+                      <div>
+                        {/* Image Link */}
+                        <Link to={`/product/${itemId}`} className="block relative aspect-[4/3] overflow-hidden bg-black">
+                          <img 
+                            src={optimizeImage(itemImage, IMAGE_SIZES.card)} 
+                            alt={itemTitle} 
+                            className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent opacity-60" />
+                          
+                          <span className="absolute top-3 right-3 text-[9px] uppercase tracking-widest text-zinc-400 font-light bg-zinc-950/90 px-2 py-0.5 border border-zinc-800/80 flex items-center gap-1">
+                            <FaClock className="text-[8px] text-[#c5a880]" /> {item.itemType === "strap" ? "Strap & Accessory" : "Swiss Certified"}
+                          </span>
+                        </Link>
+    
+                        {/* Specs & Description */}
+                        <div className="p-6 space-y-2.5">
+                          <div className="flex items-center justify-between text-[9px] uppercase tracking-[0.2em]">
+                            <span className="text-[#c5a880] font-medium">{itemCategory}</span>
+                            <span className="text-zinc-500 font-light truncate max-w-[150px]">{itemSpec}</span>
+                          </div>
+    
+                          <Link to={`/product/${itemId}`}>
+                            <h3 
+                              className="text-xl font-light text-zinc-100 uppercase tracking-wide group-hover:text-[#c5a880] transition-colors truncate"
+                              style={{ fontFamily: "Cormorant Garamond, serif" }}
+                            >
+                              {itemTitle}
+                            </h3>
+                          </Link>
+    
+                          <p className="text-xs text-zinc-400 font-light leading-relaxed line-clamp-2">
+                            {item.description || "Exquisite horological piece crafted with precision and luxury standards."}
+                          </p>
+                        </div>
+                      </div>
+    
+                      {/* Card Footer */}
+                      <div className="px-6 pb-6 pt-3 border-t border-zinc-900 mx-6 flex items-center justify-between text-xs">
+                        <div>
+                          <span className="text-[9px] uppercase tracking-widest text-zinc-500 block font-light">Price</span>
+                          <span className="text-zinc-200 font-light tracking-wide">{formatPrice(item.price)}</span>
+                        </div>
+    
+                        <div className="flex items-center gap-3">
+                          <a
+                            href={getWhatsAppLink(itemTitle)}
+                            target="_blank"
+                            rel="noreferrer"
+                            title="Inquire on WhatsApp"
+                            className="p-2 border border-zinc-800 hover:border-emerald-500/50 bg-zinc-900/50 text-zinc-400 hover:text-emerald-400 transition-colors rounded-full"
+                          >
+                            <FaWhatsapp className="text-sm" />
+                          </a>
+    
+                          <Link
+                            to={`/product/${itemId}`}
+                            className="text-[#c5a880] text-[10px] uppercase tracking-widest font-medium flex items-center gap-1 group-hover:translate-x-1 transition-transform"
+                          >
+                            View <FaArrowRight className="text-[8px]" />
+                          </Link>
+                        </div>
+                      </div>
+    
+                      {/* Buy Now */}
+                      <div className="px-6 pb-6 pt-4">
+                        <button
+                          onClick={() => {
+                            buyNow({
+                              id: itemId,
+                              name: itemTitle,
+                              price: item.price,
+                              image: itemImage,
+                              ref: item.referenceNo || item.strapType,
+                            });
+                            navigate("/checkout");
+                          }}
+                          className="w-full py-2.5 bg-[#c5a880] hover:bg-[#b39568] text-black text-[10px] uppercase tracking-widest font-medium transition-colors cursor-pointer"
+                        >
+                          Buy Now
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </Paginated>
         )}
 
         {/* Watchmaking Authenticity Bar */}

@@ -10,6 +10,7 @@ import {
 } from "react-icons/fa";
 import { useCart } from "../context/CartContext";
 import CartDrawer from "./CartDrawer";
+import { productImage as optimizeImage, IMAGE_SIZES } from "../../utils/productImage";
 
 const API_BASE_URL = "https://backen-watches.vercel.app";
 
@@ -317,7 +318,7 @@ const Header = () => {
                     <div className="divide-y divide-zinc-900">
                       {searchResults.map((item) => {
                         const watchId = item._id || item.id;
-                        const watchImage = item.images?.[0]?.url || item.image || "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1000";
+                        const watchImage = item.images?.[0]?.url || item.image || "https://www.idealwatches.shop/favicon-512.png";
                         const watchTitle = item.name || item.title;
 
                         return (
@@ -328,7 +329,7 @@ const Header = () => {
                             className="w-full flex items-center gap-4 p-3 text-left bg-zinc-950 hover:bg-zinc-900 cursor-pointer transition-colors group"
                           >
                             <img
-                              src={watchImage}
+                              src={optimizeImage(watchImage, IMAGE_SIZES.thumb)}
                               alt={watchTitle}
                               className="w-12 h-12 object-contain rounded bg-white shrink-0 border border-zinc-800"
                             />

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import Paginated from "../Component/Pagination";
 import { 
   FaTag, 
   FaShoppingBag, 
@@ -11,6 +12,7 @@ import {
   FaShieldAlt,
   FaCalendarAlt
 } from "react-icons/fa";
+import { productImage as optimizeImage, IMAGE_SIZES } from "../utils/productImage";
 import { useCart } from "../Component/context/CartContext"; // Adjust path if needed
 
 const SaleDetailPage = () => {
@@ -105,7 +107,7 @@ const SaleDetailPage = () => {
   // Safe Image URL Extractor for Cloudinary or standard strings
   const renderImage = (imageSource) => {
     if (!imageSource || imageSource.length === 0) {
-      return "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=800&auto=format&fit=crop";
+      return "https://www.idealwatches.shop/favicon-512.png";
     }
     if (Array.isArray(imageSource)) {
       return imageSource[0]?.url || imageSource[0];
@@ -231,86 +233,90 @@ const SaleDetailPage = () => {
               <p className="text-xs text-zinc-500 font-light uppercase tracking-wider">No timepieces are currently linked to this sale event.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {campaign.watches.map((watch) => {
-                const watchId = watch._id || watch.id;
-                const watchImage = renderImage(watch.images || watch.image);
-                
-                const originalPrice = watch.price || 0;
-                const discountedPrice = Math.round(originalPrice * (1 - discountVal / 100));
-
-                return (
-                  <motion.div
-                    key={watchId}
-                    layout
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="group bg-white border border-zinc-200 rounded-sm overflow-hidden hover:border-[#D4AF37] transition-all duration-300 flex flex-col shadow-xs hover:shadow-md"
-                  >
-                    {/* Watch Image Container */}
-                    <div className="relative aspect-square overflow-hidden bg-white">
-                      <img
-                        src={watchImage}
-                        alt={watch.name}
-                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
-                      />
-                      
-                      {/* Discount Tag */}
-                      <span className="absolute top-3 left-3 bg-[#D4AF37] text-black text-[9px] uppercase tracking-widest px-2.5 py-1 font-bold rounded-xs">
-                        {discountVal}% OFF
-                      </span>
-                    </div>
-
-                    {/* Product Information & Add to Cart Action */}
-                    <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
-                      <div className="space-y-1">
-                        <span className="text-[#D4AF37] text-[10px] uppercase tracking-widest block font-semibold">
-                          {watch.brand}
-                        </span>
-                        <h3 
-                          className="text-base font-normal text-zinc-900 line-clamp-1"
-                          style={{ fontFamily: "Cormorant Garamond, serif" }}
-                        >
-                          {watch.name}
-                        </h3>
-                      </div>
-
-                      <div className="pt-3 border-t border-zinc-100 flex items-center justify-between">
-                        <div>
-                          <p className="text-[9px] text-zinc-400 uppercase tracking-wider">Event Price</p>
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm font-semibold text-zinc-900">
-                              PKR {discountedPrice.toLocaleString()}
-                            </span>
-                            <span className="text-[11px] text-zinc-400 line-through font-light">
-                              PKR {originalPrice.toLocaleString()}
-                            </span>
-                          </div>
-                        </div>
-
-                        {/* Add to Cart Function */}
-                        <button
-                          onClick={() => handleAddToCart(watch, discountVal)}
-                          className="bg-zinc-900 hover:bg-[#D4AF37] text-white px-5 py-2.5 rounded-sm text-xs uppercase tracking-wider flex items-center gap-2 transition-colors cursor-pointer"
-                        >
-                          <FaShoppingBag className="text-xs" />
-                          <span>Add to Cart</span>
-                        </button>
-                      </div>
-
-                      {/* Buy Now Function */}
-                      <button
-                        onClick={() => handleBuyNow(watch, discountVal)}
-                        className="w-full bg-[#D4AF37] hover:bg-[#b8952b] text-black py-2.5 rounded-sm text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-colors cursor-pointer font-semibold"
+            <Paginated items={campaign.watches}>
+              {(pageItems) => (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {pageItems.map((watch) => {
+                    const watchId = watch._id || watch.id;
+                    const watchImage = renderImage(watch.images || watch.image);
+                    
+                    const originalPrice = watch.price || 0;
+                    const discountedPrice = Math.round(originalPrice * (1 - discountVal / 100));
+    
+                    return (
+                      <motion.div
+                        key={watchId}
+                        layout
+                        initial={{ opacity: 0, y: 15 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="group bg-white border border-zinc-200 rounded-sm overflow-hidden hover:border-[#D4AF37] transition-all duration-300 flex flex-col shadow-xs hover:shadow-md"
                       >
-                        <span>Buy Now</span>
-                      </button>
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </div>
+                        {/* Watch Image Container */}
+                        <div className="relative aspect-square overflow-hidden bg-white">
+                          <img
+                            src={optimizeImage(watchImage, IMAGE_SIZES.card)}
+                            alt={watch.name}
+                            className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                          />
+                          
+                          {/* Discount Tag */}
+                          <span className="absolute top-3 left-3 bg-[#D4AF37] text-black text-[9px] uppercase tracking-widest px-2.5 py-1 font-bold rounded-xs">
+                            {discountVal}% OFF
+                          </span>
+                        </div>
+    
+                        {/* Product Information & Add to Cart Action */}
+                        <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
+                          <div className="space-y-1">
+                            <span className="text-[#D4AF37] text-[10px] uppercase tracking-widest block font-semibold">
+                              {watch.brand}
+                            </span>
+                            <h3 
+                              className="text-base font-normal text-zinc-900 line-clamp-1"
+                              style={{ fontFamily: "Cormorant Garamond, serif" }}
+                            >
+                              {watch.name}
+                            </h3>
+                          </div>
+    
+                          <div className="pt-3 border-t border-zinc-100 flex items-center justify-between">
+                            <div>
+                              <p className="text-[9px] text-zinc-400 uppercase tracking-wider">Event Price</p>
+                              <div className="flex items-center gap-2">
+                                <span className="text-sm font-semibold text-zinc-900">
+                                  PKR {discountedPrice.toLocaleString()}
+                                </span>
+                                <span className="text-[11px] text-zinc-400 line-through font-light">
+                                  PKR {originalPrice.toLocaleString()}
+                                </span>
+                              </div>
+                            </div>
+    
+                            {/* Add to Cart Function */}
+                            <button
+                              onClick={() => handleAddToCart(watch, discountVal)}
+                              className="bg-zinc-900 hover:bg-[#D4AF37] text-white px-5 py-2.5 rounded-sm text-xs uppercase tracking-wider flex items-center gap-2 transition-colors cursor-pointer"
+                            >
+                              <FaShoppingBag className="text-xs" />
+                              <span>Add to Cart</span>
+                            </button>
+                          </div>
+    
+                          {/* Buy Now Function */}
+                          <button
+                            onClick={() => handleBuyNow(watch, discountVal)}
+                            className="w-full bg-[#D4AF37] hover:bg-[#b8952b] text-black py-2.5 rounded-sm text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-colors cursor-pointer font-semibold"
+                          >
+                            <span>Buy Now</span>
+                          </button>
+                        </div>
+                      </motion.div>
+                    );
+                  })}
+                </div>
+              )}
+            </Paginated>
           )}
         </div>
 
