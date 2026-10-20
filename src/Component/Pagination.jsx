@@ -27,7 +27,7 @@ const getPageList = (page, totalPages, siblings) => {
 const baseBtn =
   "inline-flex items-center justify-center h-9 min-w-9 sm:h-11 sm:min-w-11 px-2 sm:px-3 rounded-lg text-sm font-semibold transition-all duration-200";
 const idleBtn = "bg-white text-zinc-700 border border-zinc-200 shadow-sm hover:border-[#D4AF37] hover:text-black cursor-pointer";
-const activeBtn = "bg-[#111827] text-white shadow-md";
+const activeBtn = "bg-[#111827] text-white border border-[#D4AF37] shadow-md";
 const disabledBtn = "bg-white text-zinc-300 border border-zinc-100 cursor-not-allowed";
 
 const PageButtons = ({ list, page, onChange, className }) => (

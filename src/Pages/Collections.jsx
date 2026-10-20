@@ -244,7 +244,7 @@ const Collections = () => {
         ) : (
           <Paginated items={filteredItems}>
             {(pageItems) => (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 lg:gap-8">
                 {pageItems.map((item) => {
                   const itemId = item._id || item.id;
                   const itemImage = item.images?.[0]?.url || item.image || "https://www.idealwatches.shop/favicon-512.png";
@@ -259,49 +259,50 @@ const Collections = () => {
                     >
                       <div>
                         {/* Image Link */}
-                        <Link to={`/product/${itemId}`} className="block relative aspect-[4/3] overflow-hidden bg-black">
+                        <Link to={`/product/${itemId}`} className="block relative aspect-square overflow-hidden bg-white">
                           <img 
                             src={optimizeImage(itemImage, IMAGE_SIZES.card)} 
                             alt={itemTitle} 
-                            className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
+                            className="w-full h-full object-contain object-center p-2 sm:p-4 group-hover:scale-105 transition-transform duration-700 ease-out"
                           />
-                          <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent opacity-60" />
                           
-                          <span className="absolute top-3 right-3 text-[9px] uppercase tracking-widest text-zinc-400 font-light bg-zinc-950/90 px-2 py-0.5 border border-zinc-800/80 flex items-center gap-1">
+                          <span className="hidden sm:flex absolute top-3 right-3 text-[9px] uppercase tracking-widest text-zinc-300 font-light bg-zinc-950/90 px-2 py-0.5 border border-zinc-800/80 items-center gap-1">
                             <FaClock className="text-[8px] text-[#c5a880]" /> {item.itemType === "strap" ? "Strap & Accessory" : "Swiss Certified"}
                           </span>
                         </Link>
     
                         {/* Specs & Description */}
-                        <div className="p-6 space-y-2.5">
-                          <div className="flex items-center justify-between text-[9px] uppercase tracking-[0.2em]">
-                            <span className="text-[#c5a880] font-medium">{itemCategory}</span>
-                            <span className="text-zinc-500 font-light truncate max-w-[150px]">{itemSpec}</span>
+                        <div className="p-3 sm:p-6 space-y-1.5 sm:space-y-2.5">
+                          <div className="flex items-center justify-between gap-2 text-[8px] sm:text-[9px] uppercase tracking-[0.15em] sm:tracking-[0.2em]">
+                            <span className="text-[#c5a880] font-semibold truncate">{itemCategory}</span>
+                            <span className="hidden sm:inline text-zinc-500 font-light truncate max-w-[150px]">{itemSpec}</span>
                           </div>
     
                           <Link to={`/product/${itemId}`}>
                             <h3 
-                              className="text-xl font-light text-zinc-100 uppercase tracking-wide group-hover:text-[#c5a880] transition-colors truncate"
+                              className="text-sm sm:text-xl font-medium sm:font-light text-zinc-100 uppercase tracking-wide leading-snug group-hover:text-[#c5a880] transition-colors line-clamp-2 sm:line-clamp-1 min-h-[2.5em] sm:min-h-0"
                               style={{ fontFamily: "Cormorant Garamond, serif" }}
                             >
                               {itemTitle}
                             </h3>
                           </Link>
     
-                          <p className="text-xs text-zinc-400 font-light leading-relaxed line-clamp-2">
-                            {item.description || "Exquisite horological piece crafted with precision and luxury standards."}
-                          </p>
+                          <div className="hidden sm:block">
+                            <p className="text-xs text-zinc-400 font-light leading-relaxed line-clamp-2 min-h-[3.25em]">
+                              {item.description || "Exquisite horological piece crafted with precision and luxury standards."}
+                            </p>
+                          </div>
                         </div>
                       </div>
     
                       {/* Card Footer */}
-                      <div className="px-6 pb-6 pt-3 border-t border-zinc-900 mx-6 flex items-center justify-between text-xs">
+                      <div className="mx-3 sm:mx-6 pb-3 sm:pb-6 pt-3 border-t border-zinc-900 flex items-center justify-between gap-2 text-xs">
                         <div>
-                          <span className="text-[9px] uppercase tracking-widest text-zinc-500 block font-light">Price</span>
-                          <span className="text-zinc-200 font-light tracking-wide">{formatPrice(item.price)}</span>
+                          <span className="hidden sm:block text-[9px] uppercase tracking-widest text-zinc-500 font-light">Price</span>
+                          <span className="text-zinc-100 font-semibold sm:font-light tracking-wide whitespace-nowrap text-xs sm:text-sm">{formatPrice(item.price)}</span>
                         </div>
     
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-3 shrink-0">
                           <a
                             href={getWhatsAppLink(itemTitle)}
                             target="_blank"
@@ -314,7 +315,7 @@ const Collections = () => {
     
                           <Link
                             to={`/product/${itemId}`}
-                            className="text-[#c5a880] text-[10px] uppercase tracking-widest font-medium flex items-center gap-1 group-hover:translate-x-1 transition-transform"
+                            className="hidden sm:flex text-[#c5a880] text-[10px] uppercase tracking-widest font-medium items-center gap-1 group-hover:translate-x-1 transition-transform"
                           >
                             View <FaArrowRight className="text-[8px]" />
                           </Link>
@@ -322,7 +323,7 @@ const Collections = () => {
                       </div>
     
                       {/* Buy Now */}
-                      <div className="px-6 pb-6 pt-4">
+                      <div className="px-3 sm:px-6 pb-3 sm:pb-6 pt-1 sm:pt-4">
                         <button
                           onClick={() => {
                             buyNow({
@@ -334,7 +335,7 @@ const Collections = () => {
                             });
                             navigate("/checkout");
                           }}
-                          className="w-full py-2.5 bg-[#c5a880] hover:bg-[#b39568] text-black text-[10px] uppercase tracking-widest font-medium transition-colors cursor-pointer"
+                          className="w-full py-2.5 bg-[#c5a880] hover:bg-[#b39568] text-black text-[10px] uppercase tracking-wider sm:tracking-widest font-semibold transition-colors cursor-pointer"
                         >
                           Buy Now
                         </button>

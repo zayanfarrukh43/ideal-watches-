@@ -256,7 +256,7 @@ const BrandCollection = () => {
           </aside>
 
           {/* Product Grid Area */}
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-3 min-w-0">
             {brandProducts.length === 0 ? (
               <div className="text-center py-24 bg-gray-50 rounded-sm border border-gray-200 space-y-4">
                 <p className="text-base font-medium text-gray-700 uppercase tracking-wider" style={{ fontFamily: "Montserrat, sans-serif" }}>
@@ -275,58 +275,65 @@ const BrandCollection = () => {
             ) : (
               <Paginated items={brandProducts}>
                 {(pageItems) => (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
                     {pageItems.map((product) => {
                       const productId = product._id || product.id;
                       const productImage = renderImage(product.images || product.image);
-                      const productStrap = product.strap || product.specifications?.strap || "Luxury Strap";
+                      const productStrap = product.strap || product.specifications?.strap || product.category || "Watch";
                       const productGender = product.gender || product.category || "Unisex";
+                      const cartItem = {
+                        id: productId,
+                        name: product.name,
+                        price: product.price,
+                        image: productImage,
+                        ref: product.referenceNo,
+                      };
     
                       return (
                         <div
                           key={productId}
                           onClick={() => navigate(`/product/${productId}`)}
-                          className="group bg-white border border-gray-200 rounded-sm p-4 flex flex-col justify-between hover:shadow-md hover:border-[#D4AF37] transition-all duration-300 cursor-pointer"
+                          className="group bg-white border border-gray-200 rounded-sm p-3 sm:p-4 flex flex-col justify-between hover:shadow-md hover:border-[#D4AF37] transition-all duration-300 cursor-pointer"
                         >
-                          <div className="relative w-full aspect-square bg-white rounded-sm p-4 flex items-center justify-center overflow-hidden mb-4">
+                          <div className="relative w-full aspect-square bg-white rounded-sm p-1 sm:p-3 flex items-center justify-center overflow-hidden mb-3 sm:mb-4">
                             <img
                               src={optimizeImage(productImage, IMAGE_SIZES.card)}
                               alt={product.name}
-                              className="max-h-full max-w-full object-cover group-hover:scale-105 transition-transform duration-500"
+                              className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
                             />
                           </div>
     
-                          <div className="space-y-2">
-                            <span className="text-[10px] text-gray-400 uppercase tracking-widest font-semibold block">
+                          <div className="space-y-1.5 sm:space-y-2">
+                            <span className="text-[9px] sm:text-[10px] text-gray-500 uppercase tracking-wider sm:tracking-widest font-semibold block truncate">
                               {productStrap} • {productGender}
                             </span>
                             <h3 
-                              className="text-base font-normal text-gray-900 truncate group-hover:text-[#D4AF37] transition-colors"
+                              className="text-sm sm:text-base font-semibold text-gray-900 leading-snug line-clamp-2 min-h-[2.5em] group-hover:text-[#B8901F] transition-colors"
                               style={{ fontFamily: "Cormorant Garamond, serif" }}
                             >
                               {product.name}
                             </h3>
-                            <p className="text-sm font-semibold text-gray-900" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                            <p className="text-xs sm:text-sm font-bold text-gray-900 whitespace-nowrap" style={{ fontFamily: "Montserrat, sans-serif" }}>
                               PKR {(product.price || 0).toLocaleString()}
                             </p>
     
                             <button
                               onClick={(e) => {
                                 e.stopPropagation();
-                                addToCart && addToCart(product);
+                                addToCart && addToCart(cartItem);
                               }}
-                              className="w-full mt-2 py-2.5 bg-gray-900 hover:bg-[#D4AF37] text-white hover:text-black rounded-sm text-xs uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-2 font-medium cursor-pointer"
+                              className="w-full mt-1 sm:mt-2 h-9 sm:h-10 bg-gray-900 hover:bg-[#D4AF37] text-white hover:text-black rounded-sm text-[10px] sm:text-xs uppercase tracking-wider sm:tracking-widest whitespace-nowrap transition-all duration-300 flex items-center justify-center gap-2 font-medium cursor-pointer"
                             >
-                              <FaShoppingBag className="text-xs" /> Add To Cart
+                              <FaShoppingBag className="text-xs shrink-0" /> Add To Cart
                             </button>
     
                             <button
                               onClick={(e) => {
                                 e.stopPropagation();
-                                buyNow && buyNow(product);
+                                buyNow && buyNow(cartItem);
                                 navigate("/checkout");
                               }}
-                              className="w-full py-2.5 bg-[#D4AF37] hover:bg-[#b8952b] text-black rounded-sm text-xs uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-2 font-medium cursor-pointer"
+                              className="w-full h-9 sm:h-10 bg-[#D4AF37] hover:bg-[#b8952b] text-black rounded-sm text-[10px] sm:text-xs uppercase tracking-wider sm:tracking-widest whitespace-nowrap transition-all duration-300 flex items-center justify-center gap-2 font-medium cursor-pointer"
                             >
                               Buy Now
                             </button>
