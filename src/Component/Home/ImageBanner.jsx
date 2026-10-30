@@ -7,7 +7,8 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-fade';
 
-// web: 3:1, mobile: ~9:16 (Banner 2) and 1:2 (New Banner 1)
+// Each slide declares its image shapes so the frame always matches and nothing is cropped.
+// (Tailwind needs the full class names written out, so they are stored as strings.)
 import banner1Web from '../../assets/Banner 2 v 2.png';
 import banner1Mobile from '../../assets/Banner mobile layout v2.png';
 import banner2Web from '../../assets/banner/New Banner 1.png';
@@ -18,18 +19,20 @@ const slides = [
     id: 1,
     web: banner1Web,
     mobile: banner1Mobile,
+    webAspect: 'md:aspect-[1672/941]', // 16:9
+    mobileAspect: 'aspect-[940/1672]', // 9:16
     alt: 'Ideal Watches - Luxury Watches',
     link: '/collections',
   },
-  {
-    id: 2,
-    web: banner2Web,
-    mobile: banner2Mobile,
-    // phone art is 1:2 (a bit taller than the 9:16 frame): keep the top text, trim the bottom
-    mobilePosition: 'object-top',
-    alt: 'Ideal Watches - The Art of Timeless Luxury',
-    link: '/collections',
-  },
+  // {
+  //   id: 2,
+  //   web: banner2Web,
+  //   mobile: banner2Mobile,
+  //   webAspect: 'md:aspect-[3/1]',
+  //   mobileAspect: 'aspect-[1/2]',
+  //   alt: 'Ideal Watches - The Art of Timeless Luxury',
+  //   link: '/collections',
+  // },
 ];
 
 export default function ImageBanner() {
@@ -58,7 +61,7 @@ export default function ImageBanner() {
             <SwiperSlide key={slide.id}>
               <Link
                 to={slide.link}
-                className="group relative block w-full aspect-[1080/1919] md:aspect-[3/1] overflow-hidden"
+                className={`group relative block w-full overflow-hidden ${slide.mobileAspect} ${slide.webAspect}`}
               >
                 <picture>
                   <source media="(max-width: 767px)" srcSet={slide.mobile} />
@@ -67,7 +70,7 @@ export default function ImageBanner() {
                     alt={slide.alt}
                     loading="lazy"
                     draggable="false"
-                    className={`absolute inset-0 w-full h-full object-cover md:object-center select-none group-hover:scale-[1.02] transition-transform duration-1000 ease-out ${slide.mobilePosition || 'object-center'}`}
+                    className="absolute inset-0 w-full h-full object-cover select-none group-hover:scale-[1.02] transition-transform duration-1000 ease-out"
                   />
                 </picture>
 

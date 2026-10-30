@@ -7,14 +7,15 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 
-// Web-optimised copies of the originals in src/assets/banner
-// (web: 2400x800 = 3:1, mobile: 1080x1919 = 9:16)
+// Each slide declares its image shapes (webAspect / mobileAspect) so the frame always
+// matches the picture and nothing is cropped. Tailwind needs full class names, so
+// they are written out as strings.
 import banner1Web from "../../assets/Banner 1 v1.png";
 import banner1Mobile from "../../assets/Banner mobile layout v2.jpg.png";
-import banner2Web from "../../assets/banner/New Banner 1.png";
-import banner3web from "../../assets/banner/New Banner 2.png";
-import banner2Mobile from "../../assets/banner/m layout.png";
-import banner3Mobile from "../../assets/banner/m layout 2.png";
+import banner2Web from "../../assets/r2.jpeg";
+// import banner3web from "../../assets/banner/New Banner 2.png";
+import banner2Mobile from "../../assets/r1.jpeg";
+// import banner3Mobile from "../../assets/banner/m layout 2.png";
 
 // `mobile` is optional: slides without a tall mobile layout are shown on
 // tablet/desktop only, so a wide banner is never cropped on a phone.
@@ -23,26 +24,33 @@ const slides = [
     id: 1,
     web: banner1Web,
     mobile: banner1Mobile,
+    webAspect: "md:aspect-[1672/941]", // 16:9
+    mobileAspect: "aspect-[1024/1536]", // 2:3
     alt: "Ideal Watches - Luxury Watches",
     link: "/collections",
   },
-  // {
-  //   id: 2,
-  //   web: banner2Web,
-  //   mobile: banner2Mobile,
-  //   // phone art is 1:2 (a bit taller than the 9:16 frame): keep the top text, trim the bottom
-  //   mobilePosition: "object-top",
-  //   alt: "Ideal Watches - The Art of Timeless Luxury",
-  //   link: "/collections",
-  // },
   {
-    id: 3,
-    web: banner3web,
-    mobile: banner3Mobile,
-    mobilePosition: "object-top",
-    alt: "Ideal Watches - Time, Redefined",
+    id: 2,
+    web: banner2Web,
+    mobile: banner2Mobile,
+    // Same frames as slide 1 so the slider never changes height between slides.
+    // r2 is 16:9 like slide 1. r1 (9:16) is a bit taller than the 2:3 phone frame:
+    // positioned so the GUCCI logo + headline stay in full and only marble is trimmed.
+    webAspect: "md:aspect-[1672/941]",
+    mobileAspect: "aspect-[1024/1536]",
+    mobilePosition: "object-[50%_30%]",
+    alt: "Ideal Watches - Gucci, Crafted for Distinction",
     link: "/collections",
   },
+  // {
+  //   id: 3,
+  //   web: banner3web,
+  //   mobile: banner3Mobile,
+  //   webAspect: "md:aspect-[3/1]",
+  //   mobileAspect: "aspect-[1/2]",
+  //   alt: "Ideal Watches - Time, Redefined",
+  //   link: "/collections",
+  // },
 ];
 
 // True on phones (< 768px), kept in sync when the window is resized
@@ -98,7 +106,7 @@ const HeroSection = () => {
                   alt={slide.alt}
                   loading={index === 0 ? "eager" : "lazy"}
                   draggable="false"
-                  className={`block w-full aspect-[1080/1919] md:aspect-[3/1] md:max-h-[85vh] object-cover md:object-center select-none ${slide.mobilePosition || "object-center"}`}
+                  className={`block w-full object-cover md:object-center select-none ${slide.mobileAspect || "aspect-[9/16]"} ${slide.webAspect || "md:aspect-[3/1]"} ${slide.mobilePosition || "object-center"}`}
                 />
               </picture>
             </Link>
