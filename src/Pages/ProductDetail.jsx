@@ -10,7 +10,6 @@ import {
   FaCheck, 
   FaChevronDown, 
   FaChevronUp, 
-  FaGem,
   FaUndo,
   FaAward
 } from "react-icons/fa";
@@ -228,18 +227,13 @@ const ProductDetail = () => {
           {/* RIGHT: Product Details */}
           <div className="flex flex-col">
 
-            {/* Meta row */}
-            <div className="flex items-center justify-between gap-4">
-              <span
-                className="text-sm text-[#7A5C0F] tracking-[0.2em] uppercase font-extrabold"
-                style={{ fontFamily: "Montserrat, sans-serif" }}
-              >
-                Ref. {product.referenceNo || product.strapType || "ACC-GENEVA"}
-              </span>
-              <span className="inline-flex items-center gap-1.5 text-[10px] sm:text-[11px] text-zinc-800 font-semibold uppercase tracking-widest bg-zinc-50 border border-zinc-200 px-3 py-1 rounded-full">
-                <FaGem className="text-[#8C6A12]" /> Certified Authentic
-              </span>
-            </div>
+            {/* Reference number */}
+            <span
+              className="text-sm text-[#7A5C0F] tracking-[0.2em] uppercase font-extrabold"
+              style={{ fontFamily: "Montserrat, sans-serif" }}
+            >
+              Ref. {product.referenceNo || product.strapType || "ACC-GENEVA"}
+            </span>
 
             {/* Title + brand */}
             <h1
@@ -262,9 +256,6 @@ const ProductDetail = () => {
                 style={{ fontFamily: "Cormorant Garamond, serif" }}
               >
                 Rs. {product.price?.toLocaleString()}
-              </p>
-              <p className="mt-2 text-[11px] text-zinc-600 uppercase tracking-widest font-semibold">
-                Duty &amp; import taxes included
               </p>
             </div>
 
