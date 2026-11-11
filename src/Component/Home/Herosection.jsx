@@ -16,6 +16,10 @@ import banner2Web from "../../assets/r2.jpeg";
 // import banner3web from "../../assets/banner/New Banner 2.png";
 import banner2Mobile from "../../assets/r1.jpeg";
 // import banner3Mobile from "../../assets/banner/m layout 2.png";
+import tissotWeb from "../../assets/banner/Banner 1.jpg.jpeg";
+import tissotMobile from "../../assets/banner/Banner 2 mob layout.jpg.jpeg";
+import versaceWeb from "../../assets/banner/Banner 2.jpg.jpeg";
+import versaceMobile from "../../assets/banner/Banner mob layout.jpg.jpeg";
 
 // `mobile` is optional: slides without a tall mobile layout are shown on
 // tablet/desktop only, so a wide banner is never cropped on a phone.
@@ -40,6 +44,24 @@ const slides = [
     mobileAspect: "aspect-[1024/1536]",
     mobilePosition: "object-[50%_30%]",
     alt: "Ideal Watches - Gucci, Crafted for Distinction",
+    link: "/collections",
+  },
+  {
+    id: 4,
+    web: tissotWeb,
+    mobile: tissotMobile,
+    webAspect: "md:aspect-[1672/941]", // 16:9
+    mobileAspect: "aspect-[1024/1536]", // 2:3
+    alt: "Ideal Watches - Tissot, Precision at Every Millisecond",
+    link: "/collections",
+  },
+  {
+    id: 5,
+    web: versaceWeb,
+    mobile: versaceMobile,
+    webAspect: "md:aspect-[1672/941]", // 16:9
+    mobileAspect: "aspect-[1024/1536]", // 2:3
+    alt: "Ideal Watches - Versace",
     link: "/collections",
   },
   // {
