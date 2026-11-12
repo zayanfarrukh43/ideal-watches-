@@ -11,8 +11,6 @@ import 'swiper/css/effect-fade';
 // (Tailwind needs the full class names written out, so they are stored as strings.)
 import banner1Web from '../../assets/Banner 2 v 2.png';
 import banner1Mobile from '../../assets/Banner mobile layout v2.png';
-import movadoWeb from '../../assets/banner/Web Banner  (2).jpg.jpeg';
-import movadoMobile from '../../assets/banner/Web Banner Mob Layout 3.jpg.jpeg';
 
 const slides = [
   {
@@ -24,15 +22,7 @@ const slides = [
     alt: 'Ideal Watches - Luxury Watches',
     link: '/collections',
   },
-  {
-    id: 2,
-    web: movadoWeb,
-    mobile: movadoMobile,
-    webAspect: 'md:aspect-[1672/941]', // 16:9 - same as slide 1, so the height never jumps
-    mobileAspect: 'aspect-[940/1672]', // 9:16
-    alt: 'Movado - The Art of Time',
-    link: '/brand/movado',
-  },
+  
 ];
 
 export default function ImageBanner() {

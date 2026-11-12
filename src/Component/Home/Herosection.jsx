@@ -12,9 +12,8 @@ import "swiper/css/effect-fade";
 // they are written out as strings.
 import banner1Web from "../../assets/Banner 1 v1.png";
 import banner1Mobile from "../../assets/Banner mobile layout v2.jpg.png";
-import banner2Web from "../../assets/r2.jpeg";
-// import banner3web from "../../assets/banner/New Banner 2.png";
-import banner2Mobile from "../../assets/r1.jpeg";
+import movadoWeb from '../../assets/banner/Web Banner  (2).jpg.jpeg';
+import movadoMobile from '../../assets/banner/Web Banner Mob Layout 3.jpg.jpeg';
 // import banner3Mobile from "../../assets/banner/m layout 2.png";
 import tissotWeb from "../../assets/banner/Banner 1.jpg.jpeg";
 import tissotMobile from "../../assets/banner/Banner 2 mob layout.jpg.jpeg";
@@ -35,16 +34,12 @@ const slides = [
   },
   {
     id: 2,
-    web: banner2Web,
-    mobile: banner2Mobile,
-    // Same frames as slide 1 so the slider never changes height between slides.
-    // r2 is 16:9 like slide 1. r1 (9:16) is a bit taller than the 2:3 phone frame:
-    // positioned so the GUCCI logo + headline stay in full and only marble is trimmed.
-    webAspect: "md:aspect-[1672/941]",
-    mobileAspect: "aspect-[1024/1536]",
-    mobilePosition: "object-[50%_30%]",
-    alt: "Ideal Watches - Gucci, Crafted for Distinction",
-    link: "/collections",
+    web: movadoWeb,
+    mobile: movadoMobile,
+    webAspect: 'md:aspect-[1672/941]', // 16:9 - same as slide 1, so the height never jumps
+    mobileAspect: 'aspect-[940/1672]', // 9:16
+    alt: 'Movado - The Art of Time',
+    link: '/brand/movado',
   },
   {
     id: 4,
