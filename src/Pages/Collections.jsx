@@ -4,6 +4,7 @@ import { FaArrowRight, FaSearch, FaShieldAlt, FaTruck, FaWhatsapp, FaClock } fro
 import { useCart } from "../Component/context/CartContext";
 import Paginated from "../Component/Pagination";
 import { productImage as optimizeImage, IMAGE_SIZES } from "../utils/productImage";
+import { shuffleProducts } from "../utils/shuffle";
 
 const WHATSAPP_NUMBER = "923162839665";
 const API_BASE_URL = "https://backen-watches.vercel.app";
@@ -58,7 +59,7 @@ const Collections = () => {
         }
 
         if (mergedVault.length > 0) {
-          setItems(mergedVault);
+          setItems(shuffleProducts(mergedVault));
         } else {
           setError("Failed to retrieve watch collections & straps.");
         }

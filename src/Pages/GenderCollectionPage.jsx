@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ProductCard } from "../Component/Home/NewArrival";
 import Paginated from "../Component/Pagination";
+import { shuffleProducts } from "../utils/shuffle";
 
 const genderDetails = {
   men: {
@@ -41,8 +42,10 @@ const GenderCollectionPage = () => {
         const result = await response.json();
         if (result.success) {
           setProducts(
-            result.data.filter(
-              (w) => w.gender?.toLowerCase() === current.gender.toLowerCase()
+            shuffleProducts(
+              result.data.filter(
+                (w) => w.gender?.toLowerCase() === current.gender.toLowerCase()
+              )
             )
           );
         }

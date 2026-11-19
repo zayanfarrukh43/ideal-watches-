@@ -13,6 +13,7 @@ import {
   FaEye
 } from "react-icons/fa";
 import { productImage as optimizeImage, IMAGE_SIZES } from "../utils/productImage";
+import { shuffleProducts } from "../utils/shuffle";
 import { useCart } from "../Component/context/CartContext"; // Adjust path if needed
 
 const SalesPage = () => {
@@ -47,7 +48,7 @@ const SalesPage = () => {
         const result = await response.json();
         const salesData = Array.isArray(result) ? result : (result.data || []);
         
-        setActiveSales(salesData);
+        setActiveSales(salesData.map((sale) => ({ ...sale, watches: shuffleProducts(sale.watches || []) })));
         
         // Automatically select the first active sale campaign if available
         if (salesData.length > 0) {

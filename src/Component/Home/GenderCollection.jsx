@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaArrowRight } from "react-icons/fa";
 import { ProductCard } from "./NewArrival";
+import { shuffleProducts } from "../../utils/shuffle";
 
 const PREVIEW_COUNT = 4;
 
@@ -23,7 +24,7 @@ const GenderCollection = () => {
         const response = await fetch(`${API_BASE_URL}/api/watches`);
         const result = await response.json();
         if (result.success) {
-          setWatches(result.data);
+          setWatches(shuffleProducts(result.data));
         }
       } catch (err) {
         console.error('Failed to fetch watches:', err);

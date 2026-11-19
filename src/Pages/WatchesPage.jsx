@@ -12,6 +12,7 @@ import {
 import { useCart } from "../Component/context/CartContext";
 import Paginated from "../Component/Pagination";
 import { productImage as optimizeImage, IMAGE_SIZES } from "../utils/productImage";
+import { shuffleProducts } from "../utils/shuffle";
 
 const MOVEMENTS = ["Automatic", "Manual", "Quartz", "Chronograph"];
 
@@ -64,7 +65,7 @@ const WatchesPage = () => {
         const result = await response.json();
 
         if (result.success && Array.isArray(result.data)) {
-          setWatches(result.data);
+          setWatches(shuffleProducts(result.data));
         } else {
           setError("Failed to retrieve watch collection.");
         }
@@ -104,7 +105,7 @@ const WatchesPage = () => {
       if (sortBy === "price-low") return a.price - b.price;
       if (sortBy === "price-high") return b.price - a.price;
       if (sortBy === "rating") return (b.rating || 4.8) - (a.rating || 4.8);
-      return (a._id || a.id)?.localeCompare(b._id || b.id);
+      return 0; // featured: keep the shuffled order
     });
   }, [watches, selectedBrand, selectedCategory, selectedMovement, maxPrice, sortBy]);
 

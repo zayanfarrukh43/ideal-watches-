@@ -5,6 +5,7 @@ import { FaShoppingBag } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '/src/Component/context/CartContext';
 import { productImage as optimizeImage, IMAGE_SIZES } from "../../utils/productImage";
+import { shuffleProducts } from "../../utils/shuffle";
 
 // Shown when a watch has no photo uploaded yet (IW monogram)
 export const NO_IMAGE = 'https://www.idealwatches.shop/favicon-512.png';
@@ -22,12 +23,8 @@ const NewArrivals = () => {
         const response = await fetch(`${API_BASE_URL}/api/watches`);
         const result = await response.json();
         if (result.success) {
-          // Newest first; watches with a photo come before ones without, then keep 4
-          const hasPhoto = (w) => (w.images?.[0]?.url ? 1 : 0);
-          const latest = [...result.data]
-            .sort((a, b) => hasPhoto(b) - hasPhoto(a) || new Date(b.createdAt || 0) - new Date(a.createdAt || 0))
-            .slice(0, 4);
-          setProducts(latest);
+          // A fresh random mix of 4 watches on every visit (watches with photos first)
+          setProducts(shuffleProducts(result.data).slice(0, 4));
         }
       } catch (err) {
         console.error('Failed to fetch watches:', err);

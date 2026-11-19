@@ -13,6 +13,7 @@ import {
 import { useCart } from "../Component/context/CartContext";
 import Paginated from "../Component/Pagination";
 import { productImage as optimizeImage, IMAGE_SIZES } from "../utils/productImage";
+import { shuffleProducts } from "../utils/shuffle";
 
 const BRANDS = ["All", "Rolex", "Omega", "Patek Philippe", "TAG Heuer", "Audemars Piguet", "Cartier", "Tudor"];
 const CATEGORIES = ["All", "Diver", "Chronograph", "Dress", "Sports"];
@@ -52,7 +53,7 @@ const BestSellersPage = () => {
           const fallbackResult = await fallbackResponse.json();
           const items = Array.isArray(fallbackResult) ? fallbackResult : (fallbackResult.data || fallbackResult.products || []);
           // Filter strictly for best sellers client-side if fallback is used
-          setWatches(items.filter(item => item.isBestSeller || item.bestSeller));
+          setWatches(shuffleProducts(items.filter(item => item.isBestSeller || item.bestSeller)));
           setLoading(false);
           return;
         }
@@ -70,7 +71,7 @@ const BestSellersPage = () => {
 
         // Ensure we only keep items flagged as best sellers
         const bestSellerItems = items.filter(watch => watch.isBestSeller || watch.bestSeller);
-        setWatches(bestSellerItems);
+        setWatches(shuffleProducts(bestSellerItems));
 
       } catch (err) {
         console.error("Error fetching best sellers:", err);
@@ -108,7 +109,7 @@ const BestSellersPage = () => {
       if (sortBy === "price-low") return (a.price || 0) - (b.price || 0);
       if (sortBy === "price-high") return (b.price || 0) - (a.price || 0);
       if (sortBy === "rating") return (b.rating || b.averageRating || 4.8) - (a.rating || a.averageRating || 4.8);
-      return (a._id || a.id || "").localeCompare(b._id || b.id || "");
+      return 0; // featured: keep the shuffled order
     });
   }, [watches, selectedBrand, selectedCategory, selectedMovement, maxPrice, sortBy]);
 

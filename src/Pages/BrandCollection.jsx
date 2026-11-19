@@ -4,6 +4,7 @@ import { FaArrowLeft, FaShoppingBag, FaFilter, FaTimes, FaSlidersH } from "react
 import { useCart } from "../Component/context/CartContext";
 import Paginated from "../Component/Pagination";
 import { productImage as optimizeImage, IMAGE_SIZES } from "../utils/productImage";
+import { shuffleProducts } from "../utils/shuffle";
 
 const API_BASE_URL = "https://backen-watches.vercel.app";
 
@@ -49,7 +50,7 @@ const BrandCollection = () => {
           items = result.products;
         }
 
-        setWatches(items);
+        setWatches(shuffleProducts(items));
       } catch (err) {
         console.error("Error fetching watches:", err);
         setError("Could not connect to the server.");

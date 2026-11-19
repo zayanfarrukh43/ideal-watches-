@@ -13,6 +13,7 @@ import {
   FaCalendarAlt
 } from "react-icons/fa";
 import { productImage as optimizeImage, IMAGE_SIZES } from "../utils/productImage";
+import { shuffleProducts } from "../utils/shuffle";
 import { useCart } from "../Component/context/CartContext"; // Adjust path if needed
 
 const SaleDetailPage = () => {
@@ -40,7 +41,7 @@ const SaleDetailPage = () => {
 
         const result = await response.json();
         const campaignData = result.data || result;
-        setCampaign(campaignData);
+        setCampaign(campaignData ? { ...campaignData, watches: shuffleProducts(campaignData.watches || []) } : campaignData);
       } catch (err) {
         console.error("Error fetching sale details:", err);
         setError("Could not load sale campaign details. Please try again later.");
