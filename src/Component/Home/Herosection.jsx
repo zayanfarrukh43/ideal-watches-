@@ -12,7 +12,7 @@ import "swiper/css/effect-fade";
 // they are written out as strings.
 import banner1Web from "../../assets/Banner 1 v1.png";
 import banner1Mobile from "../../assets/Banner mobile layout v2.jpg.png";
-import movadoWeb from '../../assets/banner/Web Banner  (2).jpg.jpeg';
+import movadoWeb from '../../assets/banner/Web.png';
 import movadoMobile from '../../assets/banner/Web Banner Mob Layout 3.jpg.jpeg';
 // import banner3Mobile from "../../assets/banner/m layout 2.png";
 import tissotWeb from "../../assets/banner/Banner 1.jpg.jpeg";
