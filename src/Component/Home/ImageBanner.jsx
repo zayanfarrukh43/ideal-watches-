@@ -9,8 +9,8 @@ import 'swiper/css/effect-fade';
 
 // Each slide declares its image shapes so the frame always matches and nothing is cropped.
 // (Tailwind needs the full class names written out, so they are stored as strings.)
-import banner1Web from '../../assets/Banner 2 v 2.png';
-import banner1Mobile from '../../assets/Banner mobile layout v2.png';
+import banner1Web from '../../assets/Banner 1 v1.png';
+import banner1Mobile from '../../assets/Banner mobile layout v2.jpg.png';
 
 const slides = [
   {
@@ -18,7 +18,7 @@ const slides = [
     web: banner1Web,
     mobile: banner1Mobile,
     webAspect: 'md:aspect-[1672/941]', // 16:9
-    mobileAspect: 'aspect-[940/1672]', // 9:16
+    mobileAspect: 'aspect-[1024/1536]', // 2:3 - matches this mobile image
     alt: 'Ideal Watches - Luxury Watches',
     link: '/collections',
   },

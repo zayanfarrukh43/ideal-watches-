@@ -10,8 +10,8 @@ import "swiper/css/effect-fade";
 // Each slide declares its image shapes (webAspect / mobileAspect) so the frame always
 // matches the picture and nothing is cropped. Tailwind needs full class names, so
 // they are written out as strings.
-import banner1Web from "../../assets/Banner 1 v1.png";
-import banner1Mobile from "../../assets/Banner mobile layout v2.jpg.png";
+import banner1Web from "../../assets/Banner 2 v 2.png";
+import banner1Mobile from "../../assets/Banner mobile layout v2.png";
 import movadoWeb from '../../assets/banner/Web.png';
 import movadoMobile from '../../assets/banner/Web Banner Mob Layout 3.jpg.jpeg';
 // import banner3Mobile from "../../assets/banner/m layout 2.png";
@@ -24,22 +24,22 @@ import versaceMobile from "../../assets/banner/Banner mob layout.jpg.jpeg";
 // tablet/desktop only, so a wide banner is never cropped on a phone.
 const slides = [
   {
+    id: 2,
+    web: movadoWeb,
+    mobile: movadoMobile,
+    webAspect: 'md:aspect-[1672/941]', // 16:9
+    mobileAspect: 'aspect-[940/1672]', // 9:16
+    alt: 'Movado - The Art of Time',
+    link: '/brand/movado',
+  },
+  {
     id: 1,
     web: banner1Web,
     mobile: banner1Mobile,
     webAspect: "md:aspect-[1672/941]", // 16:9
-    mobileAspect: "aspect-[1024/1536]", // 2:3
+    mobileAspect: "aspect-[940/1672]", // 9:16 - matches this mobile image
     alt: "Ideal Watches - Luxury Watches",
     link: "/collections",
-  },
-  {
-    id: 2,
-    web: movadoWeb,
-    mobile: movadoMobile,
-    webAspect: 'md:aspect-[1672/941]', // 16:9 - same as slide 1, so the height never jumps
-    mobileAspect: 'aspect-[940/1672]', // 9:16
-    alt: 'Movado - The Art of Time',
-    link: '/brand/movado',
   },
   {
     id: 4,
@@ -102,7 +102,7 @@ const HeroSection = () => {
           delay: 5000,
           disableOnInteraction: false,
         }}
-        loop={visibleSlides.length > 1}
+        rewind={visibleSlides.length > 1}
         className="w-full"
         style={{
           "--swiper-pagination-color": "#D4AF37",
